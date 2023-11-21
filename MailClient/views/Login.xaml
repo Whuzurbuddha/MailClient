@@ -3,10 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:MailClient.views"
+             xmlns:ff="clr-namespace:MailClient"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             d:DesignHeight="450" d:DesignWidth="600"
+             Background="#331245">
+    <StackPanel HorizontalAlignment="Center" Margin="0, 80, 0,0">
+        <StackPanel.Resources>
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Width" Value="80"></Setter>
+                <Setter Property="Margin" Value="10,30,10,0"></Setter>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="Background" Value="Silver"></Setter>
+                <Setter Property="Width" Value="200"></Setter>
+            </Style>
+        </StackPanel.Resources>
+        <Label>Anmeldung
+            <Label.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="20"></Setter>
+                    <Setter Property="Foreground" Value="Silver"></Setter>
+                    <Setter Property="Margin" Value="40,0,0,25"></Setter>
+                </Style>
+            </Label.Resources>
+        </Label>
         
-    </Grid>
+        <Label>Benutzername</Label>
+        <TextBox Text="{Binding UserName}"></TextBox>
+        
+        <Label>Passwort</Label>
+        <PasswordBox
+            ff:PasswordBoxAssistant.BindPassword="true"
+            ff:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+        
+        <DockPanel>
+            <Button Click="SendLogin">Anmelden</Button>
+            <Button>Abbrechen</Button>
+        </DockPanel>
+    </StackPanel>
 </UserControl>
