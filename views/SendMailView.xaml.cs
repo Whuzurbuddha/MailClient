@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using MailClient.viewmodels;
 
 namespace MailClient.views;
@@ -15,8 +13,9 @@ public partial class SendMailView
         DataContext = _sendMailViewModel;
     }
 
-    private async Task SendMailToViewModel(object sender, RoutedEventArgs e)
+    private async void SendMailToViewModel(object sender, RoutedEventArgs e)
     {
-        var result = await SendMailViewModel.SendMail()!;
+        var result = await SendMailViewModel.SendMail();
+        if(result) this.Close();
     }
 }

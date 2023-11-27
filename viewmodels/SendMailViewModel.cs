@@ -17,7 +17,7 @@ public class SendMailViewModel : INotifyPropertyChanged
         get => _recipient;
         set
         {
-            _regarding = value;
+            _recipient = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Recipient)));
         }
     }
@@ -42,8 +42,9 @@ public class SendMailViewModel : INotifyPropertyChanged
         }
     }
 
-    public async Task? SendMail()
+    public async Task<bool> SendMail()
     {
-        await EmailController.SendingMail(Recipient, Regarding, MailContent);
+        var result = await EmailController.SendingMail(Recipient, Regarding, MailContent);
+        return result;
     }
 }
