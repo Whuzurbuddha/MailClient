@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
@@ -6,32 +7,55 @@ namespace MailClient.DataController
 {
     public class ReadJson
     {
-        private static string filePath = "C:\\Users\\alexander\\RiderProjects\\MailClient\\MailClient\\Data\\SavedData.json";
+        private static string _filePath = "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\Data\\SavedData.json";
 
-        public string Passwd { get; set; }
-        public string UserName { get; set; }
-        public string Smtp { get; set; }
-        public string Imap { get; set; }
+        public string? Passwd { get; set; }
+        public string? UserName { get; set; }
+        public string? Smtp { get; set; }
+        public string? Imap { get; set; }
 
-        public static string GetUserPasswd()
+
+        public static string? GetUserPasswd()
         {
             try
             {
-                string jsonContent;
+                string jsonPasswd;
 
-                using (StreamReader reader = new StreamReader(filePath))
+                using (var reader = new StreamReader(_filePath))
                 {
-                    jsonContent = reader.ReadToEnd();
+                    jsonPasswd = reader.ReadToEnd();
                 }
 
-                ReadJson? readJson = JsonSerializer.Deserialize<ReadJson>(jsonContent);
-                string passwd = readJson.Passwd;
+                var readJson = JsonSerializer.Deserialize<ReadJson>(jsonPasswd);
+                var passwd = readJson?.Passwd;
                 return passwd;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Fehler beim Lesen der JSON-Datei: {ex.Message}");
                 return null;
+            }
+        }
+
+        public static string GetServerContent()
+        {
+            try
+            {
+                string jsonContent;
+                using (var reader = new StreamReader(_filePath))
+                {
+                    jsonContent = reader.ReadToEnd();
+                }
+                var readJson = JsonSerializer.Deserialize<ReadJson>(jsonContent);
+                var user = readJson?.UserName;
+                var smtp = readJson?.Smtp;
+                var imap = readJson?.Imap;
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

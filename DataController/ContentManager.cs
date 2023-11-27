@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using MailClient.views;
 
 namespace MailClient.DataController
 {
@@ -35,7 +36,7 @@ namespace MailClient.DataController
                 Imap = Imap
             };
 
-            var filePath = "../Data/SavedData.json";
+            var filePath = "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\Data\\SavedData.json";
             var json = JsonSerializer.Serialize(registrationData);
 
             await using var writer = new StreamWriter(filePath);
@@ -46,13 +47,14 @@ namespace MailClient.DataController
         {
             var encryptedPassword = ReadJson.GetUserPasswd();
             var decryptedPasswd = DecryptedPasswd(encryptedPassword);
+            var userWindow = new UserPage();
             if (password == decryptedPasswd)
             {
-                MessageBox.Show("Erfolgreich eingeloggt!");
+                if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();  userWindow.Show();
             }
             else
             {
-                MessageBox.Show($"{decryptedPasswd} Ungültige Zugangsdaten");
+                MessageBox.Show("Ungültige Zugangsdaten");
             }
 
             return Task.FromResult(decryptedPasswd);
