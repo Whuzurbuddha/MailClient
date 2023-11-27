@@ -13,6 +13,13 @@ namespace MailClient.DataController
         public string? UserName { get; set; }
         public string? Smtp { get; set; }
         public string? Imap { get; set; }
+
+        public class UserContent
+        {
+            public string? User { get; set; }
+            public string? Smtp { get; set; }
+            public string? Imap { get; set; }
+        }
         
         public static string? GetUserPasswd()
         {
@@ -36,7 +43,7 @@ namespace MailClient.DataController
             }
         }
 
-        public static List<string?> GetServerContent()
+        public static UserContent GetServerContent()
         {
             try
             {
@@ -46,13 +53,16 @@ namespace MailClient.DataController
                     jsonContent = reader.ReadToEnd();
                 }
                 var readJson = JsonSerializer.Deserialize<ReadJson>(jsonContent);
-                var userContent = new List<string?>();
                 var user = readJson?.UserName;
                 var smtp = readJson?.Smtp;
                 var imap = readJson?.Imap;
-                userContent.Add(user);
-                userContent.Add(smtp);
-                userContent.Add(imap);
+                var userContent = new UserContent
+                {
+                    User = user,
+                    Smtp = smtp,
+                    Imap = imap
+                };
+                
                 return userContent;
             }
             catch (Exception e)

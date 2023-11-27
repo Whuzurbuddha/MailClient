@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 
 namespace MailClient.DataController;
-
+//SMTP smtp.web.de
+//IMAP imap.web.de
 public class EmailController
 {
     public string? UserName { get; set; }
@@ -12,7 +13,6 @@ public class EmailController
     public static async Task<bool> SendingMail(string? recipient, string? regarding, string? mailContent)
     {
         var serverContent = ReadJson.GetServerContent();
-        Console.WriteLine(serverContent);
         return true;
     }
 }
