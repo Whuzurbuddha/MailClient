@@ -14,18 +14,18 @@ public class InputViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private string _userName;
+    private string? _userMail;
     private string? _password;
     private string? _smtp;
     private string? _imap;
 
-    public string UserName
+    public string? UserMail
     {
-        get => _userName;
+        get => _userMail;
         set
         {
-            _userName = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserName)));
+            _userMail = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserMail)));
         }
     }
 
@@ -63,11 +63,11 @@ public class InputViewModel : INotifyPropertyChanged
     {
         if (Smtp != null)
         {
-            await ContentManager.SaveRegistration(UserName, Password, Smtp, Imap)!;
+            await ContentManager.SaveRegistration(UserMail, Password, Smtp, Imap)!;
         }
         else
         {
-            await ContentManager.CheckLogin(UserName, Password)!;
+            ContentManager.CheckLogin(UserMail, Password);
         }
     }
 }

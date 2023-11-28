@@ -43,31 +43,29 @@ namespace MailClient.DataController
             await writer.WriteAsync(json);
         }
 
-        public static Task<string> CheckLogin(string userName, string? password)
+        public static void CheckLogin(string userName, string? password)
         {
-            var encryptedPassword = ReadJson.GetUserPasswd();
+            var userContent = ReadJson.GetUserContent();
+            var encryptedPassword = userContent.EncryptedPasswd;
             var decryptedPasswd = DecryptedPasswd(encryptedPassword);
             var userWindow = new UserPage();
             if (password == decryptedPasswd)
             {
-                EmailController.ServerConnect(password);
                 if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();  userWindow.Show();
             }
             else
             {
                 MessageBox.Show("Ungültige Zugangsdaten");
             }
-
-            return Task.FromResult(decryptedPasswd);
         }
 
-        private static string DecryptedPasswd(string? encryptedPassword)
+        public static string DecryptedPasswd(string? encryptedPassword)
         {
             if (encryptedPassword == null) return null;
 
             byte[] encryptedData = Convert.FromBase64String(encryptedPassword);
             byte[] decryptedData = ProtectedData.Unprotect(encryptedData, null, DataProtectionScope.CurrentUser);
-
+            
             return Encoding.Unicode.GetString(decryptedData);
         }
 

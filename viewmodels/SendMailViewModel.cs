@@ -44,9 +44,11 @@ public class SendMailViewModel : INotifyPropertyChanged
     }
 
     private bool _mailStatus;
+    private readonly string? _recipientMissing = "Empfängeradresse fehlt";
+    private readonly string? _sendingSuccess = "Mail erfolgreich versendet";
     public async Task<string?> SendMail()
     {
-        _mailStatus = await EmailController.SendingMail(Recipient, Regarding, MailContent);
-        return _mailContent;
+        if(Recipient != null && MailContent != null) _mailStatus = await EmailController.SendingMail(Recipient, Regarding, MailContent);
+        return Recipient == null ? _recipientMissing : _sendingSuccess;
     }
 }

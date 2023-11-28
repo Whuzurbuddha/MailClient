@@ -19,6 +19,8 @@ namespace MailClient.DataController
             public string? User { get; set; }
             public string? Smtp { get; set; }
             public string? Imap { get; set; }
+            public string? EncryptedPasswd { get; set; }
+            public string? DecryptedPasswd { get; set; }
         }
         
         public static string? GetUserPasswd()
@@ -43,7 +45,7 @@ namespace MailClient.DataController
             }
         }
 
-        public static UserContent GetServerContent()
+        public static UserContent GetUserContent()
         {
             try
             {
@@ -56,11 +58,13 @@ namespace MailClient.DataController
                 var user = readJson?.UserName;
                 var smtp = readJson?.Smtp;
                 var imap = readJson?.Imap;
+                var encryptedPasswd = readJson?.Passwd;
                 var userContent = new UserContent
                 {
                     User = user,
                     Smtp = smtp,
-                    Imap = imap
+                    Imap = imap,
+                    EncryptedPasswd = encryptedPasswd
                 };
                 
                 return userContent;

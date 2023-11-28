@@ -1,35 +1,31 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using MailClient.viewmodels;
 
 namespace MailClient.views;
 
-public partial class SendMailView : INotifyPropertyChanged
+public partial class SendMailView
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private Task<string?> _result;
 
-    public Task<string?> Result
-    {
-        get => _result;
-        set
-        {
-            _result = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Result)));
-        }
-    }
+    private SendMailViewModel _sendMailViewModel;
+    private string? _mailSendingStatus;
     public SendMailView()
     {
         InitializeComponent();
-        var sendMailViewModel = new SendMailViewModel();
-        DataContext = sendMailViewModel;
-        Result = sendMailViewModel.SendMail();
+        _sendMailViewModel = new SendMailViewModel();
+        DataContext = _sendMailViewModel;
     }
     
-    private void SendMailToViewModel(object sender, RoutedEventArgs e)
+    private async void SendMailToViewModel(object sender, RoutedEventArgs e)
     {
-        Console.WriteLine(Result);
+        _mailSendingStatus = await _sendMailViewModel.SendMail();
+        if (_mailSendingStatus != null &&_mailSendingStatus.Contains("erfolgreich"))
+        {
+            this.Close();
+        }
+        else
+        {
+            MessageBox.Show($"{_mailSendingStatus}");
+        }
     }
 }

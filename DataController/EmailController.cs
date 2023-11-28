@@ -1,29 +1,49 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using MailKit;
+using MailKit.Net.Imap;
 
 namespace MailClient.DataController;
 //SMTP smtp.web.de
 //IMAP imap.web.de
 public class EmailController
 {
-
-    public static async void ServerConnect(string? password)
-    {
-        var serverContent = ReadJson.GetServerContent();
-        var userName = serverContent.User;
-        var smtp = serverContent.Smtp;
-
-        var smtpClient = new SmtpClient(smtp)
-        {
-            Port = 587,
-            Credentials = new NetworkCredential(userName, password),
-            EnableSsl = true
-        };
-    }
-    
     public static async Task<bool> SendingMail(string? recipient, string? regarding, string? mailContent)
     {
+        var userContent = ReadJson.GetUserContent();
+        var userMail = userContent.User;
+        var smtp = userContent.Smtp;
+        var encryptedPasswd = userContent.EncryptedPasswd;
+        var password = ContentManager.DecryptedPasswd(encryptedPasswd);
+        var smtpClient = new SmtpClient(smtp)
+        {
+            Port = 587, 
+            Credentials = new NetworkCredential(userMail, password),
+            EnableSsl = true
+        };
+        if (userMail == null || recipient == null || mailContent == null) return false;
+        smtpClient.Send(userMail, recipient, regarding, mailContent);
         return true;
+    }
+    
+    public static IMailFolder ReceivingMail()
+    {
+        using var client = new ImapClient();
+        var userContent = ReadJson.GetUserContent();
+        var userMail = userContent.User;
+        var imap = userContent.Imap;
+        var encryptedPasswd = userContent.EncryptedPasswd;
+        var password = ContentManager.DecryptedPasswd(encryptedPasswd);
+            
+        client.Connect(imap, 993, true); 
+        client.Authenticate(userMail, password);
+        
+        var inbox = client.Inbox;
+        inbox.Open(FolderAccess.ReadOnly);
+        client.Disconnect(true);
+
+        return inbox;
     }
 }

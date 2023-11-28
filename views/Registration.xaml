@@ -33,7 +33,7 @@
         </Label>
         
         <Label>Benutzername</Label>
-        <TextBox Text="{Binding UserName}"></TextBox>
+        <TextBox Text="{Binding UserMail}"></TextBox>
         
         <Label>Passwort</Label>
         <PasswordBox
