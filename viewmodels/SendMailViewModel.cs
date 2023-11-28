@@ -43,9 +43,10 @@ public class SendMailViewModel : INotifyPropertyChanged
         }
     }
 
-    public async Task<bool> SendMail()
+    private bool _mailStatus;
+    public async Task<string?> SendMail()
     {
-        var result = await EmailController.SendingMail(Recipient, Regarding, MailContent);
-        return result;
+        _mailStatus = await EmailController.SendingMail(Recipient, Regarding, MailContent);
+        return _mailContent;
     }
 }

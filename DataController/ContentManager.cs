@@ -50,6 +50,7 @@ namespace MailClient.DataController
             var userWindow = new UserPage();
             if (password == decryptedPasswd)
             {
+                EmailController.ServerConnect(password);
                 if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();  userWindow.Show();
             }
             else

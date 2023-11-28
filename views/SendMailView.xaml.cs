@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using MailClient.viewmodels;
 
@@ -7,9 +9,9 @@ namespace MailClient.views;
 public partial class SendMailView : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-    private bool _result;
+    private Task<string?> _result;
 
-    public bool Result
+    public Task<string?> Result
     {
         get => _result;
         set
@@ -23,11 +25,11 @@ public partial class SendMailView : INotifyPropertyChanged
         InitializeComponent();
         var sendMailViewModel = new SendMailViewModel();
         DataContext = sendMailViewModel;
+        Result = sendMailViewModel.SendMail();
     }
     
-    private async void SendMailToViewModel(object sender, RoutedEventArgs e)
+    private void SendMailToViewModel(object sender, RoutedEventArgs e)
     {
-        Result = await SendMailViewModel.SendMail();
-        if(Result) this.Close();
+        Console.WriteLine(Result);
     }
 }
