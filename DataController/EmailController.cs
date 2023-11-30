@@ -75,7 +75,6 @@ public class EmailController
                     MessageText = inbox.GetMessage(i).TextBody
                 };
                 messagesList.Add(messagesOverview);
-                Console.WriteLine($"ID:{messagesOverview.MessageId}\r\nSENDER: {messagesOverview.MessageSender}\r\nSUBJECT: {messagesOverview.MessageSubject}\r\nTEXT: {messagesOverview.MessageText}");
             }
             client.Disconnect(true);
             return messageList;
