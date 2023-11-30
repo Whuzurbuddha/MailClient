@@ -16,5 +16,6 @@ public partial class Login : UserControl
     private async void SendLogin(object sender, RoutedEventArgs routedEventArgs)
     {
         await _login.SendDataToContentManager();
+        //MailInbox.ReceivedMailsOverview();
     }
 }

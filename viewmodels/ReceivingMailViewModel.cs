@@ -1,11 +1,13 @@
 ﻿using MailClient.DataController;
+using MailKit;
 
 namespace MailClient.viewmodels;
 
 public class ReceivingMailViewModel
 {
-    private void GetMailOverview()
+    /*public static IMailFolder GetMailOverview()
     {
         var inbox = EmailController.ReceivingMail();
-    }
+        return inbox;
+    }*/
 }

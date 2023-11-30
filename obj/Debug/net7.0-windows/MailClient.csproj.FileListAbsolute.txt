@@ -94,3 +94,5 @@ C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\System.Secur
 C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
 C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.csproj.AssemblyReference.cache
 C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.csproj.CopyComplete
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\MailInbox.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\MailInbox.baml

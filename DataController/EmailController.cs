@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
+using MimeKit;
 
 namespace MailClient.DataController;
 //SMTP smtp.web.de
@@ -27,23 +30,53 @@ public class EmailController
         smtpClient.Send(userMail, recipient, regarding, mailContent);
         return true;
     }
+
+    private class MessageList
+    {
+        public List<Message>? MessageOverview { get; set; }
+    }
     
-    public static IMailFolder ReceivingMail()
+    private class Message
+    {
+        public string? MessageSubject { get; set; }
+        public InternetAddressList MessageSender { get; set; }
+        public string? MessageId { get; set; }
+        public string? MessageText { get; set; }
+    }
+    
+    public static void ReceivingMail()
     {
         using var client = new ImapClient();
         var userContent = ReadJson.GetUserContent();
         var userMail = userContent.User;
-        var imap = userContent.Imap;
         var encryptedPasswd = userContent.EncryptedPasswd;
         var password = ContentManager.DecryptedPasswd(encryptedPasswd);
+        var imap = userContent.Imap;
+        try
+        {
+            client.Connect(imap, 993, true);
+            client.Authenticate(userMail, password);
+            var inbox = client.Inbox;
+            inbox.Open(FolderAccess.ReadOnly);
             
-        client.Connect(imap, 993, true); 
-        client.Authenticate(userMail, password);
-        
-        var inbox = client.Inbox;
-        inbox.Open(FolderAccess.ReadOnly);
-        client.Disconnect(true);
+            for (var i = 0; i < inbox.Count; i++)
+            {
 
-        return inbox;
+                var messagesOverview = new Message()
+                {
+                    MessageId = inbox.GetMessage(i).MessageId,
+                    MessageSubject = inbox.GetMessage(i).Subject,
+                    MessageSender = inbox.GetMessage(i).From,
+                    MessageText = inbox.GetMessage(i).TextBody
+                };
+                Console.WriteLine($"ID:{messagesOverview.MessageId}\r\nSENDER: {messagesOverview.MessageSender}\r\nSUBJECT: {messagesOverview.MessageSubject}\r\nTEXT: {messagesOverview.MessageText}");
+            }
+            client.Disconnect(true);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

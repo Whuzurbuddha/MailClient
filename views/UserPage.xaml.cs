@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MailClient.DataController;
 
 namespace MailClient.views;
 
@@ -14,5 +15,9 @@ public partial class UserPage : Window
     {
         _newMailWindow = new SendMailView();
         _newMailWindow.Show();
+    }
+    private void ShowMailBox(object sender, RoutedEventArgs routedEventArgs)
+    {
+        MailInbox.Visibility = Visibility.Visible;
     }
 }
