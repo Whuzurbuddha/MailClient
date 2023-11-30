@@ -31,20 +31,20 @@ public class EmailController
         return true;
     }
 
-    private class MessageList
+    public class MessageList
     {
         public List<Message>? MessageOverview { get; set; }
     }
-    
-    private class Message
+
+    public class Message
     {
         public string? MessageSubject { get; set; }
-        public InternetAddressList MessageSender { get; set; }
+        public InternetAddressList? MessageSender { get; set; }
         public string? MessageId { get; set; }
         public string? MessageText { get; set; }
     }
-    
-    public static void ReceivingMail()
+
+    public static MessageList ReceivingMail()
     {
         using var client = new ImapClient();
         var userContent = ReadJson.GetUserContent();
@@ -52,6 +52,11 @@ public class EmailController
         var encryptedPasswd = userContent.EncryptedPasswd;
         var password = ContentManager.DecryptedPasswd(encryptedPasswd);
         var imap = userContent.Imap;
+        var messagesList = new List<Message>();
+        var messageList = new MessageList()
+        {
+            MessageOverview = messagesList
+        };
         try
         {
             client.Connect(imap, 993, true);
@@ -69,9 +74,11 @@ public class EmailController
                     MessageSender = inbox.GetMessage(i).From,
                     MessageText = inbox.GetMessage(i).TextBody
                 };
+                messagesList.Add(messagesOverview);
                 Console.WriteLine($"ID:{messagesOverview.MessageId}\r\nSENDER: {messagesOverview.MessageSender}\r\nSUBJECT: {messagesOverview.MessageSubject}\r\nTEXT: {messagesOverview.MessageText}");
             }
             client.Disconnect(true);
+            return messageList;
         }
         catch (Exception e)
         {
