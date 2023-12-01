@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MailClient.views"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="500" Background="#331245">
+             d:DesignHeight="600" d:DesignWidth="900" Background="#331245" Foreground="Silver">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -39,11 +39,13 @@
         <DockPanel 
             Grid.Column="1" 
             Grid.Row="0">
-            <ListView
+            <ListBox
                 x:Name="ReceivedMailText"
                 HorizontalAlignment="Stretch"
                 Visibility="Collapsed"
-                Margin="0, 0, 10, 0"></ListView>
+                Margin="0, 0, 10, 0"
+                Background="#331245"
+                Foreground="Silver"></ListBox>
         </DockPanel>
     </Grid>
 </UserControl>

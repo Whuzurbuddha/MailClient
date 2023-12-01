@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using MailClient.DataController;
 
 namespace MailClient.views;
@@ -13,7 +13,7 @@ public partial class MailInbox : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private string? _sender;
-    private string? _message;
+    private string? _mailText;
 
     private string? Sender
     {
@@ -25,50 +25,58 @@ public partial class MailInbox : INotifyPropertyChanged
         }
     }
 
-    private string? Message
+    public string? MailText
     {
-        get => _message;
+        get => _mailText;
         set
         {
-            _message = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Message));
+            _mailText = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MailText));
         }
     }
-    
+
+    private readonly List<EmailController.Message> _mailList;
     public MailInbox()
     {
         InitializeComponent();
-        ReceivedMailsOverview();
+        _mailList = EmailController.ReceivingMail();
+        LoadMailOverview(_mailList);
     }
     
-    private void ReceivedMailsOverview()
-    {
-        var mailList = EmailController.ReceivingMail();
-        ReceivedMailText.Items.Clear();
-        ReceivedMailOverview.Items.Clear();
-        ReceivedMailText.Items.Refresh();
-        ReceivedMailOverview.Items.Refresh();
-        foreach (var mail in mailList)
-        {
-            var subject = mail.MessageSubject;
-            var subjectItem = new ListViewItem { Content = subject };
-            ReceivedMailOverview.Items.Add(subjectItem);
-            ReceivedMailOverview.Items.Refresh();
-            if (Sender != null && subject != null && Sender.Contains(subject))
-            {
-                Message = mail.MessageText;
-            }
-        }
-        ReceivedMailText.Items.Add(Message);
-    }
-
     private void ShowSelectedMailText(object sender, RoutedEventArgs e)
     {
         ReceivedMailText.Visibility = Visibility.Visible;
-        if (sender is ListViewItem { IsSelected: true })
+        ReceivedMailText.Items.Clear();
+        foreach (var mail in _mailList)
         {
-            Sender = sender.ToString();
+            var subject = mail.MessageSubject;
+            if (sender is ListViewItem { IsSelected: true })
+            {
+                Sender = sender.ToString();
+                if (Sender != null && subject != null && Sender.Contains(subject))
+                {
+                    MailText = mail.MessageText;
+                }
+            }
         }
-        ReceivedMailsOverview();
+        ReceivedMailText.Items.Add(MailText);
+    }
+
+    private void LoadMailOverview(List<EmailController.Message> mailList)
+    {
+        foreach (var mail in mailList)
+        {
+            var subject = mail.MessageSubject;
+            var mailSender = mail.MessageSender;
+            var subjectItem = new ListBoxItem { Content = $"{mailSender}\r\n{subject}" };
+            ReceivedMailOverview.Items.Add(subjectItem);
+        }
+    }
+
+    private string? _selectedMail;
+    public string? SelectedMail()
+    {
+        _selectedMail = MailText ?? "";
+        return _selectedMail;
     }
 }
