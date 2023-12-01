@@ -28,6 +28,10 @@
                         <Setter Property="Margin" Value="0, 0, 0, 5"></Setter>
                         <Setter Property="Width" Value="340"></Setter>
                         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                        <Setter Property="Background" Value="#331245"></Setter>
+                        <Setter Property="Foreground" Value="White"></Setter>
+                        <EventSetter Event="PreviewMouseDoubleClick"
+                                     Handler="ShowSelectedMailText"></EventSetter>
                     </Style>
                 </ListView.Resources>
             </ListView>
@@ -35,9 +39,10 @@
         <DockPanel 
             Grid.Column="1" 
             Grid.Row="0">
-            <TextBlock
-                Foreground="White"
-                HorizontalAlignment="Stretch">MEHL</TextBlock>
+            <ListView
+                x:Name="ReceivedMailText"
+                HorizontalAlignment="Stretch"
+                Visibility="Collapsed"></ListView>
         </DockPanel>
     </Grid>
 </UserControl>

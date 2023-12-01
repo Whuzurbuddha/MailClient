@@ -30,12 +30,7 @@ public class EmailController
         smtpClient.Send(userMail, recipient, regarding, mailContent);
         return true;
     }
-
-    public class MessageList
-    {
-        public List<Message>? MessageOverview { get; set; }
-    }
-
+    
     public class Message
     {
         public string? MessageSubject { get; set; }
@@ -44,7 +39,7 @@ public class EmailController
         public string? MessageText { get; set; }
     }
 
-    public static MessageList ReceivingMail()
+    public static List<Message> ReceivingMail()
     {
         using var client = new ImapClient();
         var userContent = ReadJson.GetUserContent();
@@ -53,10 +48,7 @@ public class EmailController
         var password = ContentManager.DecryptedPasswd(encryptedPasswd);
         var imap = userContent.Imap;
         var messagesList = new List<Message>();
-        var messageList = new MessageList()
-        {
-            MessageOverview = messagesList
-        };
+        
         try
         {
             client.Connect(imap, 993, true);
@@ -77,7 +69,7 @@ public class EmailController
                 messagesList.Add(messagesOverview);
             }
             client.Disconnect(true);
-            return messageList;
+            return messagesList;
         }
         catch (Exception e)
         {

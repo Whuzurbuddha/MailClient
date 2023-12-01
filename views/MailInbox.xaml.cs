@@ -1,47 +1,68 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using MailClient.DataController;
-using MimeKit;
 
 namespace MailClient.views;
 
-public partial class MailInbox
+public partial class MailInbox : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private string? _sender;
+
+    private string? Sender
+    {
+        get => _sender;
+        set
+        {
+            _sender = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Sender));
+        }
+    }
     public MailInbox()
     {
         InitializeComponent();
         ReceivedMailsOverview();
     }
-
-    public class MailList : ObservableCollection<ReceivedMail>
-    {
-        public MailList() : base()
-        {
-            
-        }
-    }
-    public class ReceivedMail 
-    {
-        public string? Sender { get; set; }
-        public string? Regarding { get; set; }
-        public string? Message { get; set; }        
-    }
-    public class Message
-    {
-        public string? MessageSubject { get; set; }
-        public InternetAddressList? MessageSender { get; set; }
-        public string? MessageId { get; set; }
-        public string? MessageText { get; set; }
-    }
-
+    
     private void ReceivedMailsOverview()
     {
         var mailList = EmailController.ReceivingMail();
-        var mails = mailList.MessageOverview;
-        if (mails == null) return;
-        foreach (var mail in mails)
+        var message = "";
+        ReceivedMailText.Items.Clear();
+        ReceivedMailOverview.Items.Clear();
+        ReceivedMailText.Items.Refresh();
+        ReceivedMailOverview.Items.Refresh();
+        foreach (var mail in mailList)
         {
-            ReceivedMailOverview.Items.Add(mail.MessageSubject);
+            var subject = new ListViewItem { Content = mail.MessageSubject };
+            ReceivedMailOverview.Items.Add(subject);
+            ReceivedMailOverview.Items.Refresh();
+            if (Sender == mail.MessageSubject)
+            {
+                message += mail.MessageText;
+            }
         }
+
+        ReceivedMailText.Items.Add(message);
+    }
+
+    private void ShowSelectedMailText(object sender, RoutedEventArgs e)
+    {
+        ReceivedMailText.Visibility = Visibility.Visible;
+        if (sender is ListViewItem { IsSelected: true })
+        {
+            Sender = sender.ToString();
+        }
+        ReceivedMailsOverview();
     }
 }
+
+/*if (sender is ListViewItem { IsSelected: true } && sender == subject)
+{
+    message += messageText;
+}*/
