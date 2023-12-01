@@ -13,6 +13,7 @@ public partial class MailInbox : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private string? _sender;
+    private string? _message;
 
     private string? Sender
     {
@@ -23,6 +24,17 @@ public partial class MailInbox : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Sender));
         }
     }
+
+    private string? Message
+    {
+        get => _message;
+        set
+        {
+            _message = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Message));
+        }
+    }
+    
     public MailInbox()
     {
         InitializeComponent();
@@ -32,23 +44,22 @@ public partial class MailInbox : INotifyPropertyChanged
     private void ReceivedMailsOverview()
     {
         var mailList = EmailController.ReceivingMail();
-        var message = "";
         ReceivedMailText.Items.Clear();
         ReceivedMailOverview.Items.Clear();
         ReceivedMailText.Items.Refresh();
         ReceivedMailOverview.Items.Refresh();
         foreach (var mail in mailList)
         {
-            var subject = new ListViewItem { Content = mail.MessageSubject };
-            ReceivedMailOverview.Items.Add(subject);
+            var subject = mail.MessageSubject;
+            var subjectItem = new ListViewItem { Content = subject };
+            ReceivedMailOverview.Items.Add(subjectItem);
             ReceivedMailOverview.Items.Refresh();
-            if (Sender == mail.MessageSubject)
+            if (Sender != null && subject != null && Sender.Contains(subject))
             {
-                message += mail.MessageText;
+                Message = mail.MessageText;
             }
         }
-
-        ReceivedMailText.Items.Add(message);
+        ReceivedMailText.Items.Add(Message);
     }
 
     private void ShowSelectedMailText(object sender, RoutedEventArgs e)
@@ -61,8 +72,3 @@ public partial class MailInbox : INotifyPropertyChanged
         ReceivedMailsOverview();
     }
 }
-
-/*if (sender is ListViewItem { IsSelected: true } && sender == subject)
-{
-    message += messageText;
-}*/
