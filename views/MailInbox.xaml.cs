@@ -24,17 +24,21 @@ public partial class MailInbox : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(Sender));
         }
     }
-
-    public string? MailText
+    
+    public class SelectedMail : INotifyPropertyChanged
     {
-        get => _mailText;
-        set
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly string? _mailText;    
+        public string? MailText
         {
-            _mailText = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MailText));
+            get => _mailText;
+            init
+            {
+                _mailText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MailText));
+            }
         }
     }
-
     private readonly List<EmailController.Message> _mailList;
     public MailInbox()
     {
@@ -42,7 +46,8 @@ public partial class MailInbox : INotifyPropertyChanged
         _mailList = EmailController.ReceivingMail();
         LoadMailOverview(_mailList);
     }
-    
+
+    public static SelectedMail SelectedMailText;
     private void ShowSelectedMailText(object sender, RoutedEventArgs e)
     {
         ReceivedMailText.Visibility = Visibility.Visible;
@@ -55,13 +60,16 @@ public partial class MailInbox : INotifyPropertyChanged
                 Sender = sender.ToString();
                 if (Sender != null && subject != null && Sender.Contains(subject))
                 {
-                    MailText = mail.MessageText;
+                    SelectedMailText = new SelectedMail()
+                    {
+                        MailText = mail.MessageText
+                    };
                 }
             }
         }
-        ReceivedMailText.Items.Add(MailText);
+        ReceivedMailText.Items.Add(SelectedMailText.MailText);
     }
-
+    
     private void LoadMailOverview(List<EmailController.Message> mailList)
     {
         foreach (var mail in mailList)
@@ -71,12 +79,5 @@ public partial class MailInbox : INotifyPropertyChanged
             var subjectItem = new ListBoxItem { Content = $"{mailSender}\r\n{subject}" };
             ReceivedMailOverview.Items.Add(subjectItem);
         }
-    }
-
-    private string? _selectedMail;
-    public string? SelectedMail()
-    {
-        _selectedMail = MailText ?? "";
-        return _selectedMail;
     }
 }

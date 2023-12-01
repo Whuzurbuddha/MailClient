@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using MailClient.viewmodels;
 
 namespace MailClient.views;
 
@@ -6,14 +8,16 @@ public partial class AnswerMailView
 {
     public AnswerMailView()
     {
+        var sendMail = new SendMailViewModel();
         InitializeComponent();
-        var mailInbox = new MailInbox();
-        var mailText = mailInbox.SelectedMail();
-        ShowSelectedMail(mailText);
+        ShowSelectedMail();
+        DataContext = sendMail;
     }
 
-    private void ShowSelectedMail(string? mailText)
+    private void ShowSelectedMail()
     {
-        SelectedMailText.Text = mailText;
+        var mail = MailInbox.SelectedMailText;
+        SelectedMailBox.Text = mail.MailText;
     }
+    private void SendAnswer(object sender, RoutedEventArgs routedEventArgs){}
 }
