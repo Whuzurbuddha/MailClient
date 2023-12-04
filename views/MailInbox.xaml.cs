@@ -76,7 +76,7 @@ public partial class MailInbox : INotifyPropertyChanged
         {
             var subject = mail.MessageSubject;
             var mailSender = mail.MessageSender;
-            var subjectItem = new ListBoxItem { Content = $"{mailSender}\r\n{subject}" };
+            var subjectItem = new ListViewItem { Content = $"{mailSender}\r\n{subject}" };
             ReceivedMailOverview.Items.Add(subjectItem);
         }
     }
