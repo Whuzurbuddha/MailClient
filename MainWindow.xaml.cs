@@ -1,7 +1,5 @@
 ﻿using System.Windows;
-using MailClient.DataController;
 using MailClient.models;
-using MailClient.views;
 
 namespace MailClient
 {
