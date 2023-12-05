@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 C:\Users\PaeplowA\RiderProjects\MailClient\App.xaml
-7-787824603
+6-657153730
 
-17-1784645832
+17-863876977
 2011847726048
-MainWindow.xaml;views\AnswerMailView.xaml;views\Login.xaml;views\MailInbox.xaml;views\Registration.xaml;views\SendMailView.xaml;views\UserPage.xaml;
+MainWindow.xaml;views\Login.xaml;views\MailInbox.xaml;views\Registration.xaml;views\SendMailView.xaml;views\UserPage.xaml;
 
 False
 

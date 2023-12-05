@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
 using MailClient.DataController;
 
@@ -11,7 +10,7 @@ public class SendMailViewModel : INotifyPropertyChanged
 
     private string? _recipient;
     private string? _regarding;
-    private string? _mailContent;
+    private string? _mailText;
 
     public string? Recipient
     {
@@ -33,13 +32,13 @@ public class SendMailViewModel : INotifyPropertyChanged
         }
     }
 
-    public string? MailContent
+    public string? MailText
     {
-        get => _mailContent;
+        get => _mailText;
         set
         {
-            _mailContent = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailContent)));
+            _mailText = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailText)));
         }
     }
 
@@ -48,7 +47,7 @@ public class SendMailViewModel : INotifyPropertyChanged
     private readonly string? _sendingSuccess = "Mail erfolgreich versendet";
     public async Task<string?> SendMail()
     {
-        if(Recipient != null && MailContent != null) _mailStatus = await EmailController.SendingMail(Recipient, Regarding, MailContent);
+        if(Recipient != null && MailText != null) _mailStatus = await EmailController.SendingMail(Recipient, Regarding, MailText);
         return Recipient == null ? _recipientMissing : _sendingSuccess;
     }
 }

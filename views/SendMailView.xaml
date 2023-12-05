@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:MailClient.views"
+             xmlns:data="clr-namespace:MailClient.models"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"  
              Background="#331245">
-
+    <Window.DataContext>
+        <data:MailBoxModel></data:MailBoxModel>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="130"/>
@@ -84,10 +86,12 @@
                     </StackPanel.Resources>
 
                     <Label>Empfänger</Label>
-                    <TextBox Text="{Binding Recipient}"></TextBox>
+                    <TextBox Text="{Binding MessageSender, Mode=TwoWay}"
+                             x:Name="RecipientText"></TextBox>
 
                     <Label>Betreff</Label>
-                    <TextBox Text="{Binding Regarding}"></TextBox>
+                    <TextBox Text="{Binding 
+                             Path=Regarding}"></TextBox>
                 </StackPanel>
             </DockPanel>
         </StackPanel>
@@ -102,6 +106,7 @@
                      TextWrapping="Wrap"
                      AcceptsReturn="True"
                      AcceptsTab="True"
-                     Text="{Binding MailContent}"/>
+                     Text="{Binding MailText, Mode=TwoWay}"
+                     x:Name="MailTextBox" />
     </Grid>
 </Window>

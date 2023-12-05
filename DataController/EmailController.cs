@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
 using MimeKit;
@@ -31,15 +31,45 @@ public class EmailController
         return true;
     }
     
-    public class Message
+    public class Message : INotifyPropertyChanged
     {
-        public string? MessageSubject { get; set; }
-        public InternetAddressList? MessageSender { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly string? _messageSubject;
+        private readonly InternetAddressList? _messageSender;
+        private readonly string? _messageText;
+        public string? MessageSubject { 
+            get => _messageSubject;
+            init
+            {
+                _messageSubject = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageSubject));
+            }
+            
+        }
+
+        public InternetAddressList? MessageSender
+        {
+            get => _messageSender;
+            init
+            {
+                _messageSender = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageSender?.ToString()));
+            }
+        }
         public string? MessageId { get; set; }
-        public string? MessageText { get; set; }
+
+        public string? MessageText
+        {
+            get => _messageText;
+            init
+            {
+                _messageText = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageText));
+            }
+        }
     }
 
-    public static List<Message> ReceivingMail()
+    public static List<Message>? ReceivingMail()
     {
         using var client = new ImapClient();
         var userContent = ReadJson.GetUserContent();
@@ -66,7 +96,7 @@ public class EmailController
                     MessageSender = inbox.GetMessage(i).From,
                     MessageText = inbox.GetMessage(i).TextBody
                 };
-                messagesList.Add(messagesOverview);
+               messagesList.Add(messagesOverview);
             }
             client.Disconnect(true);
             return messagesList;
