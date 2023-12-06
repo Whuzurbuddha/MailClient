@@ -1,11 +1,14 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Windows;
 using MailClient.viewmodels;
 
 namespace MailClient.views;
 
 public partial class SendMailView
 {
-
+    
+    
     private readonly SendMailViewModel? _sendMailViewModel;
     private string? _mailSendingStatus;
     public SendMailView()
@@ -14,7 +17,6 @@ public partial class SendMailView
         _sendMailViewModel = new SendMailViewModel();
         DataContext = _sendMailViewModel;
     }
-    
     private async void SendMailToViewModel(object sender, RoutedEventArgs e)
     {
         _mailSendingStatus = await _sendMailViewModel?.SendMail()!;
@@ -28,10 +30,24 @@ public partial class SendMailView
         }
     }
 
-    private FileLoader? _fileLoader;
+    public class Files  : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private string? _filePath;
+        public string? FilePath
+        {
+            get => _filePath;
+            set
+            {
+                _filePath = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(FilePath));
+            }
+        }
+    }
+
+    public Files File;
     private void ShowFileLoader(object sender, RoutedEventArgs e)
     {
-        _fileLoader = new FileLoader();
-        _fileLoader.Show();
+        File.FilePath = LoadFile.OpenDirectory();
     }
 }

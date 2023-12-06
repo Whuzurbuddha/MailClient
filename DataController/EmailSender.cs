@@ -6,7 +6,7 @@ namespace MailClient.DataController;
 
 public class EmailSender
 {
-    public static async Task<bool> SendingMail(string? recipient, string? regarding, string? mailContent)
+    public static async Task<bool> SendingMail(string? recipient, string? regarding, string? mailContent, string? fileSource)
     {
         var userContent = ReadJson.GetUserContent();
         var userMail = userContent.User;
