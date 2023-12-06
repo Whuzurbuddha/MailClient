@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using MailClient.models;
+using static MailClient.DataController.EmailController;
 
 namespace MailClient
 {
@@ -10,8 +10,6 @@ namespace MailClient
     {
         public MainWindow()
         {
-            var mailListBox = new MailBoxModel();
-            mailListBox.LoadMailList();
             InitializeComponent();
         }
     }

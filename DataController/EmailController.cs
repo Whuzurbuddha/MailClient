@@ -1,42 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
 using MailKit;
 using MailKit.Net.Imap;
-using MimeKit;
 
 namespace MailClient.DataController;
 //SMTP smtp.web.de
 //IMAP imap.web.de
-public class EmailController
+public class EmailController : INotifyPropertyChanged
 {
-    public static async Task<bool> SendingMail(string? recipient, string? regarding, string? mailContent)
-    {
-        var userContent = ReadJson.GetUserContent();
-        var userMail = userContent.User;
-        var smtp = userContent.Smtp;
-        var encryptedPasswd = userContent.EncryptedPasswd;
-        var password = ContentManager.DecryptedPasswd(encryptedPasswd);
-        var smtpClient = new SmtpClient(smtp)
-        {
-            Port = 587, 
-            Credentials = new NetworkCredential(userMail, password),
-            EnableSsl = true
-        };
-        if (userMail == null || recipient == null || mailContent == null) return false;
-        smtpClient.Send(userMail, recipient, regarding, mailContent);
-        return true;
-    }
+    public event PropertyChangedEventHandler? PropertyChanged;
     
-    public class Message : INotifyPropertyChanged
+    private List<Message>? _messagesOverview = ReceivingMail();
+
+    public List<Message>? MessagesOverview
+    {
+        get => _messagesOverview;
+        set
+        {
+            _messagesOverview = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessagesOverview?.ToString()));
+        }
+    }
+
+    public class Message
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private readonly string? _messageSubject;
-        private readonly InternetAddressList? _messageSender;
+        private readonly string? _messageSender;
         private readonly string? _messageText;
+        
         public string? MessageSubject { 
             get => _messageSubject;
             init
@@ -47,13 +40,13 @@ public class EmailController
             
         }
 
-        public InternetAddressList? MessageSender
+        public string? MessageSender
         {
             get => _messageSender;
             init
             {
                 _messageSender = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageSender?.ToString()));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageSender));
             }
         }
         public string? MessageId { get; set; }
@@ -69,7 +62,7 @@ public class EmailController
         }
     }
 
-    public static List<Message>? ReceivingMail()
+    private static List<Message>? ReceivingMail()
     {
         using var client = new ImapClient();
         var userContent = ReadJson.GetUserContent();
@@ -93,7 +86,7 @@ public class EmailController
                 {
                     MessageId = inbox.GetMessage(i).MessageId,
                     MessageSubject = inbox.GetMessage(i).Subject,
-                    MessageSender = inbox.GetMessage(i).From,
+                    MessageSender = inbox.GetMessage(i).From.ToString(),
                     MessageText = inbox.GetMessage(i).TextBody
                 };
                messagesList.Add(messagesOverview);

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿/*
+using System.Collections.Generic;
 using System.ComponentModel;
 using MailClient.DataController;
-using MimeKit;
 
 namespace MailClient.models;
 
@@ -9,11 +9,11 @@ public class MailBoxModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
     private List<MailBox.Message>? _mailList;
-    private InternetAddressList? _messageSender;
+    private string? _recipient;
     private string? _regarding;
     private string? _mailText;
 
-    public List<MailBox.Message>? MailList
+    private List<MailBox.Message>? MailList
     {
         get => _mailList;
         set
@@ -22,13 +22,13 @@ public class MailBoxModel : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MailList?.ToString()));
         }
     }
-    public InternetAddressList? MessageSender
+    public string? Recipient
     {
-        get => _messageSender;
+        get => _recipient;
         set
         {
-            _messageSender = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MessageSender)));
+            _recipient = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Recipient)));
         }
     }
     public string? Regarding
@@ -52,14 +52,16 @@ public class MailBoxModel : INotifyPropertyChanged
 
     public void LoadMailList()
     {
-        MailList = MailBox.GetMailBox();
+        //MailList = MailBox.GetMailBox();
         if(MailList != null)
             foreach (var mail in MailList)
             {
-                MessageSender = mail.MessageSender;
+                Recipient = mail.MessageSender;
                 Regarding = mail.MessageSubject;
                 MailText = mail.MessageText;
             }
     }
+
 }
+*/
 

@@ -47,7 +47,7 @@ public class SendMailViewModel : INotifyPropertyChanged
     private readonly string? _sendingSuccess = "Mail erfolgreich versendet";
     public async Task<string?> SendMail()
     {
-        if(Recipient != null && MailText != null) _mailStatus = await EmailController.SendingMail(Recipient, Regarding, MailText);
+        if(Recipient != null && MailText != null) _mailStatus = await EmailSender.SendingMail(Recipient, Regarding, MailText);
         return Recipient == null ? _recipientMissing : _sendingSuccess;
     }
 }

@@ -12,7 +12,7 @@ public partial class SendMailView
     {
         InitializeComponent();
         _sendMailViewModel = new SendMailViewModel();
-        MailTextBox.DataContext = _sendMailViewModel;
+        DataContext = _sendMailViewModel;
     }
     
     private async void SendMailToViewModel(object sender, RoutedEventArgs e)
@@ -26,5 +26,12 @@ public partial class SendMailView
         {
             MessageBox.Show($"{_mailSendingStatus}");
         }
+    }
+
+    private FileLoader? _fileLoader;
+    private void ShowFileLoader(object sender, RoutedEventArgs e)
+    {
+        _fileLoader = new FileLoader();
+        _fileLoader.Show();
     }
 }

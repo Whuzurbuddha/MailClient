@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:data="clr-namespace:MailClient.models"
+             xmlns:data="clr-namespace:MailClient.views"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"  
              Background="#331245">
     <Window.DataContext>
-        <data:MailBoxModel></data:MailBoxModel>
+        <data:MailInbox></data:MailInbox>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +28,8 @@
                     <Button Height="30"
                             Width="30"
                             Background="Wheat"
-                            Margin="0,15,0,0">
+                            Margin="0,15,0,0"
+                            Click="ShowFileLoader">
                         <Viewbox Width="20" Height="20" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
                             <Rectangle Width="20" Height="20">
                                 <Rectangle.Fill>
@@ -86,12 +87,11 @@
                     </StackPanel.Resources>
 
                     <Label>Empfänger</Label>
-                    <TextBox Text="{Binding MessageSender, Mode=TwoWay}"
+                    <TextBox Text="{Binding Path=Recipient, Mode=TwoWay}"
                              x:Name="RecipientText"></TextBox>
 
                     <Label>Betreff</Label>
-                    <TextBox Text="{Binding 
-                             Path=Regarding}"></TextBox>
+                    <TextBox Text="{Binding Path=Regarding}"></TextBox>
                 </StackPanel>
             </DockPanel>
         </StackPanel>
@@ -106,7 +106,7 @@
                      TextWrapping="Wrap"
                      AcceptsReturn="True"
                      AcceptsTab="True"
-                     Text="{Binding MailText, Mode=TwoWay}"
+                     Text="{Binding Path= MailText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      x:Name="MailTextBox" />
     </Grid>
 </Window>

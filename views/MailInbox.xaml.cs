@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.DataController;
-using MailClient.viewmodels;
+using static MailClient.DataController.EmailController;
 
 namespace MailClient.views;
 
@@ -12,10 +11,22 @@ public partial class MailInbox : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
         
-    private string? _recipient = new SendMailViewModel().Recipient;
+    private string? _recipient;
+    private string? _regarding;
 
-    private string? _mailText = new SendMailViewModel().MailText;
+    private string? _mailText;
+    private static readonly EmailController MessageOverview =  new EmailController();
+    private List<Message>? _mailList = MessageOverview.MessagesOverview;
 
+    public List<Message>? MailList
+    {
+        get => _mailList;
+        set
+        {
+            _mailList = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailList)));
+        }
+    }
     public string? MailText
     {
         get => _mailText;
@@ -25,22 +36,37 @@ public partial class MailInbox : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailText)));
         }
     }
-    
+    public string? Regarding
+    {
+        get => _regarding;
+        set
+        {
+            _regarding = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Regarding)));
+        }
+    }public string? Recipient
+    {
+        get => _recipient;
+        set
+        {
+            _recipient = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Recipient)));
+        }
+    }
 
-    private readonly List<MailBox.Message>? _mailList;
+    
     public MailInbox()
     {
         InitializeComponent();
-        _mailList = MailBox.GetMailBox();
-        LoadMailOverview(_mailList);
+        LoadMailOverview();
     }
     
     private void ShowSelectedMailText(object sender, RoutedEventArgs e)
     {
         ReceivedMailText.Visibility = Visibility.Visible;
         ReceivedMailText.Items.Clear();
-        if(_mailList != null)
-            foreach (var mail in _mailList)
+        if(MailList != null)
+            foreach (var mail in MailList)
             {
                 var subject = mail.MessageSubject;
                 if (sender is ListViewItem { IsSelected: true })
@@ -48,23 +74,25 @@ public partial class MailInbox : INotifyPropertyChanged
                     _recipient = sender.ToString();
                     if (_recipient != null && subject != null && _recipient.Contains(subject))
                     {
-                        _recipient = mail.MessageSender?.ToString();
+                        Recipient = mail.MessageSender;
+                        Regarding = mail.MessageSubject;
                         MailText = mail.MessageText;
                     }
                 }
             }
-        ReceivedMailText.Items.Add(_mailText);
+        ReceivedMailText.Items.Add(MailText);
     }
     
-    private void LoadMailOverview(List<MailBox.Message> _mailList)
+    private void LoadMailOverview()
     {
-        if(this._mailList != null)
-            foreach (var mail in _mailList)
+        if(MailList != null)
+            foreach (var mail in MailList)
             {
                 var subject = mail.MessageSubject;
                 var mailSender = mail.MessageSender;
                 var subjectItem = new ListViewItem { Content = $"{mailSender}\r\n{subject}" };
-                ReceivedMailOverview.Items.Add(subjectItem);
+                if(subject != string.Empty)
+                  ReceivedMailOverview.Items.Add(subjectItem);
             }
     }
 }

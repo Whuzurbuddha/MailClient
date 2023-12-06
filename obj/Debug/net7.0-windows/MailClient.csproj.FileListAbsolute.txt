@@ -96,3 +96,5 @@ C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.c
 C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.csproj.CopyComplete
 C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\MailInbox.g.cs
 C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\MailInbox.baml
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\FileLoader.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\FileLoader.baml
