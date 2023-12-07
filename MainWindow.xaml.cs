@@ -1,5 +1,7 @@
-﻿using System.Windows;
-using static MailClient.DataController.EmailController;
+﻿using System;
+using System.Windows;
+using MailClient.DataController;
+using MailClient.Models;
 
 namespace MailClient
 {

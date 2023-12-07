@@ -1,103 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
 
-namespace MailClient.DataController;
-//SMTP smtp.web.de
-//IMAP imap.web.de
-public class EmailController : INotifyPropertyChanged
+namespace MailClient.DataController
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-    
-    private List<Message>? _messagesOverview = ReceivingMail();
-
-    public List<Message>? MessagesOverview
-    {
-        get => _messagesOverview;
-        set
-        {
-            _messagesOverview = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessagesOverview?.ToString()));
-        }
-    }
-
-    public class Message
+    public class EmailController : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly string? _messageSubject;
-        private readonly string? _messageSender;
-        private readonly string? _messageText;
-        
-        public string? MessageSubject { 
-            get => _messageSubject;
-            init
-            {
-                _messageSubject = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageSubject));
-            }
-            
-        }
 
-        public string? MessageSender
+        private ObservableCollection<MailItem>? _messagesOverview;
+        public ObservableCollection<MailItem>? MessagesOverview
         {
-            get => _messageSender;
-            init
+            get => _messagesOverview;
+            set
             {
-                _messageSender = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageSender));
+                _messagesOverview = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MessagesOverview)));
             }
         }
-        public string? MessageId { get; set; }
 
-        public string? MessageText
+        public async Task<List<MailItem>> ReceivingMailAsync()
         {
-            get => _messageText;
-            init
-            {
-                _messageText = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(MessageText));
-            }
-        }
-    }
+            var userContent = ReadJson.GetUserContent();
+            var userMail = userContent.User;
+            var encryptedPasswd = userContent.EncryptedPasswd;
+            var password = ContentManager.DecryptedPasswd(encryptedPasswd);
+            var imap = userContent.Imap;
+            var messagesList = new List<MailItem>();
 
-    private static List<Message>? ReceivingMail()
-    {
-        using var client = new ImapClient();
-        var userContent = ReadJson.GetUserContent();
-        var userMail = userContent.User;
-        var encryptedPasswd = userContent.EncryptedPasswd;
-        var password = ContentManager.DecryptedPasswd(encryptedPasswd);
-        var imap = userContent.Imap;
-        var messagesList = new List<Message>();
-        
-        try
-        {
-            client.Connect(imap, 993, true);
-            client.Authenticate(userMail, password);
-            var inbox = client.Inbox;
-            inbox.Open(FolderAccess.ReadOnly);
-            
-            for (var i = 0; i < inbox.Count; i++)
-            {
+            using var client = new ImapClient();
 
-                var messagesOverview = new Message()
+            try
+            {
+                await client.ConnectAsync(imap, 993, true);
+                await client.AuthenticateAsync(userMail, password);
+                var inbox = client.Inbox;
+                await inbox.OpenAsync(FolderAccess.ReadOnly);
+                for (var i = 0; i < inbox.Count; i++)
                 {
-                    MessageId = inbox.GetMessage(i).MessageId,
-                    MessageSubject = inbox.GetMessage(i).Subject,
-                    MessageSender = inbox.GetMessage(i).From.ToString(),
-                    MessageText = inbox.GetMessage(i).TextBody
-                };
-               messagesList.Add(messagesOverview);
+                    var message = new MailItem
+                    {
+                        MessageId = (await inbox.GetMessageAsync(i)).MessageId,
+                        MessageSubject = (await inbox.GetMessageAsync(i)).Subject,
+                        MessageSender = (await inbox.GetMessageAsync(i)).From.ToString(),
+                        MessageText = (await inbox.GetMessageAsync(i)).TextBody,
+                    };
+                    messagesList.Add(message);
+                }
+
+                await client.DisconnectAsync(true);
             }
-            client.Disconnect(true);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
             return messagesList;
         }
-        catch (Exception e)
+
+        public async Task<ObservableCollection<MailItem>> LoadMessagesAsync()
         {
-            Console.WriteLine(e);
-            throw;
+            var receivedMessages = await ReceivingMailAsync();
+            return MessagesOverview = new ObservableCollection<MailItem>(receivedMessages);
+        }
+        
+        public class MailItem
+        {
+            public string? MessageSender { get; init; }
+            public string? MessageSubject { get; init; }
+            public string? MessageId { get; set; }
+            public string? MessageText { get; set; }
         }
     }
 }

@@ -36,7 +36,7 @@ namespace MailClient.DataController
                 Imap = Imap
             };
 
-            var filePath = "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\Data\\SavedData.json";
+            var filePath = "C:\\Users\\alexander\\RiderProjects\\MailClient\\Data\\SavedData.json";
             var json = JsonSerializer.Serialize(registrationData);
 
             await using var writer = new StreamWriter(filePath);

@@ -9,12 +9,12 @@ public partial class SendMailView
 {
     
     
-    private readonly SendMailViewModel? _sendMailViewModel;
+    private readonly MailContentViewModel? _sendMailViewModel;
     private string? _mailSendingStatus;
     public SendMailView()
     {
         InitializeComponent();
-        _sendMailViewModel = new SendMailViewModel();
+        _sendMailViewModel = new MailContentViewModel();
         DataContext = _sendMailViewModel;
     }
     private async void SendMailToViewModel(object sender, RoutedEventArgs e)
@@ -30,24 +30,8 @@ public partial class SendMailView
         }
     }
 
-    public class Files  : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private string? _filePath;
-        public string? FilePath
-        {
-            get => _filePath;
-            set
-            {
-                _filePath = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(FilePath));
-            }
-        }
-    }
-
-    public Files File;
     private void ShowFileLoader(object sender, RoutedEventArgs e)
     {
-        File.FilePath = LoadFile.OpenDirectory();
+        _sendMailViewModel?.GetFilePath();
     }
 }

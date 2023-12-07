@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:data="clr-namespace:MailClient.views"
+             xmlns:data="clr-namespace:MailClient.viewmodels"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"  
              Background="#331245">
     <Window.DataContext>
-        <data:MailInbox></data:MailInbox>
+        <data:MailContentViewModel></data:MailContentViewModel>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -87,11 +87,11 @@
                     </StackPanel.Resources>
 
                     <Label>Empfänger</Label>
-                    <TextBox Text="{Binding Path=Recipient, Mode=TwoWay}"
+                    <TextBox Text="{Binding Path=Recipient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              x:Name="RecipientText"></TextBox>
 
                     <Label>Betreff</Label>
-                    <TextBox Text="{Binding Path=Regarding}"></TextBox>
+                    <TextBox Text="{Binding Path=Regarding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
             </DockPanel>
         </StackPanel>
