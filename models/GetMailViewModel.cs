@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using MailClient.DataController;
+using MailClient.views;
 
 namespace MailClient.Models
 {
@@ -12,6 +13,7 @@ namespace MailClient.Models
         private EmailController? _controller = new EmailController();
         
         private string? _selectedMailText;
+        private string? _selectedMailSender;
         private ObservableCollection<EmailController.MailItem>? _mailBox;
 
         public ObservableCollection<EmailController.MailItem>? MailBox
@@ -32,6 +34,15 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailText)));
             }
         }
+        public string? SelectedMailSender
+        {
+            get => _selectedMailSender;
+            set
+            {
+                _selectedMailSender = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailSender)));
+            }
+        }
         
         public async void GenerateMailLists()
         {
@@ -39,6 +50,11 @@ namespace MailClient.Models
             _controller = new EmailController();
             _mailBox = await _controller.LoadMessagesAsync();
             MailBox = _mailBox;
+        }
+        public void SetSelectedMailText(string? mailText, string? mailSender)
+        {
+            SelectedMailText = mailText;
+            SelectedMailSender = mailSender;
         }
     }
 }

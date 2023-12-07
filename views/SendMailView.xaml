@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="1000"  
              Background="#331245">
     <Window.DataContext>
-        <data:MailContentViewModel></data:MailContentViewModel>
+        <data:MailContentViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -87,11 +87,10 @@
                     </StackPanel.Resources>
 
                     <Label>Empfänger</Label>
-                    <TextBox Text="{Binding Path=Recipient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             x:Name="RecipientText"></TextBox>
+                    <TextBox Text="{Binding Path=Recipient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
                     <Label>Betreff</Label>
-                    <TextBox Text="{Binding Path=Regarding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Text="{Binding Regarding}"></TextBox>
                 </StackPanel>
             </DockPanel>
         </StackPanel>
@@ -106,7 +105,6 @@
                      TextWrapping="Wrap"
                      AcceptsReturn="True"
                      AcceptsTab="True"
-                     Text="{Binding Path= MailText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     x:Name="MailTextBox" />
+                     Text="{Binding Path= MailText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

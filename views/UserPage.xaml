@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:views="clr-namespace:MailClient.views"
         mc:Ignorable="d"
-        Title="UserPage" Height="450" Width="800" Background="#331245">
+        Title="MailWare" Height="450" Width="800" Background="#331245">
     
         <Grid>
           <Grid.ColumnDefinitions>
@@ -86,24 +86,24 @@
                 </StackPanel>
               <StackPanel Grid.Row="1"
                           Grid.Column="0" Orientation="Horizontal">
-                <ListView  
-                  BorderBrush="Black" 
-                  BorderThickness="3"
+                <ListBox  
                   Margin="0, 10, 0, 0"
-                  HorizontalAlignment="Center"
-                  Width="100"
-                  Background="#331249">
-                  <ListView.Resources>
+                  Width="100" Background="#331245"
+                  HorizontalAlignment="Center">
+                  <ListBox.Resources>
                     <Style TargetType="Button">
                       <Setter Property="Foreground" Value ="White"></Setter>
                       <Setter Property="Background" Value="#331249"/>
                       <Setter Property="Padding" Value="5"></Setter>
                       <Setter Property="BorderBrush" Value="Silver"></Setter>
-                      <Setter Property="BorderThickness" Value="2"></Setter>
+                      <Setter Property="BorderThickness" Value="1"></Setter>
+                      <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                      <Setter Property="Width" Value="85"></Setter>
                     </Style>
-                  </ListView.Resources>
+                  </ListBox.Resources>
                   <Button Click="ShowMailBox">Posteingang</Button>
-                </ListView>
+                  <Button >Gesendet</Button>
+                </ListBox>
               </StackPanel>
           <StackPanel 
             Grid.Column="1" 
@@ -111,9 +111,9 @@
             Orientation="Horizontal"
             VerticalAlignment="Stretch">
             <views:MailInbox x:Name="MailInbox"
-                             Margin="5, 10, 10,0"
-              BorderBrush="Black"
-              BorderThickness="2"
+                             Margin="3, 10, 10,0"
+              BorderBrush="Silver"
+              BorderThickness="1"
               Visibility="Collapsed"></views:MailInbox>
           </StackPanel>
         </Grid>

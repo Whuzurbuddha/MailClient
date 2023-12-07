@@ -128,7 +128,6 @@ C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.AssemblyInfoInputs.cache
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.AssemblyInfo.cs
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.csproj.CoreCompileInputs.cache
-C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.sourcelink.json
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.csproj.CopyComplete
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.dll
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\refint\MailClient.dll

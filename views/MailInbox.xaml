@@ -13,6 +13,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -20,37 +23,57 @@
         <DockPanel Grid.Column="0" Grid.Row="0">
             <DataGrid x:Name="ReceivedMailOverview"
                       Background="#331245"
-                      BorderBrush="Black"
+                      BorderBrush="Silver"
                       BorderThickness="2"
                       Foreground="Black" 
-                      AutoGenerateColumns="True"
+                      AutoGenerateColumns="False"
                       ItemsSource="{Binding Path=MailBox}">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="#331245"></Setter>
+                        <Setter Property="Foreground" Value="Silver"></Setter>
+                        <EventSetter Event="Selected" Handler="SetSender"></EventSetter>
+                    </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Absender" 
                                         Binding="{Binding 
                                             MessageSender, 
                                             Mode=OneWay, 
-                                            UpdateSourceTrigger=PropertyChanged}" Width="150"/>
+                                            UpdateSourceTrigger=PropertyChanged}" 
+                                        Width="Auto" 
+                                        MinWidth="150"/>
                     <DataGridTextColumn Header="Betreff" 
                                         Binding="{Binding 
                                             MessageSubject, 
                                             Mode=OneWay, 
-                                            UpdateSourceTrigger=PropertyChanged}" Width="150"/>
+                                            UpdateSourceTrigger=PropertyChanged}" 
+                                        Width="250" 
+                                        MinWidth="150"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-        <DockPanel 
-            Grid.Column="1" 
-            Grid.Row="0">
-            <ListView
-                x:Name="ReceivedMailText"
-                HorizontalAlignment="Stretch"
-                Visibility="Collapsed"
-                Margin="0, 0, 10, 0"
-                Background="#331245"
-                Foreground="Silver"
-                ItemsSource="{Binding SelectedMailText}">
-            </ListView>
-        </DockPanel>
+        <ListView x:Name="SelectedMailBox"
+                  Foreground="Silver"
+                  Background="#331245"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="4"
+                  Grid.Row="0"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch"
+                  Width="Auto">
+            <Label Background="White"
+                   Margin="5,3,5,0"> <TextBlock Text="{Binding SelectedMailSender, UpdateSourceTrigger=PropertyChanged}"
+                                    Foreground="Black"
+                                    FontSize="16"></TextBlock> </Label>
+            <TextBlock Text="{Binding 
+            SelectedMailText, 
+                                Mode=TwoWay, 
+                                UpdateSourceTrigger=PropertyChanged}"
+                       TextWrapping="Wrap"
+                       MaxWidth="1200"
+                       MinWidth="800"
+                       Margin="0,0,0,5"></TextBlock>
+        </ListView>
     </Grid>
 </UserControl>

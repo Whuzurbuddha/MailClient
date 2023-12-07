@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.InteropServices.JavaScript;
 using System.Windows;
@@ -28,12 +29,14 @@ public partial class MailInbox : INotifyPropertyChanged
         (DataContext as GetMailViewModel)?.GenerateMailLists();
     }
     
-    private void SetSender(object? sender, RoutedEventArgs e)
+    private void SetSender(object sender, RoutedEventArgs e)
     {
-        if (sender is ListViewItem { IsSelected: true })
+        if (sender is DataGridRow dataGridRow && dataGridRow.IsSelected)
         {
-            Sender = sender.ToString();
-        };
+            if (dataGridRow.DataContext is EmailController.MailItem mailItem)
+            {
+                (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender);
+            }
+        }
     }
-    
 }

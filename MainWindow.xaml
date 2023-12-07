@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:MailClient.views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800" Background="#331245">
+        Title="MailWare" Height="500" Width="800" Background="#331245">
     <Grid>
         <TabControl>
             <TabItem Header="Login">

@@ -13,6 +13,12 @@ namespace MailClient
         public MainWindow()
         {
             InitializeComponent();
+            LoadedPage();
+        }
+        private void LoadedPage()
+        {
+            var getMailViewModel = new GetMailViewModel();
+            getMailViewModel.GenerateMailLists();
         }
     }
 }

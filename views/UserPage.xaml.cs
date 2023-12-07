@@ -8,15 +8,7 @@ public partial class UserPage : Window
     public UserPage()
     {
         InitializeComponent();
-        Loaded += LoadedPage;
     }
-
-    private void LoadedPage(object sender, RoutedEventArgs e)
-    {
-        var getMailViewModel = new GetMailViewModel();
-        getMailViewModel.GenerateMailLists();
-    }
-    
     private SendMailView? _newMailWindow;
     private SendMailView? _answerMailView;
     private void OpenNewMailWindow(object sender, RoutedEventArgs e)
