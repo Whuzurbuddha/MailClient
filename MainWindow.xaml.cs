@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows;
-using MailClient.DataController;
-using MailClient.Models;
+﻿using System.Windows;
 
 namespace MailClient
 {
@@ -13,12 +10,6 @@ namespace MailClient
         public MainWindow()
         {
             InitializeComponent();
-            LoadedPage();
-        }
-        private void LoadedPage()
-        {
-            var getMailViewModel = new GetMailViewModel();
-            getMailViewModel.GenerateMailLists();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using MailClient.Models;
+using System.Windows.Navigation;
 
 namespace MailClient.views;
 
-public partial class UserPage : Window
+public partial class UserPage
 {
     public UserPage()
     {
@@ -11,6 +11,7 @@ public partial class UserPage : Window
     }
     private SendMailView? _newMailWindow;
     private SendMailView? _answerMailView;
+    
     private void OpenNewMailWindow(object sender, RoutedEventArgs e)
     {
         _newMailWindow = new SendMailView();

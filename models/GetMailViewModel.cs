@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using MailClient.DataController;
 using MailClient.views;
 
@@ -14,6 +15,7 @@ namespace MailClient.Models
         
         private string? _selectedMailText;
         private string? _selectedMailSender;
+        public static MailInbox? MailInbox;
         private ObservableCollection<EmailController.MailItem>? _mailBox;
 
         public ObservableCollection<EmailController.MailItem>? MailBox
@@ -44,12 +46,12 @@ namespace MailClient.Models
             }
         }
         
-        public async void GenerateMailLists()
+        public async Task<ObservableCollection<EmailController.MailItem>> GenerateMailLists()
         {
             _mailBox = new ObservableCollection<EmailController.MailItem>();
             _controller = new EmailController();
-            _mailBox = await _controller.LoadMessagesAsync();
-            MailBox = _mailBox;
+             MailBox = await _controller.ReceivingMailAsync();
+             return MailBox;
         }
         public void SetSelectedMailText(string? mailText, string? mailSender)
         {

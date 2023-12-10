@@ -6,7 +6,7 @@
              xmlns:ff="clr-namespace:MailClient"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="600"
-             Background="#331245">
+             Background="#FF240C31">
     
     <StackPanel HorizontalAlignment="Center" Margin="0, 80, 0,0">
         <StackPanel.Resources>

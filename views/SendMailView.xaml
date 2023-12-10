@@ -6,7 +6,7 @@
              xmlns:data="clr-namespace:MailClient.viewmodels"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1000"  
-             Background="#331245">
+             Background="#FF240C31">
     <Window.DataContext>
         <data:MailContentViewModel/>
     </Window.DataContext>
@@ -96,7 +96,7 @@
         </StackPanel>
         <TextBox Grid.Row="1"
                      Foreground="White"
-                     Background="#331245"
+                     Background="#FF240C31"
                      VerticalAlignment="Stretch" 
                      VerticalContentAlignment="Stretch"
                      VerticalScrollBarVisibility="Auto" 

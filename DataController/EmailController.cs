@@ -1,36 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
 
 namespace MailClient.DataController
 {
-    public class EmailController : INotifyPropertyChanged
+    public class EmailController
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private ObservableCollection<MailItem>? _messagesOverview;
-        public ObservableCollection<MailItem>? MessagesOverview
-        {
-            get => _messagesOverview;
-            set
-            {
-                _messagesOverview = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MessagesOverview)));
-            }
-        }
 
-        public async Task<List<MailItem>> ReceivingMailAsync()
+        public async Task<ObservableCollection<MailItem>>ReceivingMailAsync()
         {
             var userContent = ReadJson.GetUserContent();
             var userMail = userContent.User;
             var encryptedPasswd = userContent.EncryptedPasswd;
             var password = ContentManager.DecryptedPasswd(encryptedPasswd);
             var imap = userContent.Imap;
-            var messagesList = new List<MailItem>();
+            _messagesOverview = new ObservableCollection<MailItem>();
 
             using var client = new ImapClient();
 
@@ -49,23 +38,16 @@ namespace MailClient.DataController
                         MessageSender = (await inbox.GetMessageAsync(i)).From.ToString(),
                         MessageText = (await inbox.GetMessageAsync(i)).TextBody,
                     };
-                    messagesList.Add(message);
+                    _messagesOverview.Add(message);
                 }
 
                 await client.DisconnectAsync(true);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                MessageBox.Show(e.ToString());
             }
-
-            return messagesList;
-        }
-
-        public async Task<ObservableCollection<MailItem>> LoadMessagesAsync()
-        {
-            var receivedMessages = await ReceivingMailAsync();
-            return MessagesOverview = new ObservableCollection<MailItem>(receivedMessages);
+            return _messagesOverview;
         }
         
         public class MailItem
@@ -73,7 +55,7 @@ namespace MailClient.DataController
             public string? MessageSender { get; init; }
             public string? MessageSubject { get; init; }
             public string? MessageId { get; set; }
-            public string? MessageText { get; set; }
+            public string? MessageText { get; init; }
         }
     }
 }

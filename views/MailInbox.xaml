@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:data="clr-namespace:MailClient.Models"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="900" Background="#331245" Foreground="Silver">
+             d:DesignHeight="600" d:DesignWidth="900" 
+             Background="#FF240C31" 
+             Foreground="Silver">
     <UserControl.DataContext>
         <data:GetMailViewModel></data:GetMailViewModel>
     </UserControl.DataContext>
@@ -20,60 +22,87 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Column="0" Grid.Row="0">
+        <StackPanel Grid.Column="0" Grid.Row="0" 
+                    CanVerticallyScroll="False"
+                    Orientation="Horizontal">
             <DataGrid x:Name="ReceivedMailOverview"
-                      Background="#331245"
+                      Background="#FF240C31"
                       BorderBrush="Silver"
-                      BorderThickness="2"
-                      Foreground="Black" 
+                      BorderThickness="1"
+                      Foreground="Black"
+                      FontSize="12"
                       AutoGenerateColumns="False"
-                      ItemsSource="{Binding Path=MailBox}">
+                      ItemsSource="{Binding 
+                                    Path=MailBox, 
+                                    Mode=OneWay, 
+                                    UpdateSourceTrigger=PropertyChanged}"
+                      CanUserResizeRows="False">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
-                        <Setter Property="Background" Value="#331245"></Setter>
+                        <Setter Property="Background" Value="#FF240C31"></Setter>
                         <Setter Property="Foreground" Value="Silver"></Setter>
+                        <Setter Property="FontSize" Value="14"></Setter>
                         <EventSetter Event="Selected" Handler="SetSender"></EventSetter>
+                    </Style>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Padding" Value="5, 15, 0,0 "/>
+                        <Setter Property="Background" Value="Silver"/>
+                    </Style>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="1,0.5,1,0.5"/>
+                        <Setter Property="BorderBrush" Value="Silver"/>
                     </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Absender" 
+                    <DataGridTextColumn 
+                                        Header="Absender" 
                                         Binding="{Binding 
                                             MessageSender, 
                                             Mode=OneWay, 
                                             UpdateSourceTrigger=PropertyChanged}" 
                                         Width="Auto" 
-                                        MinWidth="150"/>
+                                        MinWidth="150">                                          
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Betreff" 
                                         Binding="{Binding 
                                             MessageSubject, 
                                             Mode=OneWay, 
                                             UpdateSourceTrigger=PropertyChanged}" 
                                         Width="250" 
-                                        MinWidth="150"/>
+                                        MinWidth="150">
+                       
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </DockPanel>
-        <ListView x:Name="SelectedMailBox"
-                  Foreground="Silver"
-                  Background="#331245"
-                  Grid.Column="1"
-                  Grid.ColumnSpan="4"
-                  Grid.Row="0"
-                  HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch"
-                  Width="Auto">
-            <Label Background="White"
-                   Margin="5,3,5,0"> <TextBlock Text="{Binding SelectedMailSender, UpdateSourceTrigger=PropertyChanged}"
-                                    Foreground="Black"
-                                    FontSize="16"></TextBlock> </Label>
-            <TextBlock Text="{Binding 
-            SelectedMailText, 
-                                Mode=TwoWay, 
-                                UpdateSourceTrigger=PropertyChanged}"
-                       TextWrapping="Wrap"
-                       MaxWidth="1200"
-                       MinWidth="800"
-                       Margin="0,0,0,5"></TextBlock>
-        </ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <ListView x:Name="SelectedMailBox"
+                      Foreground="Silver"
+                      Background="#FF240C31"
+                      HorizontalAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      Width="Auto" FlowDirection="LeftToRight">
+                <Label Background="Silver"
+                       HorizontalAlignment="Stretch"
+                       Margin="-5, -3,-5,0"
+                       IsHitTestVisible="False">
+                    <TextBlock Text="{Binding 
+                   SelectedMailSender, 
+                   UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="Black"
+                               FontSize="16"></TextBlock>
+                </Label>
+
+                <TextBlock Text="{Binding 
+                        SelectedMailText, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged}"
+                           TextWrapping="Wrap" 
+                           MaxWidth="1200"
+                           MinWidth="800"
+                           Margin="0,0,0,10"
+                           Padding="50, 50, 50, 100"></TextBlock>
+            </ListView>
+        </StackPanel>
     </Grid>
 </UserControl>

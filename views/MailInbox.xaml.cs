@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Runtime.InteropServices.JavaScript;
+﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.DataController;
@@ -31,12 +29,16 @@ public partial class MailInbox : INotifyPropertyChanged
     
     private void SetSender(object sender, RoutedEventArgs e)
     {
-        if (sender is DataGridRow dataGridRow && dataGridRow.IsSelected)
+        if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
+        if (dataGridRow.DataContext is EmailController.MailItem mailItem)
         {
-            if (dataGridRow.DataContext is EmailController.MailItem mailItem)
-            {
-                (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender);
-            }
+            (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender);
         }
+    }
+
+    public async Task<bool> RefreshMailBoxView()
+    {
+        ReceivedMailOverview.Items.Refresh();
+        return true;
     }
 }
