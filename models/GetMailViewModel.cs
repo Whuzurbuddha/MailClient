@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
 using MailClient.DataController;
 using MailClient.views;
 
@@ -45,13 +46,13 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailSender)));
             }
         }
-        
         public async Task<ObservableCollection<EmailController.MailItem>> GenerateMailLists()
         {
             _mailBox = new ObservableCollection<EmailController.MailItem>();
             _controller = new EmailController();
              MailBox = await _controller.ReceivingMailAsync();
-             return MailBox;
+             if (MailBox.ToString() != string.Empty) UserPage.CloseLoading();
+                return MailBox;
         }
         public void SetSelectedMailText(string? mailText, string? mailSender)
         {

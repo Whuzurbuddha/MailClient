@@ -5,10 +5,24 @@ namespace MailClient.views;
 
 public partial class UserPage
 {
+    private static Loading? _loading;
     public UserPage()
     {
         InitializeComponent();
+        _loading = new Loading();
+        Loaded += ShowLoading;
     }
+    
+    private void ShowLoading(object sender, RoutedEventArgs e)
+    {
+        _loading?.Show();
+    }
+
+    public static void CloseLoading()
+    {
+        _loading?.Close();
+    }
+
     private SendMailView? _newMailWindow;
     private SendMailView? _answerMailView;
     

@@ -134,3 +134,6 @@ C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\refint\Mail
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.pdb
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.genruntimeconfig.cache
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\ref\MailClient.dll
+C:\Users\alexander\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome.WPF.dll
+C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\Loading.baml
+C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\Loading.g.cs
