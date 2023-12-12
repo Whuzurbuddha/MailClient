@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\
 MailClient
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-C:\Users\alexander\RiderProjects\MailClient\App.xaml
+C:\Users\PaeplowA\RiderProjects\MailClient\App.xaml
 71139231222
 
 201697729036
-202-1805230343
+202882671292
 MainWindow.xaml;views\Loading.xaml;views\Login.xaml;views\MailInbox.xaml;views\Registration.xaml;views\SendMailView.xaml;views\UserPage.xaml;
 
 False

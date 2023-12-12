@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 using MailClient.DataController;
-using MailClient.views;
 
 namespace MailClient.viewmodels;
 
@@ -56,9 +54,9 @@ public class MailContentViewModel : INotifyPropertyChanged
     }
 
     private bool _mailStatus;
-    private readonly string? _recipientMissing = "Empfängeradresse fehlt";
-    private readonly string? _sendingSuccess = "Mail erfolgreich versendet";
-    private readonly string? _sendingFailed = "Versandt fehlgeschlagen";
+    private const string? RecipientMissing = "Empfängeradresse fehlt";
+    private const string? SendingSuccess = "Mail erfolgreich versendet";
+    private const string? SendingFailed = "Versandt fehlgeschlagen";
 
     public void GetFilePath()
     {
@@ -66,8 +64,8 @@ public class MailContentViewModel : INotifyPropertyChanged
     }
     public async Task<string?> SendMail()
     {
-        if (Recipient == string.Empty) return _recipientMissing;
+        if (Recipient == string.Empty) return RecipientMissing;
         _mailStatus = await EmailSender.SendingMail(Recipient, Regarding, MailText, FilePath);
-        return _mailStatus ? _sendingSuccess : _sendingFailed;
+        return _mailStatus ? SendingSuccess : SendingFailed;
     }
 }

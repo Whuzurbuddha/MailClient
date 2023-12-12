@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
+using MimeKit;
 
 namespace MailClient.DataController
 {
@@ -12,7 +13,7 @@ namespace MailClient.DataController
     {
         private ObservableCollection<MailItem>? _messagesOverview;
 
-        public async Task<ObservableCollection<MailItem>>ReceivingMailAsync()
+        public async Task<ObservableCollection<MailItem>?> ReceivingMailAsync()
         {
             var userContent = ReadJson.GetUserContent();
             var userMail = userContent.User;
@@ -37,6 +38,7 @@ namespace MailClient.DataController
                         MessageSubject = (await inbox.GetMessageAsync(i)).Subject,
                         MessageSender = (await inbox.GetMessageAsync(i)).From.ToString(),
                         MessageText = (await inbox.GetMessageAsync(i)).TextBody,
+                        Attachments = (await inbox.GetMessageAsync(i)).Attachments
                     };
                     _messagesOverview.Add(message);
                 }
@@ -47,15 +49,16 @@ namespace MailClient.DataController
             {
                 MessageBox.Show(e.ToString());
             }
-            return _messagesOverview;
+            return _messagesOverview ?? null;
         }
         
         public class MailItem
         {
-            public string? MessageSender { get; init; }
-            public string? MessageSubject { get; init; }
             public string? MessageId { get; set; }
+            public string? MessageSubject { get; init; }
+            public string? MessageSender { get; init; }
             public string? MessageText { get; init; }
+            public IEnumerable<MimeEntity>? Attachments { get; init; }
         }
     }
 }

@@ -3,12 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="Loading" Height="200" Width="200" Background="#FF240C31">
+        Title="Loading" Height="200" Width="200" Background="#FF240C31" WindowStyle="None">
     <Window.Resources>
-    <Color x:Key="FilledColor" A="255" B="155" R="155" G="155"/>
-    <Color x:Key="UnfilledColor" A="0" B="155" R="155" G="155"/>
+        <Color x:Key="FilledColor" A="255" B="155" R="155" G="155"/>
+        <Color x:Key="UnfilledColor" A="0" B="155" R="155" G="155"/>
 
     <Style x:Key="BusyAnimationStyle" TargetType="Control">
         <Setter Property="Background" Value="#7F000000"/>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:data="clr-namespace:MailClient.Models"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900" 
              Background="#FF240C31" 
@@ -11,32 +12,31 @@
     <UserControl.DataContext>
         <data:GetMailViewModel></data:GetMailViewModel>
     </UserControl.DataContext>
-    <Grid >
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" 
-                    CanVerticallyScroll="False"
+        <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                     Orientation="Horizontal">
             <DataGrid x:Name="ReceivedMailOverview"
                       Background="#FF240C31"
                       BorderBrush="Silver"
                       BorderThickness="1"
                       Foreground="Black"
-                      FontSize="12"
+                      FontSize="14"
                       AutoGenerateColumns="False"
                       ItemsSource="{Binding 
                                     Path=MailBox, 
                                     Mode=OneWay, 
                                     UpdateSourceTrigger=PropertyChanged}"
-                      CanUserResizeRows="False">
+                      CanUserResizeRows="False"
+                      VerticalScrollBarVisibility="Hidden" 
+                      >
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
                         <Setter Property="Background" Value="#FF240C31"></Setter>
@@ -60,49 +60,60 @@
                                             MessageSender, 
                                             Mode=OneWay, 
                                             UpdateSourceTrigger=PropertyChanged}" 
-                                        Width="Auto" 
-                                        MinWidth="150">                                          
+                                        Width="Auto" >                                          
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Betreff" 
+                    <DataGridTextColumn CanUserResize="True"
+                                        Header="Betreff" 
                                         Binding="{Binding 
                                             MessageSubject, 
                                             Mode=OneWay, 
-                                            UpdateSourceTrigger=PropertyChanged}" 
-                                        Width="250" 
-                                        MinWidth="150">
+                                            UpdateSourceTrigger=PropertyChanged}"
+                                        MaxWidth="250"
+                                        MinWidth="100">
                        
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-        <StackPanel Grid.Column="1" Orientation="Horizontal">
-            <ListView x:Name="SelectedMailBox"
-                      Foreground="Silver"
-                      Background="#FF240C31"
-                      HorizontalAlignment="Stretch"
-                      HorizontalContentAlignment="Stretch"
-                      Width="Auto" FlowDirection="LeftToRight">
-                <Label Background="Silver"
-                       HorizontalAlignment="Stretch"
-                       Margin="-5, -3,-5,0"
-                       IsHitTestVisible="False">
-                    <TextBlock Text="{Binding 
-                   SelectedMailSender, 
-                   UpdateSourceTrigger=PropertyChanged}"
-                               Foreground="Black"
-                               FontSize="16"></TextBlock>
-                </Label>
-
+        <DockPanel Grid.Row="0" Grid.Column="1" Dock="Top"
+                   MinWidth="400">
+            <ComboBox 
+                      ItemsSource="{Binding SelectedMailAttachmentsList}"
+                      Width="50"  >
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <EventSetter Event="Selected" Handler="Download"></EventSetter>
+                    </Style>
+                </ComboBox.Resources>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ContentType}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Background="Silver"
+                   HorizontalAlignment="Stretch"
+                   IsHitTestVisible="False">
                 <TextBlock Text="{Binding 
-                        SelectedMailText, 
-                        Mode=TwoWay, 
-                        UpdateSourceTrigger=PropertyChanged}"
-                           TextWrapping="Wrap" 
-                           MaxWidth="1200"
-                           MinWidth="800"
-                           Margin="0,0,0,10"
-                           Padding="50, 50, 50, 100"></TextBlock>
-            </ListView>
-        </StackPanel>
+                                SelectedMailSender, 
+                                UpdateSourceTrigger=PropertyChanged}"
+                           Foreground="Black"
+                           FontSize="16"></TextBlock>
+            </Label>
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+            <RichTextBox VerticalScrollBarVisibility="Hidden"
+                         Foreground="Silver"
+                         Background="#FF240C31"
+                         Padding="30, 20, 30, 15"
+                         MinWidth="700">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{Binding SelectedMailText}"></Run>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 
 namespace MailClient.DataController
 {
     public class ReadJson
     {
-        private static string _filePath = "C:\\Users\\alexander\\RiderProjects\\MailClient\\Data\\SavedData.json";
+        private static string _filePath = @"C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\Data\\SavedData.json";
 
         public string? Passwd { get; set; }
         public string? UserName { get; set; }
@@ -71,7 +72,7 @@ namespace MailClient.DataController
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                MessageBox.Show(e.ToString());
                 throw;
             }
         }

@@ -36,7 +36,7 @@ namespace MailClient.DataController
                 Imap = Imap
             };
 
-            var filePath = "C:\\Users\\alexander\\RiderProjects\\MailClient\\Data\\SavedData.json";
+            const string filePath = @"C:\Users\PaeplowA\RiderProjects\MailClient\Data\SavedData.json";
             var json = JsonSerializer.Serialize(registrationData);
 
             await using var writer = new StreamWriter(filePath);
@@ -59,7 +59,7 @@ namespace MailClient.DataController
             }
         }
 
-        public static string DecryptedPasswd(string? encryptedPassword)
+        public static string? DecryptedPasswd(string? encryptedPassword)
         {
             if (encryptedPassword == null) return null;
 

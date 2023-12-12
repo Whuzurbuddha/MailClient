@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Navigation;
+using System.Windows.Input;
 
 namespace MailClient.views;
 
@@ -15,11 +15,13 @@ public partial class UserPage
     
     private void ShowLoading(object sender, RoutedEventArgs e)
     {
+        Mouse.OverrideCursor = Cursors.None;
         _loading?.Show();
     }
 
     public static void CloseLoading()
     {
+        Mouse.OverrideCursor = Cursors.Arrow;
         _loading?.Close();
     }
 

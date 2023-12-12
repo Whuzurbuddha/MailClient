@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using MailClient.DataController;
 using MailClient.Models;
 
@@ -21,9 +23,15 @@ public partial class MailInbox : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sender.ToString)));
         }
     }
+
     public MailInbox()
     {
         InitializeComponent();
+        Loaded += LoadMailList;
+    }
+
+    private void LoadMailList(object sender, RoutedEventArgs routedEventArgs)
+    {
         (DataContext as GetMailViewModel)?.GenerateMailLists();
     }
     
@@ -32,13 +40,16 @@ public partial class MailInbox : INotifyPropertyChanged
         if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
         if (dataGridRow.DataContext is EmailController.MailItem mailItem)
         {
-            (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender);
+            (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender, mailItem.Attachments);
         }
     }
-
-    public async Task<bool> RefreshMailBoxView()
+    
+    private void Download(object sender, RoutedEventArgs e)
     {
-        ReceivedMailOverview.Items.Refresh();
-        return true;
+        if (sender is not ComboBoxItem { IsSelected: true } comboBoxItem) return;
+        if (comboBoxItem.DataContext is EmailController.MailItem mailItem)
+        {
+            //(DataContext as GetMailViewModel)?.SetDownloadContent(mailItem.Attachments);
+        }
     }
 }
