@@ -40,16 +40,15 @@ public partial class MailInbox : INotifyPropertyChanged
         if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
         if (dataGridRow.DataContext is EmailController.MailItem mailItem)
         {
-            (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender, mailItem.Attachments);
+           (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender,  mailItem.Attachments);
         }
     }
-    
+
     private void Download(object sender, RoutedEventArgs e)
     {
-        if (sender is not ComboBoxItem { IsSelected: true } comboBoxItem) return;
-        if (comboBoxItem.DataContext is EmailController.MailItem mailItem)
+        /*if (sender is not ComboBoxItem { IsSelected: true } comboBoxItem) return;
+        if (comboBoxItem.DataContext is EmailController.MailItem comboItem)
         {
-            //(DataContext as GetMailViewModel)?.SetDownloadContent(mailItem.Attachments);
-        }
+        }*/
     }
 }

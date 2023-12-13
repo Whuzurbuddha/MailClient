@@ -41,6 +41,7 @@ namespace MailClient.DataController
 
             await using var writer = new StreamWriter(filePath);
             await writer.WriteAsync(json);
+            MessageBox.Show("Neues Konto erfolgreich angelegt");
         }
 
         public static void CheckLogin(string userName, string? password)

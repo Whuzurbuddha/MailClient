@@ -12,7 +12,6 @@ namespace MailClient.DataController
     public class EmailController
     {
         private ObservableCollection<MailItem>? _messagesOverview;
-
         public async Task<ObservableCollection<MailItem>?> ReceivingMailAsync()
         {
             var userContent = ReadJson.GetUserContent();
@@ -21,7 +20,6 @@ namespace MailClient.DataController
             var password = ContentManager.DecryptedPasswd(encryptedPasswd);
             var imap = userContent.Imap;
             _messagesOverview = new ObservableCollection<MailItem>();
-
             using var client = new ImapClient();
 
             try
@@ -40,6 +38,7 @@ namespace MailClient.DataController
                         MessageText = (await inbox.GetMessageAsync(i)).TextBody,
                         Attachments = (await inbox.GetMessageAsync(i)).Attachments
                     };
+                    
                     _messagesOverview.Add(message);
                 }
 

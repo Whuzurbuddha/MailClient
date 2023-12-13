@@ -77,17 +77,9 @@
         </StackPanel>
         <DockPanel Grid.Row="0" Grid.Column="1" Dock="Top"
                    MinWidth="400">
-            <ComboBox 
-                      ItemsSource="{Binding SelectedMailAttachmentsList}"
-                      Width="50"  >
-                <ComboBox.Resources>
-                    <Style TargetType="ComboBoxItem">
-                        <EventSetter Event="Selected" Handler="Download"></EventSetter>
-                    </Style>
-                </ComboBox.Resources>
+            <ComboBox ItemsSource="{Binding SelectedMailAttachments}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding ContentType}"></TextBlock>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
