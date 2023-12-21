@@ -1,11 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using MailClient.DataController;
 using MailClient.Models;
+using MailClient.viewmodels;
+using MailKit;
+using MailKit.Net.Imap;
+using MimeKit;
 
 namespace MailClient.views;
 
@@ -23,7 +28,7 @@ public partial class MailInbox : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sender.ToString)));
         }
     }
-
+    
     public MailInbox()
     {
         InitializeComponent();
@@ -40,15 +45,27 @@ public partial class MailInbox : INotifyPropertyChanged
         if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
         if (dataGridRow.DataContext is EmailController.MailItem mailItem)
         {
-           (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender,  mailItem.Attachments);
+            (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender, mailItem.AttachmentList);
         }
     }
 
-    private void Download(object sender, RoutedEventArgs e)
+    private FileView _fileView;
+    private void SetFile(object sender, RoutedEventArgs e)
     {
-        /*if (sender is not ComboBoxItem { IsSelected: true } comboBoxItem) return;
-        if (comboBoxItem.DataContext is EmailController.MailItem comboItem)
+        if (sender is not ComboBoxItem { IsSelected: true } comboBoxItem) return;
+        if (comboBoxItem.DataContext is EmailController.AttachmentListitem boxItem)
         {
-        }*/
+            _fileView = new FileView();
+            _fileView.Show();
+            if (boxItem.AtthachmentFilePath == null) return;
+            _fileView.OpenFile($"file:///{boxItem.AtthachmentFilePath}");
+            Console.WriteLine(boxItem.AtthachmentFilePath);
+        }
+    }
+    
+    
+    private void OpenFileViewer(object sender, RoutedEventArgs e)
+    {
+        
     }
 }

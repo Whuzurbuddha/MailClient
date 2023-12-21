@@ -140,3 +140,17 @@ C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\Loadi
 C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome.WPF.dll
 C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\Loading.baml
 C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\Loading.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\icons\Attach.baml
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\runtimes\win-x86\native\WebView2Loader.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\runtimes\win-x64\native\WebView2Loader.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\runtimes\win-arm64\native\WebView2Loader.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\Microsoft.Web.WebView2.Core.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\Microsoft.Web.WebView2.WinForms.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\Microsoft.Web.WebView2.Wpf.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\FileView.baml
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\FileView.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient_Content.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome6.Core.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome6.Shared.Net.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome6.Svg.Net.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\Newtonsoft.Json.dll

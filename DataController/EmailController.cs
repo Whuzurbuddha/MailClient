@@ -1,44 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
 using MimeKit;
+using static MailClient.DataController.AttachmentCache;
 
 namespace MailClient.DataController
 {
-    public class EmailController
+    public class EmailController : ServerConnect.User
     {
         private ObservableCollection<MailItem>? _messagesOverview;
+        private ObservableCollection<AttachmentListitem>? _attachmentList; 
+        private AttachmentListitem? _attachmentPathListitem;
         public async Task<ObservableCollection<MailItem>?> ReceivingMailAsync()
         {
-            var userContent = ReadJson.GetUserContent();
-            var userMail = userContent.User;
-            var encryptedPasswd = userContent.EncryptedPasswd;
-            var password = ContentManager.DecryptedPasswd(encryptedPasswd);
-            var imap = userContent.Imap;
             _messagesOverview = new ObservableCollection<MailItem>();
             using var client = new ImapClient();
 
             try
             {
-                await client.ConnectAsync(imap, 993, true);
-                await client.AuthenticateAsync(userMail, password);
+                await client.ConnectAsync(Imap, 993, true);
+                await client.AuthenticateAsync(UserMail, Password);
                 var inbox = client.Inbox;
                 await inbox.OpenAsync(FolderAccess.ReadOnly);
-                for (var i = 0; i < inbox.Count; i++)
+                for (var i = 0; i < inbox.Count; i++)               //single message content =>
                 {
+                    var messageBody = await inbox.GetMessageAsync(i);
                     var message = new MailItem
                     {
-                        MessageId = (await inbox.GetMessageAsync(i)).MessageId,
-                        MessageSubject = (await inbox.GetMessageAsync(i)).Subject,
-                        MessageSender = (await inbox.GetMessageAsync(i)).From.ToString(),
-                        MessageText = (await inbox.GetMessageAsync(i)).TextBody,
-                        Attachments = (await inbox.GetMessageAsync(i)).Attachments
+                        MessageId = messageBody.MessageId,
+                        MessageSubject = messageBody.Subject,
+                        MessageSender = messageBody.From.ToString(),
+                        MessageText = messageBody.TextBody,
                     };
+                    _attachmentList = new ObservableCollection<AttachmentListitem>();
                     
+                    var mimeEntities = messageBody.Attachments;
+                    var attachments = messageBody.Attachments as MimeEntity[] ?? mimeEntities.ToArray();
+                    if (attachments.Any())
+                    {
+                        message.HasAttachment = true;
+                        
+                        var subDirectory =  await NewAttachmentCache(message.MessageId, attachments, messageBody.BodyParts)!;
+                        message.AttachmentPath = subDirectory;
+
+                        foreach (var attachment in attachments)
+                        {
+                            _attachmentPathListitem = new AttachmentListitem
+                            {
+                                AttachmentFileName = attachment.ContentType.Name,
+                                AttachmentFileType = attachment.ContentType.MediaSubtype,
+                                AtthachmentFilePath = $"{subDirectory}{attachment.ContentType.Name}"
+                            };
+                            
+                            _attachmentList?.Add(_attachmentPathListitem);
+                        }
+                        message.AttachmentList = _attachmentList;
+                    }
                     _messagesOverview.Add(message);
                 }
 
@@ -53,11 +74,20 @@ namespace MailClient.DataController
         
         public class MailItem
         {
-            public string? MessageId { get; set; }
+            public string? MessageId { get; init; }
             public string? MessageSubject { get; init; }
             public string? MessageSender { get; init; }
             public string? MessageText { get; init; }
-            public IEnumerable<MimeEntity>? Attachments { get; init; }
+            public ObservableCollection<AttachmentListitem>? AttachmentList { get; set; }
+            public bool? HasAttachment { get; set; }
+            public string? AttachmentPath { get; set; }
+        }
+
+        public class AttachmentListitem
+        {
+            public string? AttachmentFileName { get; init; }
+            public string? AttachmentFileType { get; set; }
+            public string? AtthachmentFilePath { get; init; }
         }
     }
 }

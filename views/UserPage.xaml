@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:views="clr-namespace:MailClient.views"
         mc:Ignorable="d"
-        Title="MailWare" Height="450" Width="800" Background="#FF240C31" FontSize="14">
+        Title="MailWare" Height="600" Width="1000" Background="#FF240C31" FontSize="14">
     
         <Grid>
           <Grid.ColumnDefinitions>

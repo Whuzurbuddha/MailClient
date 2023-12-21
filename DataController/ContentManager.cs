@@ -41,10 +41,11 @@ namespace MailClient.DataController
 
             await using var writer = new StreamWriter(filePath);
             await writer.WriteAsync(json);
+            writer.Close();
             MessageBox.Show("Neues Konto erfolgreich angelegt");
         }
 
-        public static void CheckLogin(string userName, string? password)
+        public static void CheckLogin(string? userName, string? password)
         {
             var userContent = ReadJson.GetUserContent();
             var encryptedPassword = userContent.EncryptedPasswd;

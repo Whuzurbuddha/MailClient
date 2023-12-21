@@ -4,14 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:data="clr-namespace:MailClient.Models"
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:fa="http://schemas.fontawesome.com/icons/svg"
+             xmlns:convert="clr-namespace:MailClient.Models"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900" 
              Background="#FF240C31" 
              Foreground="Silver">
+    <UserControl.Resources>
+        <convert:ToIconConverter x:Key="IconConverter"></convert:ToIconConverter>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <data:GetMailViewModel></data:GetMailViewModel>
     </UserControl.DataContext>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -34,9 +39,8 @@
                                     Path=MailBox, 
                                     Mode=OneWay, 
                                     UpdateSourceTrigger=PropertyChanged}"
-                      CanUserResizeRows="False"
-                      VerticalScrollBarVisibility="Hidden" 
-                      >
+                      CanUserResizeRows="False" CanUserResizeColumns="True"
+                      VerticalScrollBarVisibility="Hidden">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
                         <Setter Property="Background" Value="#FF240C31"></Setter>
@@ -54,7 +58,40 @@
                     </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn 
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                 <Viewbox Width="16 " Height="16" x:Name="AttachIcon" Visibility="Hidden">
+                                        <Rectangle Width="16 " Height="16">
+                                            <Rectangle.Resources>
+                                                <SolidColorBrush x:Key="Canvas" Opacity="0" />
+                                                <SolidColorBrush x:Key="Light-Defaultgrey" Color="White" Opacity="1" />
+                                            </Rectangle.Resources>
+                                            <Rectangle.Fill>
+                                                <DrawingBrush Stretch="None">
+                                                    <DrawingBrush.Drawing>
+                                                        <DrawingGroup>
+                                                            <DrawingGroup x:Name="canvas">
+                                                                <GeometryDrawing Brush="{DynamicResource Canvas}" Geometry="F1M16,16H0V0H16Z" />
+                                                            </DrawingGroup>
+                                                            <DrawingGroup x:Name="level_1">
+                                                                <GeometryDrawing Brush="{DynamicResource Light-Defaultgrey}" Geometry="F1M7.75,15h-.5A3.386,3.386,0,0,1,4,11.5V3.682A2.6,2.6,0,0,1,6.5,1,2.6,2.6,0,0,1,9,3.682v7.167A1.55,1.55,0,0,1,7.5,12.44,1.548,1.548,0,0,1,6,10.872V7H7v3.849a.552.552,0,0,0,.5.591.552.552,0,0,0,.5-.591V3.682A1.6,1.6,0,0,0,6.5,2,1.6,1.6,0,0,0,5,3.682V11.5A2.388,2.388,0,0,0,7.25,14h.5A2.388,2.388,0,0,0,10,11.5V5h1v6.5A3.386,3.386,0,0,1,7.75,15Z" />
+                                                            </DrawingGroup>
+                                                        </DrawingGroup>
+                                                    </DrawingBrush.Drawing>
+                                                </DrawingBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Viewbox>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding HasAttachment}" Value="true">
+                                        <Setter TargetName="AttachIcon" Property="Visibility" Value="Visible"></Setter>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Foreground="White"
                                         Header="Absender" 
                                         Binding="{Binding 
                                             MessageSender, 
@@ -77,12 +114,25 @@
         </StackPanel>
         <DockPanel Grid.Row="0" Grid.Column="1" Dock="Top"
                    MinWidth="400">
-            <ComboBox ItemsSource="{Binding SelectedMailAttachments}">
+            <ComboBox
+                Width="200"
+                x:Name="AttachmentList" 
+                ItemsSource="{Binding SelectedMailAttachmentList}">
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <EventSetter Event="Selected" Handler="SetFile"></EventSetter>
+                    </Style>
+                </ComboBox.Resources>
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="{Binding Converter={StaticResource }}"></fa:ImageAwesome>
+                            <TextBlock Text="{Binding Path=AttachmentFileName}"></TextBlock>
+                        </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button  Width="35"> <fa:ImageAwesome Icon="Solid_Download"/></Button>
             <Label Background="Silver"
                    HorizontalAlignment="Stretch"
                    IsHitTestVisible="False">
@@ -99,7 +149,8 @@
                          Foreground="Silver"
                          Background="#FF240C31"
                          Padding="30, 20, 30, 15"
-                         MinWidth="700">
+                         MinWidth="700" 
+                         IsReadOnly="True">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text="{Binding SelectedMailText}"></Run>

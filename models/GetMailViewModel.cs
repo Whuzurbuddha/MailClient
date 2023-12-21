@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 using MailClient.DataController;
 using MailClient.views;
 using MimeKit;
@@ -19,7 +21,8 @@ namespace MailClient.Models
         private string? _selectedMailText;
         private string? _selectedMailSender;
         private ObservableCollection<EmailController.MailItem>? _mailBox;
-        private IEnumerable<MimeEntity>? _selectedMailAttachments;
+        private ObservableCollection<EmailController.AttachmentListitem>? _selectedMailAttachmentList;
+        private string? _selectedFilePath;
 
         public ObservableCollection<EmailController.MailItem>? MailBox
         {
@@ -49,34 +52,45 @@ namespace MailClient.Models
             }
         }
 
-        public IEnumerable<MimeEntity>? SelectedMailAttachments
+        public ObservableCollection<EmailController.AttachmentListitem>? SelectedMailAttachmentList
         {
-            get => _selectedMailAttachments;
+            get => _selectedMailAttachmentList;
             set
             {
-                _selectedMailAttachments = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailAttachments)));
+                _selectedMailAttachmentList = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailAttachmentList)));
+            }
+        }
+
+        public string? SelectedFilePath
+        {
+            get => _selectedFilePath;
+            set
+            {
+                _selectedFilePath = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFilePath)));
             }
         }
         
-        public async Task<ObservableCollection<EmailController.MailItem>?> GenerateMailLists()
+        public async Task GenerateMailLists()
         {
             _mailBox = new ObservableCollection<EmailController.MailItem>();
             _controller = new EmailController();
              MailBox = await _controller.ReceivingMailAsync();
-             if (MailBox?.ToString() != string.Empty) UserPage.CloseLoading();
-                return MailBox;
+             if (MailBox != null) UserPage.CloseLoading();
         }
-        public void SetSelectedMailText(string? mailText, string? mailSender, IEnumerable<MimeEntity>? attachments)
+        public void SetSelectedMailText(string? mailText, string? mailSender, ObservableCollection<EmailController.AttachmentListitem>? attachmentList)
         {
             SelectedMailText = mailText;
             SelectedMailSender = mailSender;
-            SelectedMailAttachments = attachments;
+            if(attachmentList == null) return;
+            SelectedMailAttachmentList = attachmentList;
         }
 
-        public void SetDownloadSelect(AttachmentCollection fileNameList)
+        public void SetSelectedMailAttachmentFilePath(string? filePath)
         {
-            
+            SelectedFilePath = filePath;
         }
     }
 }
+

@@ -9,8 +9,15 @@
 
     <ItemGroup>
       <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+      <PackageReference Include="FontAwesome6.Svg" Version="2.5.1" />
       <PackageReference Include="MailKit" Version="4.3.0" />
+      <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2210.55" />
       <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Data\Temp\" />
+      <Folder Include="Data\Temp\2016223689.184119.1702551424375@webmail.strato.de\" />
     </ItemGroup>
 
 </Project>

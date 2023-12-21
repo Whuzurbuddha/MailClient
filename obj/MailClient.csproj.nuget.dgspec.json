@@ -47,9 +47,17 @@
               "target": "Package",
               "version": "[4.7.0.9, )"
             },
+            "FontAwesome6.Svg": {
+              "target": "Package",
+              "version": "[2.5.1, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "Microsoft.Web.WebView2": {
+              "target": "Package",
+              "version": "[1.0.2210.55, )"
             },
             "System.Linq.Expressions": {
               "target": "Package",

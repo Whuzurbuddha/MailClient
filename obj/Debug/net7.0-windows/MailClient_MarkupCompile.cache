@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
 C:\Users\PaeplowA\RiderProjects\MailClient\App.xaml
-71139231222
-
-201697729036
-202882671292
-MainWindow.xaml;views\Loading.xaml;views\Login.xaml;views\MailInbox.xaml;views\Registration.xaml;views\SendMailView.xaml;views\UserPage.xaml;
+9-428131908
+3-2037268968
+22-1970253899
+209-1694266497
+icons\Attach.xaml;MainWindow.xaml;views\FileView.xaml;views\Loading.xaml;views\Login.xaml;views\MailInbox.xaml;views\Registration.xaml;views\SendMailView.xaml;views\UserPage.xaml;
 
 False
 
