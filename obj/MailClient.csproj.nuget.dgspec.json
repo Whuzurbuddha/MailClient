@@ -1,30 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\MailClient.csproj": {}
+    "C:\\Users\\alexander\\RiderProjects\\MailClient\\MailClient.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\MailClient.csproj": {
+    "C:\\Users\\alexander\\RiderProjects\\MailClient\\MailClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\MailClient.csproj",
+        "projectUniqueName": "C:\\Users\\alexander\\RiderProjects\\MailClient\\MailClient.csproj",
         "projectName": "MailClient",
-        "projectPath": "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\MailClient.csproj",
-        "packagesPath": "C:\\Users\\PaeplowA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\obj\\",
+        "projectPath": "C:\\Users\\alexander\\RiderProjects\\MailClient\\MailClient.csproj",
+        "packagesPath": "C:\\Users\\alexander\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\alexander\\RiderProjects\\MailClient\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PaeplowA\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\alexander\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0-windows"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,19 +73,19 @@
           "downloadDependencies": [
             {
               "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.12, 7.0.12]"
+              "version": "[7.0.14, 7.0.14]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[7.0.12, 7.0.12]"
+              "version": "[7.0.14, 7.0.14]"
             },
             {
               "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.12, 7.0.12]"
+              "version": "[7.0.14, 7.0.14]"
             },
             {
               "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.12, 7.0.12]"
+              "version": "[7.0.14, 7.0.14]"
             }
           ],
           "frameworkReferences": {
@@ -101,7 +96,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -59,13 +59,6 @@ public partial class MailInbox : INotifyPropertyChanged
             _fileView.Show();
             if (boxItem.AtthachmentFilePath == null) return;
             _fileView.OpenFile($"file:///{boxItem.AtthachmentFilePath}");
-            Console.WriteLine(boxItem.AtthachmentFilePath);
         }
-    }
-    
-    
-    private void OpenFileViewer(object sender, RoutedEventArgs e)
-    {
-        
     }
 }

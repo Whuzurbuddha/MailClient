@@ -8,7 +8,7 @@ namespace MailClient.DataController
 {
     public class ReadJson
     {
-        private static string _filePath = @"C:\\Users\\PaeplowA\\RiderProjects\\MailClient\\Data\\SavedData.json";
+        private static string _filePath = @"C:\Users\alexander\RiderProjects\MailClient\Data\SavedData.json";
 
         public string? Passwd { get; set; }
         public string? UserName { get; set; }

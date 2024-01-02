@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using MailKit;
 using MimeKit;
-using Org.BouncyCastle.Bcpg.Attr;
 
 namespace MailClient.DataController;
 
@@ -21,7 +18,7 @@ public static class AttachmentCache
 
     public static async Task<string>? NewAttachmentCache(string? messageId, MimeEntity[] attachments,  IEnumerable<MimeEntity> bodyParts)
     {
-        var tempDirectory = new StringBuilder(@"C:\Users\PaeplowA\RiderProjects\MailClient\Data\Temp\");
+        var tempDirectory = new StringBuilder(@"C:\Users\alexander\RiderProjects\MailClient\Data\Temp\");
         var newSubdirectory = tempDirectory.AppendFormat($"{messageId}\\").ToString();
         try
         {
