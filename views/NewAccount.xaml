@@ -1,0 +1,46 @@
+﻿<Window x:Class="MailClient.views.NewAccount"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MailClient.views"
+        xmlns:mailClient="clr-namespace:MailClient"
+        mc:Ignorable="d"
+        Title="NewAccount" Height="450" Width="800" Background="#FF231829" FontSize="14">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    Margin="0,50,0,0">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Foreground" Value ="#FFDCAEAE"></Setter>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Width" Value="300"></Setter>
+                </Style>
+            </StackPanel.Resources>
+            <Label>Account Name</Label>
+            <TextBox Text="{Binding AccountName}"></TextBox>
+            <Label>Email</Label>
+            <TextBox Text="{Binding UserMail}"></TextBox>
+            <Label Foreground="#FFDCAEAE">Password</Label>
+            <PasswordBox
+                mailClient:PasswordBoxAssistant.BindPassword="true"
+                mailClient:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+            <Label>Smtp</Label>
+            <TextBox Text="{Binding Smtp}"></TextBox>
+            <Label>Imap</Label>
+            <TextBox Text="{Binding Imap}"></TextBox>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5,10,5,0"></Setter>
+                        <Setter Property="Width" Value="50"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Click="SaveNewAccount">Save</Button>
+                <Button>Abort</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

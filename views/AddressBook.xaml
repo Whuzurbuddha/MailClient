@@ -1,0 +1,78 @@
+﻿<Window x:Class="MailClient.views.AddressBook"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MailClient.views"
+        mc:Ignorable="d"
+        Title="AddressBook" Height="450" Width="800" Background="#FF231829">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="New"></MenuItem>
+            <MenuItem Header="Edit"></MenuItem>
+        </Menu>
+        <DockPanel Grid.Column="0" 
+                   Grid.Row="1" 
+                   Grid.ColumnSpan="2">
+            <DataGrid Width="200"
+                         x:Name="ContactOverview"
+                         Background="#FF231829" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+            </DataGrid>
+
+            <StackPanel x:Name="ContactDetails"
+                        Margin="0,3,0,0">
+                <StackPanel.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="#FFDCAEAE"></Setter>
+                        <Setter Property="FontSize" Value="14"></Setter>
+                        <Setter Property="Width" Value="100"></Setter>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="100,2,10,0"></Setter>
+                        <Setter Property="Background" Value="Wheat"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <DockPanel>
+                    <Label>Forename</Label>
+                    <TextBox Text="{Binding Forename}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Surname</Label>
+                    <TextBox Text="{Binding Surname}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Email</Label>
+                    <TextBox Text="{Binding Email}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Phone</Label>
+                    <TextBox Text="{Binding Phone}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Address</Label>
+                    <TextBox Text="{Binding Address}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <Label>City</Label>
+                    <TextBox Text="{Binding City}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Country</Label>
+                    <TextBox Text="{Binding Country}"></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Company</Label>
+                    <TextBox Text="{Binding Company}"></TextBox>
+                </DockPanel>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>
