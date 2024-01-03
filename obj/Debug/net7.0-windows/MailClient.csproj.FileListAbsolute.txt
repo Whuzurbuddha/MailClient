@@ -169,3 +169,7 @@ C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\FileV
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient_Content.g.cs
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\FileView.baml
 C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\MailClient.sourcelink.json
+C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\AddressBook.g.cs
+C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\AddressBook.baml
+C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\NewAccount.g.cs
+C:\Users\alexander\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\NewAccount.baml

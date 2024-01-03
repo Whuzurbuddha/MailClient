@@ -14,11 +14,21 @@ public class InputViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    private string? _userName;
     private string? _userMail;
     private string? _password;
     private string? _smtp;
     private string? _imap;
 
+    public string? UserName
+    {
+        get => _userName;
+        set
+        {
+            _userName = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserName)));
+        }
+    }
     public string? UserMail
     {
         get => _userMail;
@@ -59,15 +69,13 @@ public class InputViewModel : INotifyPropertyChanged
         }
     }
 
-    public async Task SendDataToContentManager()
+    public async Task SaveRegistrationData()
     {
-        if (Smtp != null)
-        {
-            await ContentManager.SaveRegistration(UserMail, Password, Smtp, Imap)!;
-        }
-        else
-        {
-            ContentManager.CheckLogin(UserMail, Password);
-        }
+        await ContentManager.SaveRegistration(UserName, Password);
+    }
+
+    public void SendLoginData()
+    {
+        ContentManager.CheckLogin(UserMail, Password);
     }
 }

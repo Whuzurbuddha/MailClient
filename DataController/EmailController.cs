@@ -7,6 +7,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using MimeKit;
 using static MailClient.DataController.AttachmentCache;
+using ServerConnect = MailClient.DataController.ServerConnect;
 
 namespace MailClient.DataController
 {

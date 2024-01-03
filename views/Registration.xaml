@@ -6,7 +6,7 @@
              xmlns:ff="clr-namespace:MailClient"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="600"
-             Background="#FF240C31">
+             Background="#FF231829">
     
     <StackPanel HorizontalAlignment="Center" Margin="0, 80, 0,0">
         <StackPanel.Resources>
@@ -26,29 +26,24 @@
             <Label.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="20"></Setter>
-                    <Setter Property="Foreground" Value="Silver"></Setter>
+                    <Setter Property="Foreground" Value="#FFDCAEAE"></Setter>
                     <Setter Property="Margin" Value="40,0,0,25"></Setter>
                 </Style>
             </Label.Resources>
         </Label>
         
-        <Label>Benutzername</Label>
-        <TextBox Text="{Binding UserMail}"></TextBox>
+        <Label Foreground="#FFDCAEAE">Benutzername</Label>
+        <TextBox Text="{Binding UserName}"></TextBox>
         
-        <Label>Passwort</Label>
+        <Label Foreground="#FFDCAEAE">Passwort</Label>
         <PasswordBox
             ff:PasswordBoxAssistant.BindPassword="true"
             ff:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
         
-        <Label>Smtp-Server</Label>
-        <TextBox Text="{Binding Smtp}"></TextBox>
-        
-        <Label>IMAP | POP3</Label>
-        <TextBox Text="{Binding Imap}"></TextBox>
         
           <DockPanel>
             <Button
-                Click="Registrate">Registrieren</Button>
+                Click="Register">Registrieren</Button>
             <Button>Abbrechen</Button>
         </DockPanel>
     </StackPanel>

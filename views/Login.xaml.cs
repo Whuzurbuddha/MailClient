@@ -13,8 +13,8 @@ public partial class Login : UserControl
         _login = new InputViewModel();
         DataContext = _login;
     }
-    private async void SendLogin(object sender, RoutedEventArgs routedEventArgs)
+    private void SendLogin(object sender, RoutedEventArgs routedEventArgs)
     {
-        await _login.SendDataToContentManager();
+        _login.SendLoginData();
     }
 }

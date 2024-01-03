@@ -32,7 +32,7 @@ public partial class MailInbox : INotifyPropertyChanged
     public MailInbox()
     {
         InitializeComponent();
-        Loaded += LoadMailList;
+        //Loaded += LoadMailList;
     }
 
     private void LoadMailList(object sender, RoutedEventArgs routedEventArgs)

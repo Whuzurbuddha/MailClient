@@ -74,7 +74,6 @@ namespace MailClient.Models
         
         public async Task GenerateMailLists()
         {
-            _mailBox = new ObservableCollection<EmailController.MailItem>();
             _controller = new EmailController();
              MailBox = await _controller.ReceivingMailAsync();
              if (MailBox != null) UserPage.CloseLoading();

@@ -8,7 +8,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900" 
-             Background="#FF240C31" 
+             Background="#FF231829" 
              Foreground="Silver">
     <UserControl.Resources>
         <models:ToIconConverter x:Key="IconConverter"></models:ToIconConverter>
@@ -28,7 +28,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" x:Name="ReceivedMailOverview"
-                      Background="#FF240C31"
+                      Background="#FF231829"
                       BorderBrush="Silver"
                       BorderThickness="1"
                       Foreground="Black"
@@ -42,8 +42,8 @@
                       VerticalScrollBarVisibility="Hidden">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
-                        <Setter Property="Background" Value="#FF240C31"></Setter>
-                        <Setter Property="Foreground" Value="Silver"></Setter>
+                    <Setter Property="Background" Value="#FF231829"></Setter>
+                    <Setter Property="Foreground" Value="#FFDCAEAE"></Setter>
                         <Setter Property="FontSize" Value="14"></Setter>
                         <EventSetter Event="Selected" Handler="SetSender"></EventSetter>
                     </Style>
@@ -90,7 +90,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Foreground="White"
+                    <DataGridTextColumn CanUserResize="True"
                                         Header="Absender" 
                                         Binding="{Binding 
                                             MessageSender, 
@@ -99,7 +99,7 @@
                                             Converter={StaticResource SenderConverter}}" 
                                         Width="Auto" >                                          
                     </DataGridTextColumn>
-                    <DataGridTextColumn 
+                    <DataGridTextColumn CanUserResize="True"
                                         Header="Betreff" 
                                         Binding="{Binding 
                                             MessageSubject, 
@@ -145,13 +145,13 @@
                            FontSize="16"></TextBlock>
             </Label>
         </DockPanel>
-
-        <DockPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch">
+        <DockPanel Grid.Row="1" Grid.Column="1">
             <RichTextBox VerticalScrollBarVisibility="Hidden"
-                         Foreground="Silver"
-                         Background="#FF240C31"
-                         Padding="30, 20, 30, 15"
-                         MinWidth="700" 
+                         Foreground="#FFDCAEAE"
+                         Background="#FF231829"
+                         Padding="30"
+                         MinWidth="400"
+                         FlowDirection="LeftToRight"
                          IsReadOnly="True">
                 <FlowDocument>
                     <Paragraph>

@@ -4,9 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:views="clr-namespace:MailClient.views"
+        xmlns:data="clr-namespace:MailClient.models"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        Title="MailWare" Height="600" Width="1000" Background="#FF240C31" FontSize="14">
-    
+        Title="MailWare" Height="600" Width="1000" Background="#FF231829" FontSize="14">
+    <Window.DataContext>
+       <data:AccountOverviewModel></data:AccountOverviewModel>
+    </Window.DataContext>
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -20,8 +24,14 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Orientation="Horizontal">
-                        <Button Click="OpenNewMailWindow"
-                                ToolTip="Neue Email verfassen">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="2,2,0,0"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+            <Button Click="CreateNewAccount">NEW ACCOUNT</Button>
+                    <Button Click="OpenNewMailWindow"
+                            ToolTip="Neue Email verfassen">
                                 <Viewbox Width="50" Height="50" >
                                 <Rectangle Width="50 " Height="50">
                                   <Rectangle.Resources>
@@ -80,38 +90,46 @@
                     </Viewbox>
                   </Button>
                 </StackPanel>
-              <StackPanel Grid.Row="1"
-                          Grid.Column="0" Orientation="Horizontal">
-                <ListBox  
-                  Margin="0, 10, 0, 0"
-                  Width="110" Background="#FF240C31"
-                  HorizontalAlignment="Center">
-                  <ListBox.Resources>
-                    <Style TargetType="Button">
-                      <Setter Property="Foreground" Value ="White"></Setter>
-                      <Setter Property="Background" Value="#331249"/>
-                      <Setter Property="Padding" Value="5"></Setter>
-                      <Setter Property="BorderBrush" Value="Silver"></Setter>
-                      <Setter Property="BorderThickness" Value="1"></Setter>
-                      <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-                      <Setter Property="Margin" Value="0, 10, 0, 0"></Setter>
-                      <Setter Property="Width" Value="95"></Setter>
+            <DockPanel Grid.Row="0" Grid.Column="1" Margin="0,0,8,0">
+                <DockPanel.Resources>
+                    <Style TargetType="DockPanel">
+                        <Setter Property="HorizontalAlignment" Value="Right"></Setter>
                     </Style>
-                  </ListBox.Resources>
-                  <Button Click="ShowMailBox">Posteingang</Button>
-                  <Button >Gesendet</Button>
-                </ListBox>
-              </StackPanel>
-          <StackPanel 
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="50"></Setter>
+                        <Setter Property="Margin" Value="0,2,2,0"></Setter>
+                    </Style>
+                </DockPanel.Resources>
+                <Button Click="OpenAddressBook"
+                        ToolTip="Adressbuch">
+                    <fa:ImageAwesome Icon="AddressCardOutline"></fa:ImageAwesome>
+                </Button>
+                <Button ToolTip="Kalender">
+                    <fa:ImageAwesome Icon="Calendar"></fa:ImageAwesome>
+                </Button>
+            </DockPanel>
+          <DataGrid Grid.Column="0" Grid.Row="1"
+                    Width="Auto"
+                    Margin="5,10,0,0"
+                    Background="#FF231829"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding UserAccounts, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Accounts"
+                                  Binding="{Binding AccountName}"></DataGridTextColumn>
+              <DataGridTextColumn Header="Email"
+                                  Binding="{Binding UserMail}"></DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowBackground>#FF231829</DataGrid.RowBackground>
+          </DataGrid>
+          <DockPanel 
             Grid.Column="1" 
-            Grid.Row="1"
-            Orientation="Horizontal"
-            VerticalAlignment="Stretch">
+            Grid.Row="1">
             <views:MailInbox x:Name="MailInbox"
                              Margin="3, 10, 10,0"
               BorderBrush="Silver"
               BorderThickness="1"
-              Visibility="Collapsed"></views:MailInbox>
-          </StackPanel>
+              Visibility="Visible"></views:MailInbox>
+          </DockPanel>
         </Grid>
 </Window>

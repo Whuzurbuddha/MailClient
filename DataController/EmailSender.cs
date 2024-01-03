@@ -23,10 +23,10 @@ public static class EmailSender
             return Task.FromResult(false);
         }*/
 
-        var userContent = ReadJson.GetUserContent();
-        var userMail = userContent.User;
-        var smtp = userContent.Smtp;
-        var encryptedPasswd = userContent.EncryptedPasswd;
+        var userContent = ReadMainAccountJSON.GetUserContent();
+        var userMail = userContent?.User;
+        var smtp = userContent?.Smtp;
+        var encryptedPasswd = userContent?.EncryptedPasswd;
         var password = ContentManager.DecryptedPasswd(encryptedPasswd);
 
         if (userMail == null || recipient == null)

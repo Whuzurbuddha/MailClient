@@ -14,8 +14,8 @@ public partial class Registration : UserControl
         DataContext = _registration;
 }
 
-    private async void Registrate(object sender, RoutedEventArgs routedEventArgs)
+    private async void Register(object sender, RoutedEventArgs routedEventArgs)
     {
-        await _registration.SendDataToContentManager();
+        await _registration.SaveRegistrationData();
     }
 }

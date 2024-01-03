@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:MailClient.views"
         mc:Ignorable="d"
-        Title="MailWare" Height="500" Width="800" Background="#FF240C31" FontSize="14">
+        Title="MailWare" Height="500" Width="800" Background="#FF231829" FontSize="14">
     <Grid>
         <TabControl>
             <TabItem Header="Login">
-                <views:Login Background="#FF240C31"></views:Login>
+                <views:Login Background="#FF231829"></views:Login>
             </TabItem>
             <TabItem Header="Registrierung">
                 <views:Registration></views:Registration>
