@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.DataController;
+using MailClient.models;
 using MailClient.Models;
 using MailClient.viewmodels;
 using MailKit;
@@ -32,12 +33,7 @@ public partial class MailInbox : INotifyPropertyChanged
     public MailInbox()
     {
         InitializeComponent();
-        //Loaded += LoadMailList;
-    }
-
-    private void LoadMailList(object sender, RoutedEventArgs routedEventArgs)
-    {
-        (DataContext as GetMailViewModel)?.GenerateMailLists();
+        //LoadMailAccounts();
     }
     
     private void SetSender(object sender, RoutedEventArgs e)
@@ -60,5 +56,9 @@ public partial class MailInbox : INotifyPropertyChanged
             if (boxItem.AtthachmentFilePath == null) return;
             _fileView.OpenFile($"file:///{boxItem.AtthachmentFilePath}");
         }
+    }
+    private void LoadMailAccounts()
+    {
+        (DataContext as GetMailViewModel)?.GenerateAccountOverview();
     }
 }

@@ -4,12 +4,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:views="clr-namespace:MailClient.views"
-        xmlns:data="clr-namespace:MailClient.models"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:models="clr-namespace:MailClient.Models"
         mc:Ignorable="d"
         Title="MailWare" Height="600" Width="1000" Background="#FF231829" FontSize="14">
     <Window.DataContext>
-       <data:AccountOverviewModel></data:AccountOverviewModel>
+       <models:GetMailViewModel></models:GetMailViewModel>
     </Window.DataContext>
         <Grid>
           <Grid.ColumnDefinitions>
@@ -26,14 +26,19 @@
                             Orientation="Horizontal">
                     <StackPanel.Resources>
                         <Style TargetType="Button">
+                            <Setter Property="Background" Value="Wheat"></Setter>
                             <Setter Property="Margin" Value="2,2,0,0"></Setter>
                         </Style>
                     </StackPanel.Resources>
-            <Button Click="CreateNewAccount">NEW ACCOUNT</Button>
+                    <Button Click="CreateNewAccount">
+                        <fa:ImageAwesome Icon="UserPlus"
+                                         Width="50"
+                                         Height="50"></fa:ImageAwesome>
+                    </Button>
                     <Button Click="OpenNewMailWindow"
                             ToolTip="Neue Email verfassen">
                                 <Viewbox Width="50" Height="50" >
-                                <Rectangle Width="50 " Height="50">
+                                <Rectangle Width="22" Height="20">
                                   <Rectangle.Resources>
                                     <SolidColorBrush x:Key="canvas" Opacity="0" />
                                     <SolidColorBrush x:Key="light-defaultgrey-10" Color="#212121" Opacity="0.1" />
@@ -64,30 +69,9 @@
                   <Button
                     Click="OpenAnswerMailWindow"
                     ToolTip="Email beantworten">
-                    <Viewbox Width="50 " Height="50">
-                      <Rectangle Width="50 " Height="50">
-                        <Rectangle.Resources>
-                          <SolidColorBrush x:Key="canvas2" Opacity="0" />
-                          <SolidColorBrush x:Key="light-defaultgrey-10" Color="#212121" Opacity="0.1" />
-                          <SolidColorBrush x:Key="light-defaultgrey" Color="#212121" Opacity="1" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                          <DrawingBrush Stretch="None">
-                            <DrawingBrush.Drawing>
-                              <DrawingGroup>
-                                <DrawingGroup x:Name="canvas2">
-                                  <GeometryDrawing Brush="{DynamicResource canvas}" Geometry="F1M0,0H16V16H0Z" />
-                                </DrawingGroup>
-                                <DrawingGroup x:Name="level_2">
-                                  <GeometryDrawing Brush="{DynamicResource light-defaultgrey-10}" Geometry="F1M15.5,8,12,11.5H1L4.5,8,1,4.5H12Z" />
-                                  <GeometryDrawing Brush="{DynamicResource light-defaultgrey}" Geometry="F1M12,12H1l-.354-.854L3.793,8,.646,4.854,1,4H12l.354.146,3.5,3.5v.708l-3.5,3.5ZM2.207,11h9.586l3-3-3-3H2.207L4.854,7.646v.708Z" />
-                                </DrawingGroup>
-                              </DrawingGroup>
-                            </DrawingBrush.Drawing>
-                          </DrawingBrush>
-                        </Rectangle.Fill>
-                      </Rectangle>
-                    </Viewbox>
+                   <fa:ImageAwesome Icon="MailReply"
+                                    Width="50"
+                                    Height="50"></fa:ImageAwesome>
                   </Button>
                 </StackPanel>
             <DockPanel Grid.Row="0" Grid.Column="1" Margin="0,0,8,0">
@@ -96,6 +80,7 @@
                         <Setter Property="HorizontalAlignment" Value="Right"></Setter>
                     </Style>
                     <Style TargetType="Button">
+                        <Setter Property="Background" Value="Wheat"></Setter>
                         <Setter Property="Width" Value="50"></Setter>
                         <Setter Property="Margin" Value="0,2,2,0"></Setter>
                     </Style>
@@ -108,20 +93,21 @@
                     <fa:ImageAwesome Icon="Calendar"></fa:ImageAwesome>
                 </Button>
             </DockPanel>
-          <DataGrid Grid.Column="0" Grid.Row="1"
-                    Width="Auto"
-                    Margin="5,10,0,0"
-                    Background="#FF231829"
-                    AutoGenerateColumns="False"
-                    ItemsSource="{Binding UserAccounts, UpdateSourceTrigger=PropertyChanged}">
-            <DataGrid.Columns>
-              <DataGridTextColumn Header="Accounts"
-                                  Binding="{Binding AccountName}"></DataGridTextColumn>
-              <DataGridTextColumn Header="Email"
-                                  Binding="{Binding UserMail}"></DataGridTextColumn>
-            </DataGrid.Columns>
-            <DataGrid.RowBackground>#FF231829</DataGrid.RowBackground>
-          </DataGrid>
+            <DataGrid Grid.Column="0" Grid.Row="1"
+                      Width="Auto"
+                      ItemsSource="{Binding UserAccounts}"
+                      AutoGenerateColumns="False">
+                <DataGrid.Resources>
+                   <Style TargetType="DataGridRow">
+                       <EventSetter Event="Selected" Handler="ChooseMailbox"></EventSetter>
+                   </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding AccountName}"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding UserMail}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
           <DockPanel 
             Grid.Column="1" 
             Grid.Row="1">

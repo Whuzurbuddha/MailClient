@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:data="clr-namespace:MailClient.Models"
              xmlns:models="clr-namespace:MailClient.models"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:models1="clr-namespace:MailClient.Models"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900" 
              Background="#FF231829" 
@@ -15,7 +15,7 @@
         <models:MailSenderConverter x:Key="SenderConverter"></models:MailSenderConverter>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <data:GetMailViewModel></data:GetMailViewModel>
+        <models1:GetMailViewModel></models1:GetMailViewModel>
     </UserControl.DataContext>
     
     <Grid>
@@ -35,7 +35,7 @@
                       FontSize="14"
                       AutoGenerateColumns="False"
                       ItemsSource="{Binding 
-                                    Path=MailBox, 
+                                    Path=SelectedMailBox, 
                                     Mode=OneWay, 
                                     UpdateSourceTrigger=PropertyChanged}"
                       CanUserResizeRows="False" CanUserResizeColumns="True"
@@ -114,7 +114,8 @@
                    MinWidth="400">
             <ComboBox
                 Width="200"
-                x:Name="AttachmentList" 
+                x:Name="AttachmentList"
+                Background="Wheat"
                 ItemsSource="{Binding SelectedMailAttachmentList}">
                 <ComboBox.Resources>
                     <Style TargetType="ComboBoxItem">

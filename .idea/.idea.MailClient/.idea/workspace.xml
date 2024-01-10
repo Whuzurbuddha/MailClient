@@ -7,7 +7,51 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="879f78db-8668-4ff8-b482-ddaf7d9f6a0c" name="Changes" comment="update" />
+    <list default="true" id="879f78db-8668-4ff8-b482-ddaf7d9f6a0c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MailClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MailClient/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/MailClient/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/MailClient/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/09687118-be51-4fbd-bc34-6e5406029f11.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/15a6325e-c4c2-43ea-9146-9df4e17eac48.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/4b4ff443-ae93-4f08-ac15-16306a7639e3.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/8a9ce81a-97e0-4b4f-ad61-1bb60579b868.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/MailClient/v17/.futdcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/MailClient/v17/.futdcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/MailClient/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/MailClient/v17/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.metadata.v7.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.metadata.v7.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.projects.v7.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.projects.v7.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataController/AttachmentCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataController/AttachmentCache.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataController/EmailController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataController/EmailController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataController/ReadMailAccountJSON.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataController/ReadMailAccountJSON.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/AccountOverviewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/GetMailViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/models/GetMailViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/App.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/App.g.i.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.g.resources" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.g.resources" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient_MarkupCompile.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient_MarkupCompile.lref" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/ref/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/ref/MailClient.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/refint/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/refint/MailClient.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/Loading.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/Loading.g.i.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.baml" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.baml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.i.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/NewAccount.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/NewAccount.g.i.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.baml" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.baml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.i.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/MailInbox.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/views/MailInbox.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/MailInbox.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/views/MailInbox.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/UserPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/views/UserPage.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/UserPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/views/UserPage.xaml.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,7 +144,15 @@
       <workItem from="1704202644464" duration="3175000" />
       <workItem from="1704288685048" duration="7056000" />
       <workItem from="1704295835438" duration="131000" />
-      <workItem from="1704300339161" duration="15519000" />
+      <workItem from="1704300339161" duration="15790000" />
+      <workItem from="1704364088331" duration="348000" />
+      <workItem from="1704375831504" duration="2744000" />
+      <workItem from="1704379092986" duration="2846000" />
+      <workItem from="1704623434777" duration="7000" />
+      <workItem from="1704882407070" duration="1725000" />
+      <workItem from="1704885171255" duration="2555000" />
+      <workItem from="1704889082314" duration="1615000" />
+      <workItem from="1704891817203" duration="3787000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />

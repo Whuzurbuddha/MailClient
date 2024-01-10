@@ -23,6 +23,8 @@ namespace MailClient.Models
         private ObservableCollection<EmailController.MailItem>? _mailBox;
         private ObservableCollection<EmailController.AttachmentListitem>? _selectedMailAttachmentList;
         private string? _selectedFilePath;
+        private ObservableCollection<EmailController.MailItem>? _selectedMailbox;
+        private ObservableCollection<ReadMailAccountJSON.UserContent>? _userAccounts;
 
         public ObservableCollection<EmailController.MailItem>? MailBox
         {
@@ -71,12 +73,32 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFilePath)));
             }
         }
-        
-        public async Task GenerateMailLists()
+        public ObservableCollection<ReadMailAccountJSON.UserContent>? UserAccounts
+    {
+        get => _userAccounts;
+        set
         {
-            _controller = new EmailController();
-             MailBox = await _controller.ReceivingMailAsync();
-             if (MailBox != null) UserPage.CloseLoading();
+            _userAccounts = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserAccounts)));
+        }
+    }
+
+        public ObservableCollection<EmailController.MailItem>? SelectedMailBox
+        {
+            get => _selectedMailbox;
+            set
+            {
+                _selectedMailbox = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailBox)));
+            }
+        }
+        public async Task GenerateAccountOverview()
+        {
+            Console.WriteLine("STARTED RECEIVING MAILS\r\n");
+            UserAccounts = await ReadMailAccountJSON.GetUserContent();
+            Console.WriteLine("FINISHED RECEIVING MAILS");
+            if (UserAccounts == null) return;
+            UserPage.CloseLoading();
         }
         public void SetSelectedMailText(string? mailText, string? mailSender, ObservableCollection<EmailController.AttachmentListitem>? attachmentList)
         {
@@ -86,6 +108,10 @@ namespace MailClient.Models
             SelectedMailAttachmentList = attachmentList;
         }
 
+        public void SetMailBoxSelection(ObservableCollection<EmailController.MailItem>? mailBox)
+        {
+            SelectedMailBox = mailBox;
+        }
         public void SetSelectedMailAttachmentFilePath(string? filePath)
         {
             SelectedFilePath = filePath;

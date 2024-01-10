@@ -52,7 +52,7 @@ namespace MailClient.views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/MailClient;V1.0.0.0;component/views/loading.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/MailClient;component/views/loading.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\views\Loading.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

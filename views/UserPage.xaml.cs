@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using MailClient.DataController;
 using MailClient.models;
-using static MailClient.DataController.ReadMailAccountJSON;
+using MailClient.Models;
 
 namespace MailClient.views;
 
@@ -15,8 +15,8 @@ public partial class UserPage
     {
         InitializeComponent();
         _loading = new Loading();
-        Loaded += LoadMailAccounts;
-        //Loaded += ShowLoading;
+        Loaded += ShowLoading;
+        LoadMailAccounts();
     }
     
     private void ShowLoading(object sender, RoutedEventArgs e)
@@ -48,11 +48,7 @@ public partial class UserPage
         _answerMailView.SetAnswerText();
         _answerMailView.Show();
     }
-    private void ShowMailBox(object sender, RoutedEventArgs routedEventArgs)
-    {
-        MailInbox.Visibility = Visibility.Visible;
-    }
-
+    
     private void OpenAddressBook(object sender, RoutedEventArgs e)
     {
         _addressBook = new AddressBook();
@@ -65,8 +61,16 @@ public partial class UserPage
         _newAccount.Show();
     }
 
-    private void LoadMailAccounts(object sender, RoutedEventArgs routedEventArgs)
+    private void ChooseMailbox(object sender, RoutedEventArgs e)
     {
-        (DataContext as AccountOverviewModel)?.GenerateAccountOverview();
+        if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
+        if (dataGridRow.DataContext is ReadMailAccountJSON.UserContent userContent)
+        {
+            (DataContext as GetMailViewModel)?.SetMailBoxSelection(userContent.Mailbox);
+        }
+    }
+    private void LoadMailAccounts()
+    {
+        (DataContext as GetMailViewModel)?.GenerateAccountOverview();
     }
 }
