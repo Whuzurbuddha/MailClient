@@ -9,46 +9,56 @@
   <component name="ChangeListManager">
     <list default="true" id="879f78db-8668-4ff8-b482-ddaf7d9f6a0c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MailClient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MailClient/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/MailClient/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/MailClient/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/09687118-be51-4fbd-bc34-6e5406029f11.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/15a6325e-c4c2-43ea-9146-9df4e17eac48.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/4b4ff443-ae93-4f08-ac15-16306a7639e3.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/MailClient/FileContentIndex/8a9ce81a-97e0-4b4f-ad61-1bb60579b868.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/MailClient/v17/.futdcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/MailClient/v17/.futdcache.v2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/MailClient/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/MailClient/v17/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.metadata.v7.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.metadata.v7.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.projects.v7.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/mailclient.projects.v7.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataController/AttachmentCache.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataController/AttachmentCache.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DataController/EmailController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataController/EmailController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataController/ReadMailAccountJSON.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DataController/ReadMailAccountJSON.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/BrowserMetrics/BrowserMetrics-65954A8D-22BC.pma" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Crashpad/settings.dat" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Crashpad/settings.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/DawnCache/data_1" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/DawnCache/data_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/EdgeEDrop/EdgeEDropSQLite.db" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/EdgeEDrop/EdgeEDropSQLite.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/EdgeHubAppUsage/EdgeHubAppUsageSQLite.db" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/EdgeHubAppUsage/EdgeHubAppUsageSQLite.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/GPUCache/data_1" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/GPUCache/data_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/History" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/History" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Local Storage/leveldb/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Local Storage/leveldb/LOG" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Local Storage/leveldb/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Local Storage/leveldb/LOG.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Preferences" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Preferences" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Session Storage/000003.log" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Session Storage/000003.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Session Storage/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Session Storage/LOG" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Session Storage/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Session Storage/LOG.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Site Characteristics Database/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Site Characteristics Database/LOG" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Site Characteristics Database/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Site Characteristics Database/LOG.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Visited Links" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Visited Links" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Web Data" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Default/Web Data" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/GrShaderCache/data_1" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/GrShaderCache/data_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/GraphiteDawnCache/data_1" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/GraphiteDawnCache/data_1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Last Version" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Last Version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Local State" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/Local State" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/ShaderCache/data_1" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.exe.WebView2/EBWebView/ShaderCache/data_1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net7.0-windows/MailClient.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/AccountOverviewModel.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/models/GetMailViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/models/GetMailViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/App.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/App.g.i.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.g.resources" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.g.resources" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient_MarkupCompile.cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MailClient_MarkupCompile.lref" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/MainWindow.baml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/ref/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/ref/MailClient.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/refint/MailClient.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/refint/MailClient.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/Loading.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/Loading.g.i.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.baml" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.baml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/AddressBook.baml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/FileView.baml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/Login.baml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.baml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/MailInbox.g.i.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/NewAccount.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/NewAccount.g.i.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.baml" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.baml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/NewAccount.baml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/Registration.baml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/SendMailView.baml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.baml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.i.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0-windows/views/UserPage.g.i.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/MailInbox.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/views/MailInbox.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/MailInbox.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/views/MailInbox.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/SendMailView.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/views/SendMailView.xaml.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/UserPage.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/views/UserPage.xaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/UserPage.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/views/UserPage.xaml.cs" afterDir="false" />
     </list>
@@ -152,7 +162,8 @@
       <workItem from="1704882407070" duration="1725000" />
       <workItem from="1704885171255" duration="2555000" />
       <workItem from="1704889082314" duration="1615000" />
-      <workItem from="1704891817203" duration="3787000" />
+      <workItem from="1704891817203" duration="5755000" />
+      <workItem from="1704958854596" duration="5248000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <option name="closed" value="true" />
@@ -178,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1704315785295</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="update">
+      <option name="closed" value="true" />
+      <created>1704895663119</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704895663119</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

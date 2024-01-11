@@ -95,16 +95,28 @@
             </DockPanel>
             <DataGrid Grid.Column="0" Grid.Row="1"
                       Width="Auto"
+                      Margin="0,10,0,0"
                       ItemsSource="{Binding UserAccounts}"
-                      AutoGenerateColumns="False">
+                      AutoGenerateColumns="False"
+                      Background="#FF231829">
                 <DataGrid.Resources>
-                   <Style TargetType="DataGridRow">
+                    <Style TargetType="DataGridRowHeader">
+                        <Setter Property="Background" Value="Silver"></Setter>
+                    </Style>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="Silver"></Setter>
+                    </Style>
+                    <Style TargetType="DataGridRow">
+                       <Setter Property="Background" Value="#FF231829"></Setter>
+                       <Setter Property="Foreground" Value="#FFDCAEAE"></Setter>
                        <EventSetter Event="Selected" Handler="ChooseMailbox"></EventSetter>
                    </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding AccountName}"></DataGridTextColumn>
-                    <DataGridTextColumn Binding="{Binding UserMail}"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding AccountName}"
+                                        Header="Provider"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding UserMail}"
+                                        Header="Mail"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -114,8 +126,7 @@
             <views:MailInbox x:Name="MailInbox"
                              Margin="3, 10, 10,0"
               BorderBrush="Silver"
-              BorderThickness="1"
-              Visibility="Visible"></views:MailInbox>
+              BorderThickness="1"></views:MailInbox>
           </DockPanel>
         </Grid>
 </Window>

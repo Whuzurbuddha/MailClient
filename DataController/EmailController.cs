@@ -28,7 +28,7 @@ namespace MailClient.DataController
                 await inbox.OpenAsync(FolderAccess.ReadOnly);
                 for (var i = 0; i < inbox.Count; i++)               //single message content =>
                 {
-                    if (i < 2)
+                    if (i <= 1)
                     {
                         Console.WriteLine($"FOUND {i + 1} MAIL");
                     }

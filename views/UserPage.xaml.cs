@@ -66,7 +66,8 @@ public partial class UserPage
         if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
         if (dataGridRow.DataContext is ReadMailAccountJSON.UserContent userContent)
         {
-            (DataContext as GetMailViewModel)?.SetMailBoxSelection(userContent.Mailbox);
+           // (DataContext as GetMailViewModel)?.SetMailBoxSelection(userContent.Mailbox);
+           MailInbox.SetMailbox(userContent.Mailbox);
         }
     }
     private void LoadMailAccounts()

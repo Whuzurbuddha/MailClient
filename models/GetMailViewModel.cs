@@ -1,40 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
+using System.Windows.Navigation;
 using MailClient.DataController;
 using MailClient.views;
-using MimeKit;
 
 namespace MailClient.Models
 {
     public class GetMailViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        // ReSharper disable once UnassignedField.Global
-        private EmailController? _controller = new EmailController();
         
         private string? _selectedMailText;
         private string? _selectedMailSender;
-        private ObservableCollection<EmailController.MailItem>? _mailBox;
         private ObservableCollection<EmailController.AttachmentListitem>? _selectedMailAttachmentList;
         private string? _selectedFilePath;
         private ObservableCollection<EmailController.MailItem>? _selectedMailbox;
         private ObservableCollection<ReadMailAccountJSON.UserContent>? _userAccounts;
-
-        public ObservableCollection<EmailController.MailItem>? MailBox
-        {
-            get => _mailBox;
-            set
-            {
-                _mailBox = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailBox)));
-            }
-        }
+        
         public string? SelectedMailText
         {
             get => _selectedMailText;
@@ -92,6 +78,7 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailBox)));
             }
         }
+
         public async Task GenerateAccountOverview()
         {
             Console.WriteLine("STARTED RECEIVING MAILS\r\n");

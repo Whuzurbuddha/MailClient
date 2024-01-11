@@ -37,6 +37,6 @@ public partial class SendMailView
     public void SetAnswerText()
     {
         _getMailViewModel = new GetMailViewModel();
-        if (_getMailViewModel.SelectedMailText != null) MailBox.Text = _getMailViewModel.SelectedMailText;
+        if (_getMailViewModel.SelectedMailText != null) MailBox.Text += _getMailViewModel.SelectedMailText;
     }
 }

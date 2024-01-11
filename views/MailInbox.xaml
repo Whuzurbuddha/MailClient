@@ -3,19 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:models="clr-namespace:MailClient.models"
+             xmlns:converter="clr-namespace:MailClient.models"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:models1="clr-namespace:MailClient.Models"
+             xmlns:data="clr-namespace:MailClient.Models"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900" 
              Background="#FF231829" 
              Foreground="Silver">
     <UserControl.Resources>
-        <models:ToIconConverter x:Key="IconConverter"></models:ToIconConverter>
-        <models:MailSenderConverter x:Key="SenderConverter"></models:MailSenderConverter>
+        <converter:ToIconConverter x:Key="IconConverter"></converter:ToIconConverter>
+        <converter:MailSenderConverter x:Key="SenderConverter"></converter:MailSenderConverter>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <models1:GetMailViewModel></models1:GetMailViewModel>
+        <data:GetMailViewModel></data:GetMailViewModel>
     </UserControl.DataContext>
     
     <Grid>
@@ -36,11 +36,14 @@
                       AutoGenerateColumns="False"
                       ItemsSource="{Binding 
                                     Path=SelectedMailBox, 
-                                    Mode=OneWay, 
+                                    Mode=TwoWay, 
                                     UpdateSourceTrigger=PropertyChanged}"
                       CanUserResizeRows="False" CanUserResizeColumns="True"
                       VerticalScrollBarVisibility="Hidden">
                 <DataGrid.Resources>
+                    <Style TargetType="DataGridRowHeader">
+                        <Setter Property="Background" Value="Silver"></Setter>
+                    </Style>
                     <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="#FF231829"></Setter>
                     <Setter Property="Foreground" Value="#FFDCAEAE"></Setter>
@@ -94,7 +97,7 @@
                                         Header="Absender" 
                                         Binding="{Binding 
                                             MessageSender, 
-                                            Mode=OneWay, 
+                                            Mode=TwoWay, 
                                             UpdateSourceTrigger=PropertyChanged,
                                             Converter={StaticResource SenderConverter}}" 
                                         Width="Auto" >                                          
@@ -103,9 +106,10 @@
                                         Header="Betreff" 
                                         Binding="{Binding 
                                             MessageSubject, 
-                                            Mode=OneWay, 
+                                            Mode=TwoWay, 
                                             UpdateSourceTrigger=PropertyChanged}"
-                                        MinWidth="100">
+                                        MinWidth="100"
+                                        MaxWidth="300">
                        
                     </DataGridTextColumn>
                 </DataGrid.Columns>

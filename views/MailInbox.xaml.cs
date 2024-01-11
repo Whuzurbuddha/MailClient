@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using MailClient.DataController;
 using MailClient.models;
@@ -15,25 +18,11 @@ using MimeKit;
 
 namespace MailClient.views;
 
-public partial class MailInbox : INotifyPropertyChanged
+public partial class MailInbox
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private string? _sender;
-
-    public string? Sender
-    {
-        get => _sender;
-        set
-        {
-            _sender = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sender.ToString)));
-        }
-    }
-    
     public MailInbox()
     {
         InitializeComponent();
-        //LoadMailAccounts();
     }
     
     private void SetSender(object sender, RoutedEventArgs e)
@@ -57,8 +46,14 @@ public partial class MailInbox : INotifyPropertyChanged
             _fileView.OpenFile($"file:///{boxItem.AtthachmentFilePath}");
         }
     }
-    private void LoadMailAccounts()
+
+    public void SetMailbox(ObservableCollection<EmailController.MailItem>? mailBox)
     {
-        (DataContext as GetMailViewModel)?.GenerateAccountOverview();
+        foreach (var mail in mailBox)
+        {
+            ReceivedMailOverview.Items.Remove(mail);
+            ReceivedMailOverview.Items.Add(mail);
+            ReceivedMailOverview.Items.Refresh();
+        }
     }
 }
