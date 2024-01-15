@@ -120,7 +120,7 @@
                 Width="200"
                 x:Name="AttachmentList"
                 Background="Wheat"
-                ItemsSource="{Binding SelectedMailAttachmentList}">
+                ItemsSource="{Binding SelectedMailAttachmentList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.Resources>
                     <Style TargetType="ComboBoxItem">
                         <EventSetter Event="Selected" Handler="SetFile"></EventSetter>

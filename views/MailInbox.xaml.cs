@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Runtime.InteropServices.JavaScript;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.DataController;
@@ -19,6 +20,7 @@ public partial class MailInbox
         if (dataGridRow.DataContext is EmailController.MailItem mailItem)
         {
             (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender, mailItem.AttachmentList);
+            AttachmentList.Items.Refresh();
         }
     }
 
@@ -37,13 +39,7 @@ public partial class MailInbox
 
     public void SetMailbox(ObservableCollection<EmailController.MailItem>? mailBox)
     {
-        ReceivedMailOverview.Items.Remove((DataContext as GetMailViewModel)?.SelectedMailBox);
-        if (mailBox == null) return;
-        foreach (var mail in mailBox)
-        {
-            ReceivedMailOverview.Items.Refresh();
-            ReceivedMailOverview.Items.Add(mail);
-            ReceivedMailOverview.Items.Refresh();
-        }
+        (DataContext as GetMailViewModel)?.SetMailBoxSelection(mailBox);
+        ReceivedMailOverview.Items.Refresh();
     }
 }

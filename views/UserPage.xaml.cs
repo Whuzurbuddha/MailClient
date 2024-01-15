@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,10 +16,7 @@ public partial class UserPage
     {
         InitializeComponent();
         _loading = new Loading();
-        if ((DataContext as GetMailViewModel)?.UserAccounts != null)
-        {
-            Loaded += ShowLoading;
-        }
+        Loaded += ShowLoading;
         LoadMailAccounts();
     }
     
@@ -73,15 +71,16 @@ public partial class UserPage
 
     private void ChooseMailbox(object sender, RoutedEventArgs e)
     {
-        if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
-        if (dataGridRow.DataContext is ReadMailAccountJSON.UserContent userContent)
+        Console.WriteLine("SELECTED MAILBOX");
+        
+        if (sender is not TreeViewItem treeViewItem) return;
+        if (treeViewItem.DataContext is ReadMailAccountJSON.UserContent userContent)
         {
-           MailInbox.SetMailbox(userContent.Mailbox);
+            MailInbox.SetMailbox(userContent.Mailbox);
         }
     }
     private void LoadMailAccounts()
     {
-        if ((DataContext as GetMailViewModel)?.UserAccounts == null) return;
         (DataContext as GetMailViewModel)?.GenerateAccountOverview();
     }
 

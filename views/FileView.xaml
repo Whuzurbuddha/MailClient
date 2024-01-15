@@ -10,5 +10,5 @@
         <Window.DataContext>
                 <file:GetMailViewModel></file:GetMailViewModel>
         </Window.DataContext>
-        <fileview:WebView2 Name="WebView" Source="{Binding SelectedFilePath}"/>
+        <fileview:WebView2 Name="WebView"/>
 </Window>

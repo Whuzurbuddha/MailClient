@@ -17,7 +17,6 @@ namespace MailClient.Models
         private string? _selectedMailText;
         private string? _selectedMailSender;
         private ObservableCollection<EmailController.AttachmentListitem>? _selectedMailAttachmentList;
-        private string? _selectedFilePath;
         private ObservableCollection<EmailController.MailItem>? _selectedMailbox;
         private ObservableCollection<ReadMailAccountJSON.UserContent>? _userAccounts;
         
@@ -49,25 +48,15 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailAttachmentList)));
             }
         }
-
-        public string? SelectedFilePath
+        public ObservableCollection<ReadMailAccountJSON.UserContent>? UserAccounts
         {
-            get => _selectedFilePath;
+            get => _userAccounts;
             set
             {
-                _selectedFilePath = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFilePath)));
+                _userAccounts = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserAccounts)));
             }
         }
-        public ObservableCollection<ReadMailAccountJSON.UserContent>? UserAccounts
-    {
-        get => _userAccounts;
-        set
-        {
-            _userAccounts = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserAccounts)));
-        }
-    }
 
         public ObservableCollection<EmailController.MailItem>? SelectedMailBox
         {
@@ -91,17 +80,13 @@ namespace MailClient.Models
         {
             SelectedMailText = mailText;
             SelectedMailSender = mailSender;
-            if(attachmentList == null) return;
             SelectedMailAttachmentList = attachmentList;
         }
 
         public void SetMailBoxSelection(ObservableCollection<EmailController.MailItem>? mailBox)
         {
+            if (mailBox == null) return;
             SelectedMailBox = mailBox;
-        }
-        public void SetSelectedMailAttachmentFilePath(string? filePath)
-        {
-            SelectedFilePath = filePath;
         }
     }
 }
