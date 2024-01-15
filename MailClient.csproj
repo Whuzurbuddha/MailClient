@@ -15,9 +15,4 @@
       <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Data\Temp\" />
-      <Folder Include="Data\Temp\2016223689.184119.1702551424375@webmail.strato.de\" />
-    </ItemGroup>
-
 </Project>

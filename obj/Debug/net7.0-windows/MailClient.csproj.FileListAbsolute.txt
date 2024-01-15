@@ -154,3 +154,9 @@ C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome6
 C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome6.Shared.Net.dll
 C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\FontAwesome6.Svg.Net.dll
 C:\Users\PaeplowA\RiderProjects\MailClient\bin\Debug\net7.0-windows\Newtonsoft.Json.dll
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\AddressBook.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\Calendar.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\NewAccount.g.cs
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\AddressBook.baml
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\Calendar.baml
+C:\Users\PaeplowA\RiderProjects\MailClient\obj\Debug\net7.0-windows\views\NewAccount.baml

@@ -1,5 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using MailClient.DataController;
+using MailClient.models;
+using MailClient.Models;
 
 namespace MailClient.views;
 
@@ -10,7 +15,11 @@ public partial class UserPage
     {
         InitializeComponent();
         _loading = new Loading();
-        Loaded += ShowLoading;
+        if ((DataContext as GetMailViewModel)?.UserAccounts != null)
+        {
+            Loaded += ShowLoading;
+        }
+        LoadMailAccounts();
     }
     
     private void ShowLoading(object sender, RoutedEventArgs e)
@@ -27,6 +36,9 @@ public partial class UserPage
 
     private SendMailView? _newMailWindow;
     private SendMailView? _answerMailView;
+    private AddressBook? _addressBook;
+    private NewAccount? _newAccount;
+    private Calendar? _calendar;
     
     private void OpenNewMailWindow(object sender, RoutedEventArgs e)
     {
@@ -37,10 +49,46 @@ public partial class UserPage
     private void OpenAnswerMailWindow(object sender, RoutedEventArgs e)
     {
         _answerMailView = new SendMailView();
+        _answerMailView.SetAnswerText();
         _answerMailView.Show();
     }
-    private void ShowMailBox(object sender, RoutedEventArgs routedEventArgs)
+    
+    private void OpenAddressBook(object sender, RoutedEventArgs e)
     {
-        MailInbox.Visibility = Visibility.Visible;
+        _addressBook = new AddressBook();
+        _addressBook.Show();
+    }
+
+    private void CreateNewAccount(object sender, RoutedEventArgs e)
+    {
+        _newAccount = new NewAccount();
+        _newAccount.Show();
+    }
+
+    private void OpenCalendar(object sender, RoutedEventArgs e)
+    {
+        _calendar = new Calendar();
+        _calendar.Show();
+    }
+
+    private void ChooseMailbox(object sender, RoutedEventArgs e)
+    {
+        if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
+        if (dataGridRow.DataContext is ReadMailAccountJSON.UserContent userContent)
+        {
+           MailInbox.SetMailbox(userContent.Mailbox);
+        }
+    }
+    private void LoadMailAccounts()
+    {
+        if ((DataContext as GetMailViewModel)?.UserAccounts == null) return;
+        (DataContext as GetMailViewModel)?.GenerateAccountOverview();
+    }
+
+    public void RefreshProviderOverview()
+    {
+        ProviderOverview.Items.Remove((DataContext as GetMailViewModel)?.UserAccounts);
+        ProviderOverview.Items.Add((DataContext as GetMailViewModel)?.UserAccounts);
+        ProviderOverview.Items.Refresh();
     }
 }

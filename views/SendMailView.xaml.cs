@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MailClient.Models;
 using MailClient.viewmodels;
 
 namespace MailClient.views;
@@ -29,5 +30,12 @@ public partial class SendMailView
     private void ShowFileLoader(object sender, RoutedEventArgs e)
     {
         _sendMailViewModel?.GetFilePath();
+    }
+
+    private GetMailViewModel? _getMailViewModel;
+    public void SetAnswerText()
+    {
+        _getMailViewModel = new GetMailViewModel();
+        if (_getMailViewModel.SelectedMailText != null) MailBox.Text += _getMailViewModel.SelectedMailText;
     }
 }

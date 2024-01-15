@@ -4,9 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:views="clr-namespace:MailClient.views"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:models="clr-namespace:MailClient.Models"
         mc:Ignorable="d"
-        Title="MailWare" Height="600" Width="1000" Background="#FF240C31" FontSize="14">
-    
+        Title="MailWare" Height="600" Width="1000" Background="#FF231829" FontSize="14">
+    <Window.DataContext>
+       <models:GetMailViewModel></models:GetMailViewModel>
+    </Window.DataContext>
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -20,10 +24,21 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Orientation="Horizontal">
-                        <Button Click="OpenNewMailWindow"
-                                ToolTip="Neue Email verfassen">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Wheat"></Setter>
+                            <Setter Property="Margin" Value="2,2,0,0"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button Click="CreateNewAccount">
+                        <fa:ImageAwesome Icon="UserPlus"
+                                         Width="50"
+                                         Height="50"></fa:ImageAwesome>
+                    </Button>
+                    <Button Click="OpenNewMailWindow"
+                            ToolTip="Neue Email verfassen">
                                 <Viewbox Width="50" Height="50" >
-                                <Rectangle Width="50 " Height="50">
+                                <Rectangle Width="22" Height="20">
                                   <Rectangle.Resources>
                                     <SolidColorBrush x:Key="canvas" Opacity="0" />
                                     <SolidColorBrush x:Key="light-defaultgrey-10" Color="#212121" Opacity="0.1" />
@@ -54,64 +69,67 @@
                   <Button
                     Click="OpenAnswerMailWindow"
                     ToolTip="Email beantworten">
-                    <Viewbox Width="50 " Height="50">
-                      <Rectangle Width="50 " Height="50">
-                        <Rectangle.Resources>
-                          <SolidColorBrush x:Key="canvas2" Opacity="0" />
-                          <SolidColorBrush x:Key="light-defaultgrey-10" Color="#212121" Opacity="0.1" />
-                          <SolidColorBrush x:Key="light-defaultgrey" Color="#212121" Opacity="1" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                          <DrawingBrush Stretch="None">
-                            <DrawingBrush.Drawing>
-                              <DrawingGroup>
-                                <DrawingGroup x:Name="canvas2">
-                                  <GeometryDrawing Brush="{DynamicResource canvas}" Geometry="F1M0,0H16V16H0Z" />
-                                </DrawingGroup>
-                                <DrawingGroup x:Name="level_2">
-                                  <GeometryDrawing Brush="{DynamicResource light-defaultgrey-10}" Geometry="F1M15.5,8,12,11.5H1L4.5,8,1,4.5H12Z" />
-                                  <GeometryDrawing Brush="{DynamicResource light-defaultgrey}" Geometry="F1M12,12H1l-.354-.854L3.793,8,.646,4.854,1,4H12l.354.146,3.5,3.5v.708l-3.5,3.5ZM2.207,11h9.586l3-3-3-3H2.207L4.854,7.646v.708Z" />
-                                </DrawingGroup>
-                              </DrawingGroup>
-                            </DrawingBrush.Drawing>
-                          </DrawingBrush>
-                        </Rectangle.Fill>
-                      </Rectangle>
-                    </Viewbox>
+                   <fa:ImageAwesome Icon="MailReply"
+                                    Width="50"
+                                    Height="50"></fa:ImageAwesome>
                   </Button>
                 </StackPanel>
-              <StackPanel Grid.Row="1"
-                          Grid.Column="0" Orientation="Horizontal">
-                <ListBox  
-                  Margin="0, 10, 0, 0"
-                  Width="110" Background="#FF240C31"
-                  HorizontalAlignment="Center">
-                  <ListBox.Resources>
-                    <Style TargetType="Button">
-                      <Setter Property="Foreground" Value ="White"></Setter>
-                      <Setter Property="Background" Value="#331249"/>
-                      <Setter Property="Padding" Value="5"></Setter>
-                      <Setter Property="BorderBrush" Value="Silver"></Setter>
-                      <Setter Property="BorderThickness" Value="1"></Setter>
-                      <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-                      <Setter Property="Margin" Value="0, 10, 0, 0"></Setter>
-                      <Setter Property="Width" Value="95"></Setter>
+            <DockPanel Grid.Row="0" Grid.Column="1" Margin="0,0,8,0">
+                <DockPanel.Resources>
+                    <Style TargetType="DockPanel">
+                        <Setter Property="HorizontalAlignment" Value="Right"></Setter>
                     </Style>
-                  </ListBox.Resources>
-                  <Button Click="ShowMailBox">Posteingang</Button>
-                  <Button >Gesendet</Button>
-                </ListBox>
-              </StackPanel>
-          <StackPanel 
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Wheat"></Setter>
+                        <Setter Property="Width" Value="50"></Setter>
+                        <Setter Property="Margin" Value="0,2,2,0"></Setter>
+                    </Style>
+                </DockPanel.Resources>
+                <Button Click="OpenAddressBook"
+                        ToolTip="Adressbuch">
+                    <fa:ImageAwesome Icon="AddressCardOutline"></fa:ImageAwesome>
+                </Button>
+                <Button ToolTip="Kalender"
+                        Click="OpenCalendar">
+                    <fa:ImageAwesome Icon="Calendar"></fa:ImageAwesome>
+                </Button>
+            </DockPanel>
+            <DataGrid Grid.Column="0" Grid.Row="1"
+                      Width="Auto"
+                      Margin="0,10,0,0"
+                      ItemsSource="{Binding UserAccounts}"
+                      AutoGenerateColumns="False"
+                      Background="#FF231829"
+                      x:Name="ProviderOverview">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridRowHeader">
+                        <Setter Property="Background" Value="Silver"></Setter>
+                    </Style>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="Silver"></Setter>
+                    </Style>
+                    <Style TargetType="DataGridRow">
+                       <Setter Property="Background" Value="#FF231829"></Setter>
+                       <Setter Property="Foreground" Value="#FFDCAEAE"></Setter>
+                       <EventSetter Event="Selected" Handler="ChooseMailbox"></EventSetter>
+                   </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding AccountName}"
+                                        Header="Provider"></DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding UserMail}"
+                                        Header="Mail"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+          <DockPanel 
             Grid.Column="1" 
-            Grid.Row="1"
-            Orientation="Horizontal"
-            VerticalAlignment="Stretch">
+            Grid.Row="1">
             <views:MailInbox x:Name="MailInbox"
                              Margin="3, 10, 10,0"
               BorderBrush="Silver"
-              BorderThickness="1"
-              Visibility="Collapsed"></views:MailInbox>
-          </StackPanel>
+              BorderThickness="1"></views:MailInbox>
+          </DockPanel>
         </Grid>
 </Window>
+

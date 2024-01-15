@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using MailClient.views;
+using Microsoft.VisualBasic.FileIO;
 
 namespace MailClient.DataController
 {
@@ -15,40 +16,57 @@ namespace MailClient.DataController
         {
             public string? UserName { get; set; }
             public string? Passwd { get; set; }
-            public string? Smtp { get; set; }
-            public string? Imap { get; set; }
         }
 
-        public static async Task SaveRegistration(string? UserName, string? Password, string? Smtp, string? Imap)
+        private static System.IO.DirectoryInfo CreateDirectory(string path)
         {
-            var encryptedPassword = await EncryptedPasswd(Password)!;
-            if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Smtp) || string.IsNullOrEmpty(Imap))
+            Directory.CreateDirectory(path);
+            return null;
+        }
+
+        public static async Task SaveRegistration(string?  userName, string? password)
+        {
+            var encryptedPassword = await EncryptedPasswd(password)!;
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
             {
-                Console.WriteLine("Invalid data. Cannot save.");
+                MessageBox.Show("Invalid data. Cannot save.");
                 return;
             }
 
             var registrationData = new RegistrationData
             {
-                UserName = UserName,
+                UserName = userName,
                 Passwd = encryptedPassword,
-                Smtp = Smtp,
-                Imap = Imap
             };
+            var documentDirectory = SpecialDirectories.MyDocuments;
+            var userDirectory = new StringBuilder();
+            userDirectory.AppendFormat($"{documentDirectory}\\MailClient\\{userName}");
+            if (Directory.Exists(userDirectory.ToString()))
+            {
+                MessageBox.Show("Account already exists");
+            }
+            else
+            {
+                CreateDirectory(userDirectory.ToString());
+                CreateDirectory($"{userDirectory}\\Data");
 
-            const string filePath = @"C:\Users\PaeplowA\RiderProjects\MailClient\Data\SavedData.json";
-            var json = JsonSerializer.Serialize(registrationData);
+                var filePath = new StringBuilder();
+                filePath.AppendFormat($"{userDirectory}\\Data\\SavedData.json");
+            
+                var json = JsonSerializer.Serialize(registrationData);
 
-            await using var writer = new StreamWriter(filePath);
-            await writer.WriteAsync(json);
-            writer.Close();
-            MessageBox.Show("Neues Konto erfolgreich angelegt");
+                await using var writer = new StreamWriter(filePath.ToString());
+                await writer.WriteAsync(json);
+                writer.Close();
+                MessageBox.Show("Created new account successfully");
+            }
         }
 
         public static void CheckLogin(string? userName, string? password)
         {
-            var userContent = ReadJson.GetUserContent();
-            var encryptedPassword = userContent.EncryptedPasswd;
+            var userContent = ReadMainAccountJSON.GetUserContent();
+            if (userContent == null) return;
+            var encryptedPassword = userContent?.EncryptedPasswd;
             var decryptedPasswd = DecryptedPasswd(encryptedPassword);
             var userWindow = new UserPage();
             if (password == decryptedPasswd)

@@ -10,24 +10,32 @@ using static MailClient.DataController.AttachmentCache;
 
 namespace MailClient.DataController
 {
-    public class EmailController : ServerConnect.User
+    public class EmailController
     {
         private ObservableCollection<MailItem>? _messagesOverview;
         private ObservableCollection<AttachmentListitem>? _attachmentList; 
         private AttachmentListitem? _attachmentPathListitem;
-        public async Task<ObservableCollection<MailItem>?> ReceivingMailAsync()
+        public async Task<ObservableCollection<MailItem>?> ReceivingMailAsync(string  accountName, string? imap, string? userMail, string? password)
         {
             _messagesOverview = new ObservableCollection<MailItem>();
             using var client = new ImapClient();
 
             try
             {
-                await client.ConnectAsync(Imap, 993, true);
-                await client.AuthenticateAsync(UserMail, Password);
+                await client.ConnectAsync(imap, 993, true);
+                await client.AuthenticateAsync(userMail, password);
                 var inbox = client.Inbox;
                 await inbox.OpenAsync(FolderAccess.ReadOnly);
                 for (var i = 0; i < inbox.Count; i++)               //single message content =>
                 {
+                    if (i <= 1)
+                    {
+                        Console.WriteLine($"FOUND {i + 1} MAIL");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"FOUND {i + 1} MAILS");
+                    }
                     var messageBody = await inbox.GetMessageAsync(i);
                     var message = new MailItem
                     {
@@ -44,7 +52,7 @@ namespace MailClient.DataController
                     {
                         message.HasAttachment = true;
                         
-                        var subDirectory =  await NewAttachmentCache(message.MessageId, attachments, messageBody.BodyParts)!;
+                        var subDirectory =  await NewAttachmentCache(accountName, message.MessageId, attachments, messageBody.BodyParts)!;
                         message.AttachmentPath = subDirectory;
 
                         foreach (var attachment in attachments)
@@ -62,7 +70,7 @@ namespace MailClient.DataController
                     }
                     _messagesOverview.Add(message);
                 }
-
+                Console.WriteLine("DISCONNECT SERVER");
                 await client.DisconnectAsync(true);
             }
             catch (Exception e)

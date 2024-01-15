@@ -1,38 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
+using System.Windows.Navigation;
 using MailClient.DataController;
 using MailClient.views;
-using MimeKit;
 
 namespace MailClient.Models
 {
     public class GetMailViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        // ReSharper disable once UnassignedField.Global
-        private EmailController? _controller = new EmailController();
         
         private string? _selectedMailText;
         private string? _selectedMailSender;
-        private ObservableCollection<EmailController.MailItem>? _mailBox;
         private ObservableCollection<EmailController.AttachmentListitem>? _selectedMailAttachmentList;
         private string? _selectedFilePath;
-
-        public ObservableCollection<EmailController.MailItem>? MailBox
-        {
-            get => _mailBox;
-            set
-            {
-                _mailBox = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailBox)));
-            }
-        }
+        private ObservableCollection<EmailController.MailItem>? _selectedMailbox;
+        private ObservableCollection<ReadMailAccountJSON.UserContent>? _userAccounts;
+        
         public string? SelectedMailText
         {
             get => _selectedMailText;
@@ -71,13 +59,33 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedFilePath)));
             }
         }
-        
-        public async Task GenerateMailLists()
+        public ObservableCollection<ReadMailAccountJSON.UserContent>? UserAccounts
+    {
+        get => _userAccounts;
+        set
         {
-            _mailBox = new ObservableCollection<EmailController.MailItem>();
-            _controller = new EmailController();
-             MailBox = await _controller.ReceivingMailAsync();
-             if (MailBox != null) UserPage.CloseLoading();
+            _userAccounts = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserAccounts)));
+        }
+    }
+
+        public ObservableCollection<EmailController.MailItem>? SelectedMailBox
+        {
+            get => _selectedMailbox;
+            set
+            {
+                _selectedMailbox = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailBox)));
+            }
+        }
+
+        public async Task GenerateAccountOverview()
+        {
+            Console.WriteLine("STARTED RECEIVING MAILS\r\n");
+            UserAccounts = await ReadMailAccountJSON.GetUserContent();
+            Console.WriteLine("FINISHED RECEIVING MAILS");
+            if (UserAccounts == null) return;
+            UserPage.CloseLoading();
         }
         public void SetSelectedMailText(string? mailText, string? mailSender, ObservableCollection<EmailController.AttachmentListitem>? attachmentList)
         {
@@ -87,10 +95,13 @@ namespace MailClient.Models
             SelectedMailAttachmentList = attachmentList;
         }
 
+        public void SetMailBoxSelection(ObservableCollection<EmailController.MailItem>? mailBox)
+        {
+            SelectedMailBox = mailBox;
+        }
         public void SetSelectedMailAttachmentFilePath(string? filePath)
         {
             SelectedFilePath = filePath;
         }
     }
 }
-

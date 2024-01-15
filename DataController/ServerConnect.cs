@@ -7,11 +7,11 @@ public class ServerConnect
 {
     public class User
     {
-        private static readonly ReadJson.UserContent UserContent = ReadJson.GetUserContent();
-        public static readonly string? UserMail = UserContent.User;
-        private static readonly string? EncryptedPasswd = UserContent.EncryptedPasswd;
+        private static readonly ReadMainAccountJSON.UserContent? UserContent = ReadMainAccountJSON.GetUserContent();
+        public static readonly string? UserMail = UserContent?.User;
+        private static readonly string? EncryptedPasswd = UserContent?.EncryptedPasswd;
         public static readonly string? Password = ContentManager.DecryptedPasswd(EncryptedPasswd);
-        public static readonly string? Imap = UserContent.Imap;
+        public static readonly string? Imap = UserContent?.Imap;
     }
 
     public class Client : ImapClient

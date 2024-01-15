@@ -1,43 +1,16 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.DataController;
 using MailClient.Models;
-using MailClient.viewmodels;
-using MailKit;
-using MailKit.Net.Imap;
-using MimeKit;
 
 namespace MailClient.views;
 
-public partial class MailInbox : INotifyPropertyChanged
+public partial class MailInbox
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private string? _sender;
-
-    public string? Sender
-    {
-        get => _sender;
-        set
-        {
-            _sender = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sender.ToString)));
-        }
-    }
-    
     public MailInbox()
     {
         InitializeComponent();
-        Loaded += LoadMailList;
-    }
-
-    private void LoadMailList(object sender, RoutedEventArgs routedEventArgs)
-    {
-        (DataContext as GetMailViewModel)?.GenerateMailLists();
     }
     
     private void SetSender(object sender, RoutedEventArgs e)
@@ -59,13 +32,18 @@ public partial class MailInbox : INotifyPropertyChanged
             _fileView.Show();
             if (boxItem.AtthachmentFilePath == null) return;
             _fileView.OpenFile($"file:///{boxItem.AtthachmentFilePath}");
-            Console.WriteLine(boxItem.AtthachmentFilePath);
         }
     }
-    
-    
-    private void OpenFileViewer(object sender, RoutedEventArgs e)
+
+    public void SetMailbox(ObservableCollection<EmailController.MailItem>? mailBox)
     {
-        
+        ReceivedMailOverview.Items.Remove((DataContext as GetMailViewModel)?.SelectedMailBox);
+        if (mailBox == null) return;
+        foreach (var mail in mailBox)
+        {
+            ReceivedMailOverview.Items.Refresh();
+            ReceivedMailOverview.Items.Add(mail);
+            ReceivedMailOverview.Items.Refresh();
+        }
     }
 }
