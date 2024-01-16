@@ -11,7 +11,7 @@ namespace MailClient.models
             var fileEnding = value?.ToString()!.Split(".")[1];
             return fileEnding switch
             {
-                "png" or "jpeg" or "jpg" or "bmp" or "svg" or "tif" or "svg"=> FilePictureOutline,
+                "png" or "jpeg" or "jpg" or "bmp" or "svg" or "tif" => FilePictureOutline,
                 "pdf" => FilePdfOutline,
                 "word" or "doc" or "docx" => FileWordOutline,
                 "xlsx" or "xlsm" or "xltx" or "xls" => FileExcelOutline,

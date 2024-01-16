@@ -2,9 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Navigation;
 using MailClient.DataController;
 using MailClient.views;
 

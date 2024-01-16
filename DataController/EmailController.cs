@@ -6,12 +6,34 @@ using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
 using MimeKit;
+using Org.BouncyCastle.Asn1.Ocsp;
 using static MailClient.DataController.AttachmentCache;
 
 namespace MailClient.DataController
 {
     public class EmailController
     {
+        private static MimeEntity ValidAttachment(MimeEntity attachment)
+        {
+            var fileType = attachment.ContentType.MediaSubtype;
+            var fileName = attachment.ContentType.Name;
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                string[] allowedTypes =
+                {
+                    "png", "jpg", "jpeg", "bmp", "svg", "tif", "pdf", "word", "doc", "docx", "xlsx",
+                    "xlsm", "xltx", "xls", "txt", "odt", "md", "mp3", "mid", "wav", "wave", "ogg", "flac", "avi",
+                    "flv",
+                    "mov", "mp4",
+                };
+                if (!allowedTypes.Contains(fileType))
+                {
+                    return attachment;
+                }
+            }
+            return null;
+        }
+        
         private ObservableCollection<MailItem>? _messagesOverview;
         private ObservableCollection<AttachmentListitem>? _attachmentList; 
         private AttachmentListitem? _attachmentPathListitem;
@@ -46,22 +68,34 @@ namespace MailClient.DataController
                     };
                     _attachmentList = new ObservableCollection<AttachmentListitem>();
                     
-                    var mimeEntities = messageBody.Attachments;
-                    var attachments = messageBody.Attachments as MimeEntity[] ?? mimeEntities.ToArray();
+                    //var mimeEntities = messageBody.Attachments;
+                    //var attachments = messageBody.Attachments as MimeEntity[] ?? mimeEntities.ToArray();
+                    var attachments = messageBody.Attachments.ToArray();
                     if (attachments.Any())
                     {
+                        var newAttachmentList = new MimeEntity[][];
+                        foreach (var attachment in attachments)
+                        {
+                            var validAttachment = ValidAttachment(attachment);
+                            if (validAttachment != null)
+                            {
+                                newAttachmentList.Append(validAttachment);
+                            }
+                        }
+                        
                         message.HasAttachment = true;
                         
                         var subDirectory =  await NewAttachmentCache(accountName, message.MessageId, attachments, messageBody.BodyParts)!;
+                        
                         message.AttachmentPath = subDirectory;
 
-                        foreach (var attachment in attachments)
+                        foreach (var cleandAttachment in attachments)
                         {
                             _attachmentPathListitem = new AttachmentListitem
                             {
-                                AttachmentFileName = attachment.ContentType.Name,
-                                AttachmentFileType = attachment.ContentType.MediaSubtype,
-                                AtthachmentFilePath = $"{subDirectory}{attachment.ContentType.Name}"
+                                AttachmentFileName = cleandAttachment.ContentType.Name,
+                                AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
+                                AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name}"
                             };
                             
                             _attachmentList?.Add(_attachmentPathListitem);
