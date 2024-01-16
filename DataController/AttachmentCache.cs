@@ -17,23 +17,28 @@ public static class AttachmentCache
         return null;
     }
     
-    public static async Task<string>? NewAttachmentCache(string?  accountName, string? messageId, List<MimeEntity> attachments)
+    public static async Task<string>? NewAttachmentCache(string? accountName, string? messageId, List<MimeEntity> attachments, IEnumerable<MimeEntity> bodyParts)
     {
         var documentDirectory = SpecialDirectories.MyDocuments;
         string[] user = Directory.GetDirectories($"{documentDirectory}\\MailClient");
         var tempDirectory = new StringBuilder($"{user[0]}\\{accountName}\\Temp\\");
-        var newSubdirectory = tempDirectory.AppendFormat($"{messageId}\\").ToString();
+        string[] toReplace = { "$", "#" };
+        var newId = messageId;
+        foreach (var c in toReplace)
+        {
+            newId = messageId?.Replace(c, "");  
+        }
+        var newSubdirectory = tempDirectory.AppendFormat($"{newId}\\").ToString();
         if (!Directory.Exists(newSubdirectory)) CreateDirectory(newSubdirectory);
             
         foreach (var  attachment  in attachments)
         {
-            Console.WriteLine(newSubdirectory + attachment.ContentType.Name);
             try
             {
                 var fileName = attachment.ContentType.Name.Replace(" ", "");
-                var newFile = $"{newSubdirectory}{attachment.ContentType.Boundary}";
-                Console.WriteLine(newFile + fileName);
-                await using var stream = File.Create(newFile);
+                var newFilePath = $"{newSubdirectory}{fileName}";
+                Console.WriteLine($"NEW FILEPATH: {newFilePath}");
+                await using var stream = File.Create(newFilePath);
                 if (attachment is MimePart part)
                 {
                     await part.Content.DecodeToAsync(stream);

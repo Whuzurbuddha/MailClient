@@ -87,7 +87,7 @@ namespace MailClient.DataController
                         
                         if (newAttachmentList.Count > 0)
                         {
-                           var subDirectory = await NewAttachmentCache(accountName, message.MessageId, newAttachmentList)!;
+                           var subDirectory = await NewAttachmentCache(accountName, message.MessageId, newAttachmentList, messageBody.BodyParts)!;
                            message.AttachmentPath = subDirectory;
 
                            foreach (var cleandAttachment in newAttachmentList)
