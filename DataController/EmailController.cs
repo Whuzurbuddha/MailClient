@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
 using MailKit;
@@ -13,7 +16,7 @@ namespace MailClient.DataController
 {
     public class EmailController
     {
-        private static MimeEntity ValidAttachment(MimeEntity attachment)
+        private static MimeEntity? ValidAttachment(MimeEntity attachment)
         {
             var fileType = attachment.ContentType.MediaSubtype;
             var fileName = attachment.ContentType.Name;
@@ -26,7 +29,7 @@ namespace MailClient.DataController
                     "flv",
                     "mov", "mp4",
                 };
-                if (!allowedTypes.Contains(fileType))
+                if (allowedTypes.Contains(fileType))
                 {
                     return attachment;
                 }
@@ -68,39 +71,38 @@ namespace MailClient.DataController
                     };
                     _attachmentList = new ObservableCollection<AttachmentListitem>();
                     
-                    //var mimeEntities = messageBody.Attachments;
-                    //var attachments = messageBody.Attachments as MimeEntity[] ?? mimeEntities.ToArray();
                     var attachments = messageBody.Attachments.ToArray();
                     if (attachments.Any())
                     {
-                        var newAttachmentList = new MimeEntity[][];
+                        var newAttachmentList = new List<MimeEntity>();
                         foreach (var attachment in attachments)
                         {
                             var validAttachment = ValidAttachment(attachment);
                             if (validAttachment != null)
                             {
-                                newAttachmentList.Append(validAttachment);
+                                newAttachmentList.Add(validAttachment);
                             }
                         }
-                        
                         message.HasAttachment = true;
                         
-                        var subDirectory =  await NewAttachmentCache(accountName, message.MessageId, attachments, messageBody.BodyParts)!;
-                        
-                        message.AttachmentPath = subDirectory;
-
-                        foreach (var cleandAttachment in attachments)
+                        if (newAttachmentList.Count > 0)
                         {
-                            _attachmentPathListitem = new AttachmentListitem
-                            {
-                                AttachmentFileName = cleandAttachment.ContentType.Name,
-                                AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
-                                AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name}"
-                            };
+                           var subDirectory = await NewAttachmentCache(accountName, message.MessageId, newAttachmentList)!;
+                           message.AttachmentPath = subDirectory;
+
+                           foreach (var cleandAttachment in newAttachmentList)
+                           {
+                               _attachmentPathListitem = new AttachmentListitem
+                               {
+                                   AttachmentFileName = cleandAttachment.ContentType.Name,
+                                   AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
+                                   AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name}"
+                               };
                             
-                            _attachmentList?.Add(_attachmentPathListitem);
-                        }
-                        message.AttachmentList = _attachmentList;
+                               _attachmentList?.Add(_attachmentPathListitem);
+                           }
+                           message.AttachmentList = _attachmentList;
+                        };
                     }
                     _messagesOverview.Add(message);
                 }

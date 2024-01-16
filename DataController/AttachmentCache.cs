@@ -11,13 +11,13 @@ namespace MailClient.DataController;
 
 public static class AttachmentCache
 {
-    private static System.IO.DirectoryInfo CreateDirectory (string path)
+    private static System.IO.DirectoryInfo? CreateDirectory (string path)
     {
         Directory.CreateDirectory(path);
         return null;
     }
     
-    public static async Task<string>? NewAttachmentCache(string?  accountName, string? messageId, MimeEntity[] attachments,  IEnumerable<MimeEntity> bodyParts)
+    public static async Task<string>? NewAttachmentCache(string?  accountName, string? messageId, List<MimeEntity> attachments)
     {
         var documentDirectory = SpecialDirectories.MyDocuments;
         string[] user = Directory.GetDirectories($"{documentDirectory}\\MailClient");
@@ -28,7 +28,7 @@ public static class AttachmentCache
         foreach (var  attachment  in attachments)
         {
             Console.WriteLine(newSubdirectory + attachment.ContentType.Name);
-            /*try
+            try
             {
                 var fileName = attachment.ContentType.Name.Replace(" ", "");
                 var newFile = $"{newSubdirectory}{attachment.ContentType.Boundary}";
@@ -43,7 +43,7 @@ public static class AttachmentCache
             {
                 Console.WriteLine(e);
                 throw;
-            } */  
+            }
         }
         return newSubdirectory;
     }
