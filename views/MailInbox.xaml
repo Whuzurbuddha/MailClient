@@ -138,6 +138,11 @@
                             <TextBlock Text=" | ">  </TextBlock>
                             <TextBlock Text="{Binding Path=AttachmentFileName,
                             UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                            <TextBlock Text=" | ">  </TextBlock>
+                            <fa:ImageAwesome Icon="{Binding Converter={StaticResource IsLoaded}}"
+                                             DataContext="{Binding IsLoaded}"
+                                             Height="20"
+                                             Width="20"></fa:ImageAwesome>
                         </StackPanel>
                     </DataTemplate> 
                 </ComboBox.ItemTemplate>

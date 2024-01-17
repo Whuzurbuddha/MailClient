@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Drawing;
 using System.Globalization;
 using System.Windows.Data;
-
+using FontAwesome.WPF;
+using static FontAwesome.WPF.FontAwesomeIcon;
 namespace MailClient.models;
 
 public class IsLoadedConverter : IValueConverter
@@ -11,9 +11,9 @@ public class IsLoadedConverter : IValueConverter
     {
         if(value == (object?)true)
         {
-            return Color.GreenYellow;
+            return Download;
         }
-        return Color.White;
+        return Apple;
     }
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

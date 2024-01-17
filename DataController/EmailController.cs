@@ -84,15 +84,21 @@ namespace MailClient.DataController
                         {
                             foreach (var nonevalid in nonevalidAttachmentsList)
                             {
+                                var attachmentPathListitem = new AttachmentListitem
+                                {
+                                    IsLoaded = false
+                                };
+                                
                                 if (!string.IsNullOrEmpty(nonevalid.ContentType.Name))
                                 {
-                                    var attachmentPathListitem = new AttachmentListitem
-                                    {
-                                        AttachmentFileName = nonevalid.ContentType.Name.Replace(" ", ""),
-                                        IsLoaded = false
-                                    };
-                                    _attachmentList.Add(attachmentPathListitem);
+                                    attachmentPathListitem.AttachmentFileName =
+                                        nonevalid.ContentType.Name.Replace(" ", "");
                                 }
+                                else
+                                {
+                                    attachmentPathListitem.AttachmentFileName = "unknown filename";
+                                }
+                                _attachmentList.Add(attachmentPathListitem);
                             }
                         }
                         
@@ -103,9 +109,18 @@ namespace MailClient.DataController
 
                            foreach (var cleandAttachment in newAttachmentList)
                            {
+                               var fileName = "";
+                               if (!string.IsNullOrEmpty(cleandAttachment.ContentType.Name))
+                               {
+                                   fileName = cleandAttachment.ContentType.Name;
+                               }
+                               else
+                               {
+                                   fileName = "unknown filename";
+                               }
                                var attachmentPathListitem = new AttachmentListitem
                                {
-                                   AttachmentFileName = cleandAttachment.ContentType.Name.Replace(" ", ""),
+                                   AttachmentFileName = fileName,
                                    AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
                                    AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name.Replace(" ", "")}",
                                    IsLoaded = true
@@ -140,7 +155,7 @@ namespace MailClient.DataController
 
         public class AttachmentListitem
         {
-            public string? AttachmentFileName { get; init; }
+            public string? AttachmentFileName { get; set; }
             public string? AttachmentFileType { get; set; }
             public string? AtthachmentFilePath { get; init; }
             public bool? IsLoaded { get; set; }
