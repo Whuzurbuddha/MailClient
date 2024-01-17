@@ -15,7 +15,7 @@ namespace MailClient.Models
         private string? _selectedMailSender;
         private ObservableCollection<EmailController.AttachmentListitem>? _selectedMailAttachmentList;
         private ObservableCollection<EmailController.MailItem>? _selectedMailbox;
-        private ObservableCollection<ReadMailAccountJSON.UserContent>? _userAccounts;
+        private ObservableCollection<ReadMailAccountJson.UserContent>? _userAccounts;
         
         public string? SelectedMailText
         {
@@ -45,7 +45,7 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailAttachmentList)));
             }
         }
-        public ObservableCollection<ReadMailAccountJSON.UserContent>? UserAccounts
+        public ObservableCollection<ReadMailAccountJson.UserContent>? UserAccounts
         {
             get => _userAccounts;
             set
@@ -67,9 +67,7 @@ namespace MailClient.Models
 
         public async Task GenerateAccountOverview()
         {
-            Console.WriteLine("STARTED RECEIVING MAILS\r\n");
-            UserAccounts = await ReadMailAccountJSON.GetUserContent();
-            Console.WriteLine("FINISHED RECEIVING MAILS");
+            UserAccounts = await ReadMailAccountJson.GetUserContent();
             if (UserAccounts == null) return;
             UserPage.CloseLoading();
         }

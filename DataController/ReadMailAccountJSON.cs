@@ -8,7 +8,7 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace MailClient.DataController;
 
-public class ReadMailAccountJSON
+public class ReadMailAccountJson
 {
         public string? UserMail { get; set; }
         public string? Passwd { get; set; }
@@ -23,53 +23,49 @@ public class ReadMailAccountJSON
             public string? Passwd { get; set; }
             public string? Smtp { get; set; }
             public string? Imap { get; set; }
-            public ObservableCollection<EmailController.MailItem>? Mailbox { get; set; }
+            public ObservableCollection<EmailController.MailItem>? Mailbox { get; init; }
         }
-        public static async Task<ObservableCollection<UserContent>> GetUserContent()
+        public static async Task<ObservableCollection<UserContent>?> GetUserContent()
         {
             UserAccounts = new ObservableCollection<UserContent>();
-            var mainDirectory = $"{SpecialDirectories.MyDocuments}\\MailClient";
-            string[] clientAccount = Directory.GetDirectories(mainDirectory);
-            string[] mailAccounts = Directory.GetDirectories(clientAccount[0]);
+            var mainDirectory = ConstPaths.MainDirectory;
+            var clientAccount = Directory.GetDirectories(mainDirectory!);
+            var mailAccounts = Directory.GetDirectories(clientAccount[0]);
 
             if (mailAccounts.Length == 0) return null;
             
             for (var i = 0; i < mailAccounts.Length; i++)
             {
-                if (!mailAccounts[i].Contains("Data"))
+                if (mailAccounts[i].Contains("Data")) continue;
+                var filePath = mailAccounts[i];
+                try
                 {
-                    Console.WriteLine($"STARTED RECEIVING MAILBOX FOR {mailAccounts[i].Split($"\\")[6]}");
-                    var filePath = mailAccounts[i];
-                    try
+                    using var reader = new StreamReader($"{filePath}\\Account.json");
+                    var jsonContent = await reader.ReadToEndAsync();
+                    var readJson = JsonSerializer.Deserialize<ReadMailAccountJson>(jsonContent);
+                    var user = readJson?.UserMail;
+                    var smtp = readJson?.Smtp;
+                    var imap = readJson?.Imap;
+                    var passwd = readJson?.Passwd;
+                    var controller = new EmailController();
+                    var accountName = filePath.Split($"\\")[6];
+                    var mailBox = await controller.ReceivingMailAsync(accountName,imap, user, passwd);
+                    var userContent = new UserContent
                     {
-                        using var reader = new StreamReader($"{filePath}\\Account.json");
-                        var jsonContent = await reader.ReadToEndAsync();
-                        var readJson = JsonSerializer.Deserialize<ReadMailAccountJSON>(jsonContent);
-                        var user = readJson?.UserMail;
-                        var smtp = readJson?.Smtp;
-                        var imap = readJson?.Imap;
-                        var passwd = readJson?.Passwd;
-                        var controller = new EmailController();
-                        var accountName = filePath.Split($"\\")[6];
-                        var mailBox = await controller.ReceivingMailAsync(accountName,imap, user, passwd);
-                        var userContent = new UserContent
-                        {
-                            AccountName = accountName,
-                            UserMail = user,
-                            Smtp = smtp,
-                            Imap = imap,
-                            Passwd = passwd,
-                            Mailbox = mailBox
-                        };
+                        AccountName = accountName,
+                        UserMail = user,
+                        Smtp = smtp,
+                        Imap = imap,
+                        Passwd = passwd,
+                        Mailbox = mailBox
+                    };
                         
-                        UserAccounts.Add(userContent);
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.ToString());
-                        throw;
-                    }
-                    Console.WriteLine($"FINISHED ACCOUNT: {mailAccounts[i].Split($"\\")[6]}");
+                    UserAccounts.Add(userContent);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                    throw;
                 }
             }
             return UserAccounts;

@@ -13,6 +13,7 @@
     <UserControl.Resources>
         <converter:ToIconConverter x:Key="IconConverter"></converter:ToIconConverter>
         <converter:MailSenderConverter x:Key="SenderConverter"></converter:MailSenderConverter>
+        <converter:IsLoadedConverter x:Key="IsLoaded"></converter:IsLoadedConverter>
     </UserControl.Resources>
     <UserControl.DataContext>
         <data:GetMailViewModel></data:GetMailViewModel>
@@ -64,10 +65,10 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                  <Viewbox Width="20 " Height="20" x:Name="AttachIcon" Visibility="Hidden">
-                                        <Rectangle Width="20 " Height="20">
+                                     <Rectangle Width="20 " Height="20">
                                             <Rectangle.Resources>
                                                 <SolidColorBrush x:Key="Canvas" Opacity="0" />
-                                                <SolidColorBrush x:Key="Light-Defaultgrey" Color="White" Opacity="1" />
+                                                <SolidColorBrush x:Key="White" Color="White" Opacity="1" />
                                             </Rectangle.Resources>
                                             <Rectangle.Fill>
                                                 <DrawingBrush Stretch="None">
@@ -77,7 +78,8 @@
                                                                 <GeometryDrawing Brush="{DynamicResource Canvas}" Geometry="F1M16,16H0V0H16Z" />
                                                             </DrawingGroup>
                                                             <DrawingGroup x:Name="level_1">
-                                                                <GeometryDrawing Brush="{DynamicResource Light-Defaultgrey}" Geometry="F1M7.75,15h-.5A3.386,3.386,0,0,1,4,11.5V3.682A2.6,2.6,0,0,1,6.5,1,2.6,2.6,0,0,1,9,3.682v7.167A1.55,1.55,0,0,1,7.5,12.44,1.548,1.548,0,0,1,6,10.872V7H7v3.849a.552.552,0,0,0,.5.591.552.552,0,0,0,.5-.591V3.682A1.6,1.6,0,0,0,6.5,2,1.6,1.6,0,0,0,5,3.682V11.5A2.388,2.388,0,0,0,7.25,14h.5A2.388,2.388,0,0,0,10,11.5V5h1v6.5A3.386,3.386,0,0,1,7.75,15Z" />
+                                                                <GeometryDrawing x:Name="AttachIconColor" Brush="White" Geometry="F1M7.75,15h-.5A3.386,3.386,0,0,1,4,11.5V3.682A2.6,2.6,0,0,1,6.5,1,2.6,2.6,0,0,1,9,3.682v7.167A1.55,1.55,0,0,1,7.5,12.44,1.548,1.548,0,0,1,6,10.872V7H7v3.849a.552.552,0,0,0,.5.591.552.552,0,0,0,.5-.591V3.682A1.6,1.6,0,0,0,6.5,2,1.6,1.6,0,0,0,5,3.682V11.5A2.388,2.388,0,0,0,7.25,14h.5A2.388,2.388,0,0,0,10,11.5V5h1v6.5A3.386,3.386,0,0,1,7.75,15Z">
+                                                                </GeometryDrawing>
                                                             </DrawingGroup>
                                                         </DrawingGroup>
                                                     </DrawingBrush.Drawing>
@@ -100,7 +102,7 @@
                                             Mode=TwoWay, 
                                             UpdateSourceTrigger=PropertyChanged,
                                             Converter={StaticResource SenderConverter}}" 
-                                        Width="Auto" >                                          
+                                            Width="Auto" >                                          
                     </DataGridTextColumn>
                     <DataGridTextColumn CanUserResize="True"
                                         Header="Betreff" 
@@ -108,8 +110,8 @@
                                             MessageSubject, 
                                             Mode=TwoWay, 
                                             UpdateSourceTrigger=PropertyChanged}"
-                                        MinWidth="100"
-                                        MaxWidth="300">
+                                            MinWidth="100"
+                                            MaxWidth="300">
                        
                     </DataGridTextColumn>
                 </DataGrid.Columns>

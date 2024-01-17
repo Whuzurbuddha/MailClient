@@ -42,10 +42,10 @@ public class SaveAccountData
         };
         var documentDirectory = SpecialDirectories.MyDocuments;
         var userDirectory = new StringBuilder();
-        userDirectory.AppendFormat($"{documentDirectory}\\MailClient\\");
-        string[] user = Directory.GetDirectories(userDirectory.ToString());
+        userDirectory.AppendFormat($@"{documentDirectory}\\MailClient\\");
+        var user = Directory.GetDirectories(userDirectory.ToString());
         CreateDirectory($"{user[0]}\\{accountName}");
-        var newAccount = $"{user[0]}\\{accountName}\\Account.json";
+        var newAccount = $@"{user[0]}\\{accountName}\\Account.json";
             
         var json = JsonSerializer.Serialize(registrationData);
 

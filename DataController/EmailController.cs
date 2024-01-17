@@ -1,45 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
 using MailKit;
 using MailKit.Net.Imap;
 using MimeKit;
-using Org.BouncyCastle.Asn1.Ocsp;
 using static MailClient.DataController.AttachmentCache;
 
 namespace MailClient.DataController
 {
     public class EmailController
     {
-        private static MimeEntity? ValidAttachment(MimeEntity attachment)
+        private static bool? ValidAttachment(MimeEntity attachment)
         {
-            var fileType = attachment.ContentType.MediaSubtype;
             var fileName = attachment.ContentType.Name;
+            var lastDot = fileName?.LastIndexOf('.');
+            var fileType = lastDot < 0 ? "" : fileName?.Substring((int)(lastDot+1)!);
             if (!string.IsNullOrEmpty(fileName))
             {
                 string[] allowedTypes =
                 {
-                    "png", "jpg", "jpeg", "bmp", "svg", "tif", "pdf", "word", "doc", "docx", "xlsx",
+                    "png", "jpg", "jpeg", "bmp", "svg", "tif", "pdf", "PDF", "word", "doc", "docx", "xlsx",
                     "xlsm", "xltx", "xls", "txt", "odt", "md", "mp3", "mid", "wav", "wave", "ogg", "flac", "avi",
                     "flv",
                     "mov", "mp4",
                 };
                 if (allowedTypes.Contains(fileType))
                 {
-                    return attachment;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
         
         private ObservableCollection<MailItem>? _messagesOverview;
         private ObservableCollection<AttachmentListitem>? _attachmentList; 
-        private AttachmentListitem? _attachmentPathListitem;
         public async Task<ObservableCollection<MailItem>?> ReceivingMailAsync(string  accountName, string? imap, string? userMail, string? password)
         {
             _messagesOverview = new ObservableCollection<MailItem>();
@@ -53,14 +50,6 @@ namespace MailClient.DataController
                 await inbox.OpenAsync(FolderAccess.ReadOnly);
                 for (var i = 0; i < inbox.Count; i++)               //single message content =>
                 {
-                    if (i <= 1)
-                    {
-                        Console.WriteLine($"FOUND {i + 1} MAIL");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"FOUND {i + 1} MAILS");
-                    }
                     var messageBody = await inbox.GetMessageAsync(i);
                     var message = new MailItem
                     {
@@ -75,15 +64,37 @@ namespace MailClient.DataController
                     if (attachments.Any())
                     {
                         var newAttachmentList = new List<MimeEntity>();
+                        var nonevalidAttachmentsList = new List<MimeEntity>();
+                        
                         foreach (var attachment in attachments)
                         {
                             var validAttachment = ValidAttachment(attachment);
-                            if (validAttachment != null)
+                            if (validAttachment == true)
                             {
-                                newAttachmentList.Add(validAttachment);
+                                newAttachmentList.Add(attachment);
+                            }
+                            else
+                            {
+                                nonevalidAttachmentsList.Add(attachment);
                             }
                         }
                         message.HasAttachment = true;
+
+                        if (nonevalidAttachmentsList.Count > 0)
+                        {
+                            foreach (var nonevalid in nonevalidAttachmentsList)
+                            {
+                                if (!string.IsNullOrEmpty(nonevalid.ContentType.Name))
+                                {
+                                    var attachmentPathListitem = new AttachmentListitem
+                                    {
+                                        AttachmentFileName = nonevalid.ContentType.Name.Replace(" ", ""),
+                                        IsLoaded = false
+                                    };
+                                    _attachmentList.Add(attachmentPathListitem);
+                                }
+                            }
+                        }
                         
                         if (newAttachmentList.Count > 0)
                         {
@@ -92,21 +103,21 @@ namespace MailClient.DataController
 
                            foreach (var cleandAttachment in newAttachmentList)
                            {
-                               _attachmentPathListitem = new AttachmentListitem
+                               var attachmentPathListitem = new AttachmentListitem
                                {
-                                   AttachmentFileName = cleandAttachment.ContentType.Name,
+                                   AttachmentFileName = cleandAttachment.ContentType.Name.Replace(" ", ""),
                                    AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
-                                   AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name}"
+                                   AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name.Replace(" ", "")}",
+                                   IsLoaded = true
                                };
-                            
-                               _attachmentList?.Add(_attachmentPathListitem);
+                               _attachmentList.Add(attachmentPathListitem);
                            }
-                           message.AttachmentList = _attachmentList;
                         };
+                        message.AttachmentList = _attachmentList;
                     }
                     _messagesOverview.Add(message);
                 }
-                Console.WriteLine("DISCONNECT SERVER");
+                
                 await client.DisconnectAsync(true);
             }
             catch (Exception e)
@@ -132,6 +143,7 @@ namespace MailClient.DataController
             public string? AttachmentFileName { get; init; }
             public string? AttachmentFileType { get; set; }
             public string? AtthachmentFilePath { get; init; }
+            public bool? IsLoaded { get; set; }
         }
     }
 }

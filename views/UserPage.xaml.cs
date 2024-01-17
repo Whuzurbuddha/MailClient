@@ -71,10 +71,8 @@ public partial class UserPage
 
     private void ChooseMailbox(object sender, RoutedEventArgs e)
     {
-        Console.WriteLine("SELECTED MAILBOX");
-        
         if (sender is not TreeViewItem treeViewItem) return;
-        if (treeViewItem.DataContext is ReadMailAccountJSON.UserContent userContent)
+        if (treeViewItem.DataContext is ReadMailAccountJson.UserContent userContent)
         {
             MailInbox.SetMailbox(userContent.Mailbox);
         }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using MailClient.models;
 
 namespace MailClient
 {
@@ -10,6 +11,7 @@ namespace MailClient
         public MainWindow()
         {
             InitializeComponent();
+            LoginModel.CalculateCache();
         }
     }
 }

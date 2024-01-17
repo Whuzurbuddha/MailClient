@@ -8,7 +8,9 @@ namespace MailClient.models
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            var fileEnding = value?.ToString()!.Split(".")[1];
+            var objectString = value?.ToString();
+            var lastDot = objectString?.LastIndexOf('.');
+            var fileEnding = lastDot < 0 ? "" : objectString?.Substring((int)(lastDot+1)!);
             return fileEnding switch
             {
                 "png" or "jpeg" or "jpg" or "bmp" or "svg" or "tif" => FilePictureOutline,
