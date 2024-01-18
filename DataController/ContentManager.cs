@@ -26,7 +26,7 @@ namespace MailClient.DataController
 
         public static async Task SaveRegistration(string?  userName, string? password)
         {
-            var encryptedPassword = await EncryptedPasswd(password)!;
+            var encryptedPassword = await EncryptPasswd(password)!;
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Invalid data. Cannot save.");
@@ -38,9 +38,9 @@ namespace MailClient.DataController
                 UserName = userName,
                 Passwd = encryptedPassword,
             };
-            var documentDirectory = SpecialDirectories.MyDocuments;
+            var mainDir = ConstPaths.MainDirectory;
             var userDirectory = new StringBuilder();
-            userDirectory.AppendFormat($"{documentDirectory}\\MailClient\\{userName}");
+            userDirectory.AppendFormat($@"{mainDir}\\mainaccount\\{userName}");
             if (Directory.Exists(userDirectory.ToString()))
             {
                 MessageBox.Show("Account already exists");
@@ -67,7 +67,7 @@ namespace MailClient.DataController
             var userContent = ReadMainAccountJSON.GetUserContent();
             if (userContent == null) return;
             var encryptedPassword = userContent?.EncryptedPasswd;
-            var decryptedPasswd = DecryptedPasswd(encryptedPassword);
+            var decryptedPasswd = DecryptPasswd(encryptedPassword);
             var userWindow = new UserPage();
             if (password == decryptedPasswd)
             {
@@ -79,17 +79,16 @@ namespace MailClient.DataController
             }
         }
 
-        public static string? DecryptedPasswd(string? encryptedPassword)
+        public static string? DecryptPasswd(string? encryptedPassword)
         {
             if (encryptedPassword == null) return null;
 
             byte[] encryptedData = Convert.FromBase64String(encryptedPassword);
             byte[] decryptedData = ProtectedData.Unprotect(encryptedData, null, DataProtectionScope.CurrentUser);
-            
             return Encoding.Unicode.GetString(decryptedData);
         }
 
-        private static Task<string>? EncryptedPasswd(string? password)
+        public static Task<string>? EncryptPasswd(string? password)
         {
             if (password == null) return null;
             var data = Encoding.Unicode.GetBytes(password);

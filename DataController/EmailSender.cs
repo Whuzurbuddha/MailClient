@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
@@ -23,10 +24,10 @@ public static class EmailSender
             return Task.FromResult(false);
         }*/
 
-        var userContent = ReadMainAccountJSON.GetUserContent();
-        var userMail = userContent?.User;
-        var smtp = userContent?.Smtp;
-        var encryptedPasswd = userContent?.EncryptedPasswd;
+        /*var userContent = ReadMailAccountJson.GetUserContent();
+        var userMail = userContent?.UserMail;
+        var smtp = userContent?.;
+        var encryptedPasswd = userContent?.;
         var password = ContentManager.DecryptedPasswd(encryptedPasswd);
 
         if (userMail == null || recipient == null)
@@ -49,7 +50,8 @@ public static class EmailSender
 
         smtpClient.Send(message);
         message.Dispose();
-        return Task.FromResult(true);
+        return Task.FromResult(true);*/
+        return null;
     }
 
 }

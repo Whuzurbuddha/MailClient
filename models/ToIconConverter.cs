@@ -10,7 +10,7 @@ namespace MailClient.models
         {
             var objectString = value?.ToString();
             var lastDot = objectString?.LastIndexOf('.');
-            var fileEnding = lastDot < 0 ? "" : objectString?.Substring((int)(lastDot+1)!);
+            var fileEnding = lastDot < 0 ? "" : objectString?.Substring((int)(lastDot+1)!).ToLower();
             return fileEnding switch
             {
                 "png" or "jpeg" or "jpg" or "bmp" or "svg" or "tif" => FilePictureOutline,

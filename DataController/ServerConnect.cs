@@ -10,7 +10,7 @@ public class ServerConnect
         private static readonly ReadMainAccountJSON.UserContent? UserContent = ReadMainAccountJSON.GetUserContent();
         public static readonly string? UserMail = UserContent?.User;
         private static readonly string? EncryptedPasswd = UserContent?.EncryptedPasswd;
-        public static readonly string? Password = ContentManager.DecryptedPasswd(EncryptedPasswd);
+        public static readonly string? Password = ContentManager.DecryptPasswd(EncryptedPasswd);
         public static readonly string? Imap = UserContent?.Imap;
     }
 

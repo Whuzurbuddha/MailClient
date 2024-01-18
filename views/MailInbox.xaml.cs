@@ -19,7 +19,16 @@ public partial class MailInbox
         if (dataGridRow.DataContext is EmailController.MailItem mailItem)
         {
             (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender, mailItem.AttachmentList);
-            AttachmentList.Items.Refresh();
+            if (mailItem.HasAttachment == true)
+            {
+                AttachmentList.Visibility = Visibility.Visible;
+                AttachmentList.Items.Refresh();
+            }
+            else
+            {
+                AttachmentList.Visibility = Visibility.Collapsed;
+                AttachmentList.Items.Refresh();
+            }
         }
     }
 

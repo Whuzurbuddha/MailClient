@@ -33,19 +33,17 @@ public class SaveAccountData
             return false;
         }
 
+        var encryptedPasswd = await ContentManager.EncryptPasswd(password)!;
         var registrationData = new RegistrationData
         {
             UserMail = userMail,
-            Passwd = password,
+            Passwd = encryptedPasswd,
             Smtp = smtp,
             Imap = imap
         };
-        var documentDirectory = SpecialDirectories.MyDocuments;
-        var userDirectory = new StringBuilder();
-        userDirectory.AppendFormat($@"{documentDirectory}\\MailClient\\");
-        var user = Directory.GetDirectories(userDirectory.ToString());
-        CreateDirectory($"{user[0]}\\{accountName}");
-        var newAccount = $@"{user[0]}\\{accountName}\\Account.json";
+        var userDirectory = $@"{ConstPaths.MainDirectory}\\mailaccounts";
+        CreateDirectory($"{userDirectory}\\{accountName}");
+        var newAccount = $@"{userDirectory}\\{accountName}\\Account.json";
             
         var json = JsonSerializer.Serialize(registrationData);
 

@@ -1,11 +1,15 @@
 ﻿using System;
+using System.DirectoryServices;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MailClient.DataController;
 using MailClient.models;
 using MailClient.Models;
+using Microsoft.VisualBasic;
 
 namespace MailClient.views;
 
@@ -16,11 +20,12 @@ public partial class UserPage
     {
         InitializeComponent();
         _loading = new Loading();
-        Loaded += ShowLoading;
+        if (!CheckIfAccountExits()) return;
+        ShowLoading();
         LoadMailAccounts();
     }
     
-    private void ShowLoading(object sender, RoutedEventArgs e)
+    private void ShowLoading()
     {
         Mouse.OverrideCursor = Cursors.None;
         _loading?.Show();
@@ -47,7 +52,7 @@ public partial class UserPage
     private void OpenAnswerMailWindow(object sender, RoutedEventArgs e)
     {
         _answerMailView = new SendMailView();
-        _answerMailView.SetAnswerText();
+        //_answerMailView.SetAnswerText();
         _answerMailView.Show();
     }
     
@@ -87,5 +92,31 @@ public partial class UserPage
         ProviderOverview.Items.Remove((DataContext as GetMailViewModel)?.UserAccounts);
         ProviderOverview.Items.Add((DataContext as GetMailViewModel)?.UserAccounts);
         ProviderOverview.Items.Refresh();
+    }
+
+    private bool CheckIfAccountExits()
+    {
+        if (!File.Exists($@"{ConstPaths.MainDirectory!}\mailaccounts"))
+        {
+            Directory.CreateDirectory($@"{ConstPaths.MainDirectory!}\mailaccounts");
+        }
+        if (!File.Exists($@"{ConstPaths.MainDirectory!}\mainaccount"))
+        {
+            Directory.CreateDirectory($@"{ConstPaths.MainDirectory!}\mainaccount");
+        }
+
+        if (!File.Exists(ConstPaths.CachePath))
+        {
+            Directory.CreateDirectory(ConstPaths.CachePath!);
+        }
+        var accounts = Directory.GetDirectories($@"{ConstPaths.MainDirectory!}\mailaccounts");
+        if (accounts.Length == 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

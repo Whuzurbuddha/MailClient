@@ -11,6 +11,7 @@ public static class LoginModel
     {
         var userWindow = new UserPage();
         var userCache = ReadCache.ReadUserCache();
+        if (userCache == null) return;
         var past = userCache.Date;
         var now = DateTime.Now;
         var timeSpan = ((now - past)!).Value.Hours;

@@ -29,8 +29,7 @@ public class ReadMailAccountJson
         {
             UserAccounts = new ObservableCollection<UserContent>();
             var mainDirectory = ConstPaths.MainDirectory;
-            var clientAccount = Directory.GetDirectories(mainDirectory!);
-            var mailAccounts = Directory.GetDirectories(clientAccount[0]);
+            var mailAccounts = Directory.GetDirectories($@"{mainDirectory}\\mailaccounts"!);
 
             if (mailAccounts.Length == 0) return null;
             
@@ -46,9 +45,10 @@ public class ReadMailAccountJson
                     var user = readJson?.UserMail;
                     var smtp = readJson?.Smtp;
                     var imap = readJson?.Imap;
-                    var passwd = readJson?.Passwd;
+                    var encryptedPassword = readJson?.Passwd;
+                    var passwd = ContentManager.DecryptPasswd(encryptedPassword);
                     var controller = new EmailController();
-                    var accountName = filePath.Split($"\\")[6];
+                    var accountName = filePath.Split($@"\")[7];
                     var mailBox = await controller.ReceivingMailAsync(accountName,imap, user, passwd);
                     var userContent = new UserContent
                     {
@@ -70,4 +70,5 @@ public class ReadMailAccountJson
             }
             return UserAccounts;
         }
+        //public Get
 }

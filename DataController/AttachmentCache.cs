@@ -20,19 +20,20 @@ public static class AttachmentCache
     
     public static async Task<string>? NewAttachmentCache(string? accountName, string? messageId, List<MimeEntity> attachments, IEnumerable<MimeEntity> bodyParts)
     {
-        var documentDirectory = SpecialDirectories.MyDocuments;
-        string[] user = Directory.GetDirectories($"{documentDirectory}\\MailClient");
-        var tempDirectory = new StringBuilder($"{user[0]}\\{accountName}\\Temp\\");
+        var tempDirectory = $@"{ConstPaths.MailAccounts!}\{accountName}\Temp\";
         var newId = messageId?.Replace('$', ' ').Replace(" ", "");
         
-        var newSubdirectory = tempDirectory.AppendFormat($"{newId}\\").ToString();
+        if (!Directory.Exists(tempDirectory)) CreateDirectory(tempDirectory);
+        
+        var newSubdirectory = $@"{tempDirectory}{newId}";
         if (!Directory.Exists(newSubdirectory)) CreateDirectory(newSubdirectory);
+        
         foreach (var  attachment  in attachments)
         {
             try
             {
                 var fileName = attachment.ContentType.Name.Replace(" ", "");
-                var newFilePath = $"{newSubdirectory}{fileName}";
+                var newFilePath = $@"{newSubdirectory}\{fileName}";
                 await using var stream = File.Create(newFilePath);
                 if (attachment is MimePart part)
                 {

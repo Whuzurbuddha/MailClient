@@ -78,9 +78,9 @@ namespace MailClient.DataController
         private static string? FindSavedData()
         {
             var mainDirectory = $"{SpecialDirectories.MyDocuments}\\MailClient";
-            string[] account = Directory.GetDirectories(mainDirectory);
+            string[] account = Directory.GetDirectories($@"{mainDirectory}\\mainaccount");
             var user = account[0];
-            var filePath = $"{user}\\Data\\SavedData.json";
+            var filePath = $@"{user}\\Data\\SavedData.json";
             return filePath;
         }
     }

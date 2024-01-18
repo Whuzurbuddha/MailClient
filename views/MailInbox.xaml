@@ -13,7 +13,6 @@
     <UserControl.Resources>
         <converter:ToIconConverter x:Key="IconConverter"></converter:ToIconConverter>
         <converter:MailSenderConverter x:Key="SenderConverter"></converter:MailSenderConverter>
-        <converter:IsLoadedConverter x:Key="IsLoaded"></converter:IsLoadedConverter>
     </UserControl.Resources>
     <UserControl.DataContext>
         <data:GetMailViewModel></data:GetMailViewModel>
@@ -95,8 +94,10 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Date" 
+                                        Binding="{Binding Date}"/>
                     <DataGridTextColumn CanUserResize="True"
-                                        Header="Absender" 
+                                        Header="Sender" 
                                         Binding="{Binding 
                                             MessageSender, 
                                             Mode=TwoWay, 
@@ -105,7 +106,7 @@
                                             Width="Auto" >                                          
                     </DataGridTextColumn>
                     <DataGridTextColumn CanUserResize="True"
-                                        Header="Betreff" 
+                                        Header="Regarding" 
                                         Binding="{Binding 
                                             MessageSubject, 
                                             Mode=TwoWay, 
@@ -139,11 +140,19 @@
                             <TextBlock Text="{Binding Path=AttachmentFileName,
                             UpdateSourceTrigger=PropertyChanged}"></TextBlock>
                             <TextBlock Text=" | ">  </TextBlock>
-                            <fa:ImageAwesome Icon="{Binding Converter={StaticResource IsLoaded}}"
+                            <fa:ImageAwesome Icon="Download"
                                              DataContext="{Binding IsLoaded}"
                                              Height="20"
-                                             Width="20"></fa:ImageAwesome>
+                                             Width="20"
+                                             Visibility="Hidden"
+                                             x:Name="IsLoadedIcon">
+                            </fa:ImageAwesome>
                         </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsLoaded}" Value="true">
+                                <Setter TargetName="IsLoadedIcon" Property="Visibility" Value="Visible"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate> 
                 </ComboBox.ItemTemplate>
             </ComboBox>

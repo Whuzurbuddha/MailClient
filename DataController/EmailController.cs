@@ -17,12 +17,12 @@ namespace MailClient.DataController
         {
             var fileName = attachment.ContentType.Name;
             var lastDot = fileName?.LastIndexOf('.');
-            var fileType = lastDot < 0 ? "" : fileName?.Substring((int)(lastDot+1)!);
+            var fileType = lastDot < 0 ? "" : fileName?.Substring((int)(lastDot+1)!).ToLower();
             if (!string.IsNullOrEmpty(fileName))
             {
                 string[] allowedTypes =
                 {
-                    "png", "jpg", "jpeg", "bmp", "svg", "tif", "pdf", "PDF", "word", "doc", "docx", "xlsx",
+                    "png", "jpg", "jpeg", "bmp", "svg", "tif", "pdf", "word", "doc", "docx", "xlsx",
                     "xlsm", "xltx", "xls", "txt", "odt", "md", "mp3", "mid", "wav", "wave", "ogg", "flac", "avi",
                     "flv",
                     "mov", "mp4",
@@ -51,8 +51,11 @@ namespace MailClient.DataController
                 for (var i = 0; i < inbox.Count; i++)               //single message content =>
                 {
                     var messageBody = await inbox.GetMessageAsync(i);
+                    var dateTime = messageBody.Date;
+                    var date = dateTime.ToString().Split(" ")[0];
                     var message = new MailItem
                     {
+                        Date = date,
                         MessageId = messageBody.MessageId,
                         MessageSubject = messageBody.Subject,
                         MessageSender = messageBody.From.ToString(),
@@ -84,21 +87,24 @@ namespace MailClient.DataController
                         {
                             foreach (var nonevalid in nonevalidAttachmentsList)
                             {
-                                var attachmentPathListitem = new AttachmentListitem
+                                if (nonevalid.ContentType.Name != "smime.p7s")
                                 {
-                                    IsLoaded = false
-                                };
+                                    var attachmentPathListitem = new AttachmentListitem
+                                    {
+                                        IsLoaded = false
+                                    };
                                 
-                                if (!string.IsNullOrEmpty(nonevalid.ContentType.Name))
-                                {
-                                    attachmentPathListitem.AttachmentFileName =
-                                        nonevalid.ContentType.Name.Replace(" ", "");
+                                    if (!string.IsNullOrEmpty(nonevalid.ContentType.Name))
+                                    {
+                                        attachmentPathListitem.AttachmentFileName =
+                                            nonevalid.ContentType.Name.Replace(" ", "");
+                                    }
+                                    else
+                                    {
+                                        attachmentPathListitem.AttachmentFileName = "unknown filename";
+                                    }
+                                    _attachmentList.Add(attachmentPathListitem);
                                 }
-                                else
-                                {
-                                    attachmentPathListitem.AttachmentFileName = "unknown filename";
-                                }
-                                _attachmentList.Add(attachmentPathListitem);
                             }
                         }
                         
@@ -144,6 +150,7 @@ namespace MailClient.DataController
         
         public class MailItem
         {
+            public string? Date { get; set; }
             public string? MessageId { get; init; }
             public string? MessageSubject { get; init; }
             public string? MessageSender { get; init; }
