@@ -6,7 +6,7 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace MailClient.DataController
 {
-    public class ReadMainAccountJSON
+    public class ReadMainAccountJson
     {
         public string? Passwd { get; set; }
         public string? UserName { get; set; }
@@ -32,7 +32,7 @@ namespace MailClient.DataController
                 {
                     using var reader = new StreamReader(FilePath);
                     var jsonPasswd = reader.ReadToEnd();
-                    var readJson = JsonSerializer.Deserialize<ReadMainAccountJSON>(jsonPasswd);
+                    var readJson = JsonSerializer.Deserialize<ReadMainAccountJson>(jsonPasswd);
                     var passwd = readJson?.Passwd;
                     return passwd;
                 }
@@ -54,7 +54,7 @@ namespace MailClient.DataController
                 {
                     using var reader = new StreamReader(FilePath);
                     var jsonContent = reader.ReadToEnd();
-                    var readJson = JsonSerializer.Deserialize<ReadMainAccountJSON>(jsonContent);
+                    var readJson = JsonSerializer.Deserialize<ReadMainAccountJson>(jsonContent);
                     var user = readJson?.UserName;
                     var encryptedPasswd = readJson?.Passwd;
                     var userContent = new UserContent

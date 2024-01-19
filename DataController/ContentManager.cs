@@ -64,7 +64,7 @@ namespace MailClient.DataController
 
         public static void CheckLogin(string? userName, string? password)
         {
-            var userContent = ReadMainAccountJSON.GetUserContent();
+            var userContent = ReadMainAccountJson.GetUserContent();
             if (userContent == null) return;
             var encryptedPassword = userContent?.EncryptedPasswd;
             var decryptedPasswd = DecryptPasswd(encryptedPassword);

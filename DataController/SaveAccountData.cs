@@ -9,7 +9,7 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace MailClient.DataController;
 
-public class SaveAccountData
+public static class SaveAccountData
 {
     private class RegistrationData
     {
@@ -19,7 +19,7 @@ public class SaveAccountData
         public string? Imap { get; set; }
     }
 
-    private static System.IO.DirectoryInfo CreateDirectory(string path)
+    private static System.IO.DirectoryInfo? CreateDirectory(string path)
     {
         Directory.CreateDirectory(path);
         return null;
@@ -50,7 +50,7 @@ public class SaveAccountData
         await using var writer = new StreamWriter(newAccount);
         await writer.WriteAsync(json);
         writer.Close();
-        MessageBox.Show("Neues Konto erfolgreich angelegt");
+        MessageBox.Show("New account successfully created");
         return true;
     }
 }

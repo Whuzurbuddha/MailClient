@@ -7,7 +7,7 @@ public class ServerConnect
 {
     public class User
     {
-        private static readonly ReadMainAccountJSON.UserContent? UserContent = ReadMainAccountJSON.GetUserContent();
+        private static readonly ReadMainAccountJson.UserContent? UserContent = ReadMainAccountJson.GetUserContent();
         public static readonly string? UserMail = UserContent?.User;
         private static readonly string? EncryptedPasswd = UserContent?.EncryptedPasswd;
         public static readonly string? Password = ContentManager.DecryptPasswd(EncryptedPasswd);

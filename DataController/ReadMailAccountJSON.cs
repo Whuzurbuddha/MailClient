@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.VisualBasic.FileIO;
 
 namespace MailClient.DataController;
 
@@ -15,23 +13,12 @@ public class ReadMailAccountJson
         public string? Smtp { get; set; }
         public string? Imap { get; set; }
 
-        public static ObservableCollection<UserContent>? UserAccounts;
-        public class UserContent
+        public static async Task GetUserContent()
         {
-            public string? AccountName { get; set; }
-            public string? UserMail { get; set; }
-            public string? Passwd { get; set; }
-            public string? Smtp { get; set; }
-            public string? Imap { get; set; }
-            public ObservableCollection<EmailController.MailItem>? Mailbox { get; init; }
-        }
-        public static async Task<ObservableCollection<UserContent>?> GetUserContent()
-        {
-            UserAccounts = new ObservableCollection<UserContent>();
             var mainDirectory = ConstPaths.MainDirectory;
             var mailAccounts = Directory.GetDirectories($@"{mainDirectory}\\mailaccounts"!);
 
-            if (mailAccounts.Length == 0) return null;
+            if (mailAccounts.Length == 0) return;
             
             for (var i = 0; i < mailAccounts.Length; i++)
             {
@@ -49,18 +36,7 @@ public class ReadMailAccountJson
                     var passwd = ContentManager.DecryptPasswd(encryptedPassword);
                     var controller = new EmailController();
                     var accountName = filePath.Split($@"\")[7];
-                    var mailBox = await controller.ReceivingMailAsync(accountName,imap, user, passwd);
-                    var userContent = new UserContent
-                    {
-                        AccountName = accountName,
-                        UserMail = user,
-                        Smtp = smtp,
-                        Imap = imap,
-                        Passwd = passwd,
-                        Mailbox = mailBox
-                    };
-                        
-                    UserAccounts.Add(userContent);
+                    await controller.ReceivingMailAsync(accountName,imap, user, passwd);
                 }
                 catch (Exception e)
                 {
@@ -68,7 +44,5 @@ public class ReadMailAccountJson
                     throw;
                 }
             }
-            return UserAccounts;
         }
-        //public Get
 }

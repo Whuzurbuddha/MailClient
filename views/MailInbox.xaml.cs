@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.DataController;
@@ -16,7 +17,7 @@ public partial class MailInbox
     private void SetSender(object sender, RoutedEventArgs e)
     {
         if (sender is not DataGridRow { IsSelected: true } dataGridRow) return;
-        if (dataGridRow.DataContext is EmailController.MailItem mailItem)
+        if (dataGridRow.DataContext is ReadMailCache.MailItem mailItem)
         {
             (DataContext as GetMailViewModel)?.SetSelectedMailText(mailItem.MessageText, mailItem.MessageSender, mailItem.AttachmentList);
             if (mailItem.HasAttachment == true)
@@ -36,7 +37,7 @@ public partial class MailInbox
     private void SetFile(object sender, RoutedEventArgs e)
     {
         if (sender is not ComboBoxItem { IsSelected: true } comboBoxItem) return;
-        if (comboBoxItem.DataContext is EmailController.AttachmentListitem boxItem)
+        if (comboBoxItem.DataContext is ReadMailCache.AttachmentListitem boxItem)
         {
             _fileView = new FileView();
             _fileView.Show();
@@ -45,9 +46,17 @@ public partial class MailInbox
         }
     }
 
-    public void SetMailbox(ObservableCollection<EmailController.MailItem>? mailBox)
+    public void SetMailbox(ObservableCollection<ReadMailCache.MailItem>? mailBox)
     {
         (DataContext as GetMailViewModel)?.SetMailBoxSelection(mailBox);
         ReceivedMailOverview.Items.Refresh();
+        foreach (var mail in mailBox)
+        {
+            if (mail.AttachmentList == null) return;
+            foreach (var attachment in mail.AttachmentList)
+            {
+                Console.WriteLine($"DOWNLOADPFAD: {attachment.AtthachmentFilePath}");
+            }
+        }
     }
 }

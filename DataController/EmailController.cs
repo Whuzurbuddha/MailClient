@@ -37,7 +37,7 @@ namespace MailClient.DataController
         
         private ObservableCollection<MailItem>? _messagesOverview;
         private ObservableCollection<AttachmentListitem>? _attachmentList; 
-        public async Task<ObservableCollection<MailItem>?> ReceivingMailAsync(string  accountName, string? imap, string? userMail, string? password)
+        public async Task ReceivingMailAsync(string  accountName, string? imap, string? userMail, string? password)
         {
             _messagesOverview = new ObservableCollection<MailItem>();
             using var client = new ImapClient();
@@ -53,14 +53,20 @@ namespace MailClient.DataController
                     var messageBody = await inbox.GetMessageAsync(i);
                     var dateTime = messageBody.Date;
                     var date = dateTime.ToString().Split(" ")[0];
+                    var sender = messageBody.From.ToString();
+                    if (sender.Contains("<"))
+                    {
+                        sender = sender.Split("<")[1].Split(">")[0];
+                    }
                     var message = new MailItem
                     {
                         Date = date,
                         MessageId = messageBody.MessageId,
                         MessageSubject = messageBody.Subject,
-                        MessageSender = messageBody.From.ToString(),
+                        MessageSender = sender,
                         MessageText = messageBody.TextBody,
                     };
+                    
                     _attachmentList = new ObservableCollection<AttachmentListitem>();
                     
                     var attachments = messageBody.Attachments.ToArray();
@@ -110,33 +116,12 @@ namespace MailClient.DataController
                         
                         if (newAttachmentList.Count > 0)
                         {
-                           var subDirectory = await NewAttachmentCache(accountName, message.MessageId, newAttachmentList, messageBody.BodyParts)!;
-                           message.AttachmentPath = subDirectory;
-
-                           foreach (var cleandAttachment in newAttachmentList)
-                           {
-                               var fileName = "";
-                               if (!string.IsNullOrEmpty(cleandAttachment.ContentType.Name))
-                               {
-                                   fileName = cleandAttachment.ContentType.Name;
-                               }
-                               else
-                               {
-                                   fileName = "unknown filename";
-                               }
-                               var attachmentPathListitem = new AttachmentListitem
-                               {
-                                   AttachmentFileName = fileName,
-                                   AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
-                                   AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name.Replace(" ", "")}",
-                                   IsLoaded = true
-                               };
-                               _attachmentList.Add(attachmentPathListitem);
-                           }
+                           await NewAttachmentCache(accountName, message.MessageId, newAttachmentList, messageBody.BodyParts)!;
                         };
                         message.AttachmentList = _attachmentList;
                     }
                     _messagesOverview.Add(message);
+                    MailCache.WriteMailCache(message, accountName);
                 }
                 
                 await client.DisconnectAsync(true);
@@ -145,7 +130,6 @@ namespace MailClient.DataController
             {
                 MessageBox.Show(e.ToString());
             }
-            return _messagesOverview ?? null;
         }
         
         public class MailItem

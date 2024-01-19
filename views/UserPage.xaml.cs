@@ -10,33 +10,20 @@ using MailClient.DataController;
 using MailClient.models;
 using MailClient.Models;
 using Microsoft.VisualBasic;
+using static MailClient.DataController.ReadMailCache;
 
 namespace MailClient.views;
 
 public partial class UserPage
 {
-    private static Loading? _loading;
     public UserPage()
     {
         InitializeComponent();
-        _loading = new Loading();
         if (!CheckIfAccountExits()) return;
-        ShowLoading();
-        LoadMailAccounts();
+        LoadMailOverview();
+        //DownloadMails();
     }
     
-    private void ShowLoading()
-    {
-        Mouse.OverrideCursor = Cursors.None;
-        _loading?.Show();
-    }
-
-    public static void CloseLoading()
-    {
-        Mouse.OverrideCursor = Cursors.Arrow;
-        _loading?.Close();
-    }
-
     private SendMailView? _newMailWindow;
     private SendMailView? _answerMailView;
     private AddressBook? _addressBook;
@@ -77,14 +64,19 @@ public partial class UserPage
     private void ChooseMailbox(object sender, RoutedEventArgs e)
     {
         if (sender is not TreeViewItem treeViewItem) return;
-        if (treeViewItem.DataContext is ReadMailAccountJson.UserContent userContent)
+        if (treeViewItem.DataContext is UserContent userContent)
         {
             MailInbox.SetMailbox(userContent.Mailbox);
         }
     }
-    private void LoadMailAccounts()
+    private void DownloadMails()
     {
-        (DataContext as GetMailViewModel)?.GenerateAccountOverview();
+        (DataContext as GetMailViewModel)?.GetMailsFromServer();
+    }
+
+    private void LoadMailOverview()
+    {
+        (DataContext as GetMailViewModel)?.GetUserAccounts();
     }
 
     public void RefreshProviderOverview()

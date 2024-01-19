@@ -13,9 +13,9 @@ namespace MailClient.Models
         
         private string? _selectedMailText;
         private string? _selectedMailSender;
-        private ObservableCollection<EmailController.AttachmentListitem>? _selectedMailAttachmentList;
-        private ObservableCollection<EmailController.MailItem>? _selectedMailbox;
-        private ObservableCollection<ReadMailAccountJson.UserContent>? _userAccounts;
+        private ObservableCollection<ReadMailCache.AttachmentListitem>? _selectedMailAttachmentList;
+        private ObservableCollection<ReadMailCache.MailItem>? _selectedMailbox;
+        private static ObservableCollection<ReadMailCache.UserContent>? _userAccounts;
         
         public string? SelectedMailText
         {
@@ -36,7 +36,7 @@ namespace MailClient.Models
             }
         }
 
-        public ObservableCollection<EmailController.AttachmentListitem>? SelectedMailAttachmentList
+        public ObservableCollection<ReadMailCache.AttachmentListitem>? SelectedMailAttachmentList
         {
             get => _selectedMailAttachmentList;
             set
@@ -45,7 +45,17 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailAttachmentList)));
             }
         }
-        public ObservableCollection<ReadMailAccountJson.UserContent>? UserAccounts
+
+        public ObservableCollection<ReadMailCache.MailItem>? SelectedMailBox
+        {
+            get => _selectedMailbox;
+            set
+            {
+                _selectedMailbox = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailBox)));
+            }
+        }
+        public ObservableCollection<ReadMailCache.UserContent>? UserAccounts
         {
             get => _userAccounts;
             set
@@ -55,30 +65,26 @@ namespace MailClient.Models
             }
         }
 
-        public ObservableCollection<EmailController.MailItem>? SelectedMailBox
+        public async Task GetMailsFromServer()
         {
-            get => _selectedMailbox;
-            set
-            {
-                _selectedMailbox = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedMailBox)));
-            }
+            await ReadMailAccountJson.GetUserContent();
         }
 
-        public async Task GenerateAccountOverview()
+        public async Task GetUserAccounts()
         {
-            UserAccounts = await ReadMailAccountJson.GetUserContent();
-            if (UserAccounts == null) return;
-            UserPage.CloseLoading();
+            _userAccounts =  await ReadMailCache.GetLoadedMails();
+            if (_userAccounts == null) return;
+            UserAccounts = _userAccounts;
+
         }
-        public void SetSelectedMailText(string? mailText, string? mailSender, ObservableCollection<EmailController.AttachmentListitem>? attachmentList)
+        public void SetSelectedMailText(string? mailText, string? mailSender, ObservableCollection<ReadMailCache.AttachmentListitem>? attachmentList)
         {
             SelectedMailText = mailText;
             SelectedMailSender = mailSender;
             SelectedMailAttachmentList = attachmentList;
         }
 
-        public void SetMailBoxSelection(ObservableCollection<EmailController.MailItem>? mailBox)
+        public void SetMailBoxSelection(ObservableCollection<ReadMailCache.MailItem>? mailBox)
         {
             if (mailBox == null) return;
             SelectedMailBox = mailBox;
