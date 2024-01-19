@@ -24,7 +24,7 @@ public static class AttachmentCache
         var newSubdirectory = $@"{tempDirectory}{newId}";
         if (!Directory.Exists(newSubdirectory)) CreateDirectory(newSubdirectory);
         
-        var attachmentDir = $@"{tempDirectory}\{newId}\attachment";
+        var attachmentDir = $@"{tempDirectory}{newId}\attachment\";
         if (!Directory.Exists(attachmentDir)) CreateDirectory(attachmentDir);
         
         foreach (var  attachment  in attachments)
@@ -45,7 +45,6 @@ public static class AttachmentCache
                 throw;
             }
         }
-        return newSubdirectory;
+        return attachmentDir;
     }
-    //private static void DeleteCachedFile(){}
 }

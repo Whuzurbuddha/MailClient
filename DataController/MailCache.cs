@@ -21,7 +21,6 @@ public static class MailCache
         var newMessagePath = $@"{tempDirectory}\{newId}";
         if (!Directory.Exists(newMessagePath)) CreateDirectory(newMessagePath);
         var newMessage = $@"{newMessagePath}\{message?.MessageSender}.json";
-        Console.WriteLine(message?.MessageSender);
         try
         {
             var json = JsonSerializer.Serialize(message, new JsonSerializerOptions { WriteIndented = true });

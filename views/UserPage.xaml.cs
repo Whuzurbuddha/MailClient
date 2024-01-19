@@ -1,15 +1,7 @@
-﻿using System;
-using System.DirectoryServices;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using MailClient.DataController;
-using MailClient.models;
 using MailClient.Models;
-using Microsoft.VisualBasic;
 using static MailClient.DataController.ReadMailCache;
 
 namespace MailClient.views;
@@ -18,10 +10,10 @@ public partial class UserPage
 {
     public UserPage()
     {
+        DownloadMails();
         InitializeComponent();
         if (!CheckIfAccountExits()) return;
         LoadMailOverview();
-        //DownloadMails();
     }
     
     private SendMailView? _newMailWindow;

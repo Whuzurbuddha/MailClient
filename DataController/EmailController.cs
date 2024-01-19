@@ -35,11 +35,9 @@ namespace MailClient.DataController
             return false;
         }
         
-        private ObservableCollection<MailItem>? _messagesOverview;
         private ObservableCollection<AttachmentListitem>? _attachmentList; 
         public async Task ReceivingMailAsync(string  accountName, string? imap, string? userMail, string? password)
         {
-            _messagesOverview = new ObservableCollection<MailItem>();
             using var client = new ImapClient();
 
             try
@@ -53,20 +51,19 @@ namespace MailClient.DataController
                     var messageBody = await inbox.GetMessageAsync(i);
                     var dateTime = messageBody.Date;
                     var date = dateTime.ToString().Split(" ")[0];
-                    var sender = messageBody.From.ToString();
-                    if (sender.Contains("<"))
+                    var convertedMail = messageBody.From.ToString();
+                    if (convertedMail.Contains("<"))
                     {
-                        sender = sender.Split("<")[1].Split(">")[0];
+                        convertedMail = messageBody.From?.ToString()!.Split("<")[1].Split(">")[0];
                     }
                     var message = new MailItem
                     {
                         Date = date,
                         MessageId = messageBody.MessageId,
                         MessageSubject = messageBody.Subject,
-                        MessageSender = sender,
+                        MessageSender = convertedMail,
                         MessageText = messageBody.TextBody,
                     };
-                    
                     _attachmentList = new ObservableCollection<AttachmentListitem>();
                     
                     var attachments = messageBody.Attachments.ToArray();
@@ -116,11 +113,32 @@ namespace MailClient.DataController
                         
                         if (newAttachmentList.Count > 0)
                         {
-                           await NewAttachmentCache(accountName, message.MessageId, newAttachmentList, messageBody.BodyParts)!;
-                        };
+                           var subDirectory = await NewAttachmentCache(accountName, message.MessageId, newAttachmentList, messageBody.BodyParts)!;
+                           message.AttachmentPath = subDirectory;
+
+                           foreach (var cleandAttachment in newAttachmentList)
+                           {
+                               string fileName;
+                               if (!string.IsNullOrEmpty(cleandAttachment.ContentType.Name))
+                               {
+                                   fileName = cleandAttachment.ContentType.Name;
+                               }
+                               else
+                               {
+                                   fileName = "unknown filename";
+                               }
+                               var attachmentPathListitem = new AttachmentListitem
+                               {
+                                   AttachmentFileName = fileName,
+                                   AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
+                                   AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name.Replace(" ", "")}",
+                                   IsLoaded = true
+                               };
+                               _attachmentList.Add(attachmentPathListitem);
+                           }
+                        }
                         message.AttachmentList = _attachmentList;
                     }
-                    _messagesOverview.Add(message);
                     MailCache.WriteMailCache(message, accountName);
                 }
                 
@@ -134,7 +152,7 @@ namespace MailClient.DataController
         
         public class MailItem
         {
-            public string? Date { get; set; }
+            public string? Date { get; init; }
             public string? MessageId { get; init; }
             public string? MessageSubject { get; init; }
             public string? MessageSender { get; init; }
