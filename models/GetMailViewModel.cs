@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using MailClient.DataController;
-using MailClient.views;
 
 namespace MailClient.Models
 {
@@ -64,7 +63,6 @@ namespace MailClient.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(UserAccounts)));
             }
         }
-
         public async Task GetMailsFromServer()
         {
             await ReadMailAccountJson.GetUserContent();
@@ -75,7 +73,6 @@ namespace MailClient.Models
             _userAccounts =  await ReadMailCache.GetLoadedMails();
             if (_userAccounts == null) return;
             UserAccounts = _userAccounts;
-
         }
         public void SetSelectedMailText(string? mailText, string? mailSender, ObservableCollection<ReadMailCache.AttachmentListitem>? attachmentList)
         {

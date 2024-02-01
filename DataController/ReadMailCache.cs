@@ -36,6 +36,7 @@ public abstract class ReadMailCache
                 try
                 {
                     var mailFile = Directory.GetFiles(mail, "*.json");
+                    if (!mailFile.Any()) continue;
                     using var reader = new StreamReader(mailFile[0]);
                     var jsonContent = await reader.ReadToEndAsync();
                     var result = JsonSerializer.Deserialize<MailItem>(jsonContent);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -49,6 +50,12 @@ namespace MailClient.DataController
                 for (var i = 0; i < inbox.Count; i++)               //single message content =>
                 {
                     var messageBody = await inbox.GetMessageAsync(i);
+                    var messageId = messageBody.MessageId;
+                    if (messageId != null && messageId.Contains("$"))
+                    {
+                        messageBody.MessageId.Replace('$', ' ').Replace(" ", "");
+                    }
+                    if (Directory.Exists($@"{ConstPaths.MailAccounts!}\{accountName}\Temp\{messageId}")) continue;
                     var dateTime = messageBody.Date;
                     var date = dateTime.ToString().Split(" ")[0];
                     var convertedMail = messageBody.From.ToString();
@@ -65,13 +72,13 @@ namespace MailClient.DataController
                         MessageText = messageBody.TextBody,
                     };
                     _attachmentList = new ObservableCollection<AttachmentListitem>();
-                    
+                        
                     var attachments = messageBody.Attachments.ToArray();
                     if (attachments.Any())
                     {
                         var newAttachmentList = new List<MimeEntity>();
                         var nonevalidAttachmentsList = new List<MimeEntity>();
-                        
+                            
                         foreach (var attachment in attachments)
                         {
                             var validAttachment = ValidAttachment(attachment);
@@ -96,7 +103,7 @@ namespace MailClient.DataController
                                     {
                                         IsLoaded = false
                                     };
-                                
+                                    
                                     if (!string.IsNullOrEmpty(nonevalid.ContentType.Name))
                                     {
                                         attachmentPathListitem.AttachmentFileName =
@@ -110,38 +117,37 @@ namespace MailClient.DataController
                                 }
                             }
                         }
-                        
+                            
                         if (newAttachmentList.Count > 0)
                         {
-                           var subDirectory = await NewAttachmentCache(accountName, message.MessageId, newAttachmentList, messageBody.BodyParts)!;
-                           message.AttachmentPath = subDirectory;
+                            var subDirectory = await NewAttachmentCache(accountName, message.MessageId, newAttachmentList, messageBody.BodyParts)!;
+                            message.AttachmentPath = subDirectory;
 
-                           foreach (var cleandAttachment in newAttachmentList)
-                           {
-                               string fileName;
-                               if (!string.IsNullOrEmpty(cleandAttachment.ContentType.Name))
-                               {
-                                   fileName = cleandAttachment.ContentType.Name;
-                               }
-                               else
-                               {
-                                   fileName = "unknown filename";
-                               }
-                               var attachmentPathListitem = new AttachmentListitem
-                               {
-                                   AttachmentFileName = fileName,
-                                   AttachmentFileType = cleandAttachment.ContentType.MediaSubtype,
-                                   AtthachmentFilePath = $"{subDirectory}{cleandAttachment.ContentType.Name.Replace(" ", "")}",
-                                   IsLoaded = true
-                               };
-                               _attachmentList.Add(attachmentPathListitem);
-                           }
+                            foreach (var cleanedAttachment in newAttachmentList)
+                            {
+                                string fileName;
+                                if (!string.IsNullOrEmpty(cleanedAttachment.ContentType.Name))
+                                {
+                                    fileName = cleanedAttachment.ContentType.Name;
+                                }
+                                else
+                                {
+                                    fileName = "unknown filename";
+                                }
+                                var attachmentPathListitem = new AttachmentListitem
+                                {
+                                    AttachmentFileName = fileName,
+                                    AttachmentFileType = cleanedAttachment.ContentType.MediaSubtype,
+                                    AtthachmentFilePath = $"{subDirectory}{cleanedAttachment.ContentType.Name.Replace(" ", "")}",
+                                    IsLoaded = true
+                                };
+                                _attachmentList.Add(attachmentPathListitem);
+                            }
                         }
                         message.AttachmentList = _attachmentList;
                     }
                     MailCache.WriteMailCache(message, accountName);
                 }
-                
                 await client.DisconnectAsync(true);
             }
             catch (Exception e)

@@ -100,7 +100,7 @@
                       Width="200"
                       Background="#FF231829"
                       Margin="5,10,3,0"
-                      ItemsSource="{Binding UserAccounts}"
+                      ItemsSource="{Binding UserAccounts, UpdateSourceTrigger=PropertyChanged}"
                       x:Name="ProviderOverview">
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
@@ -110,9 +110,23 @@
             <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate>
                         <TreeViewItem Header="{Binding AccountName}">
-                            <TreeViewItem Header="Inbox" MouseDoubleClick="ChooseMailbox"/>
-                            <!--<TreeViewItem Header="Sent Mails"/>
-                            <TreeViewItem Header="Deleted Mails"/>-->
+                            <TreeViewItem.Resources>
+                                <Style TargetType="fa:FontAwesome">
+                                    <Setter Property="Width" Value="30"></Setter>
+                                </Style>
+                            </TreeViewItem.Resources>
+                            <DockPanel MouseDown="ChooseMailbox">
+                                <fa:FontAwesome Icon="Inbox"></fa:FontAwesome>
+                                <TextBlock Text="  Inbox" ></TextBlock>
+                            </DockPanel>
+                            <DockPanel>
+                                <fa:FontAwesome Icon="Trash"></fa:FontAwesome>
+                                <TextBlock Text="  Trash" ></TextBlock>
+                            </DockPanel>
+                            <DockPanel>
+                                <fa:FontAwesome Icon="SendOutline"></fa:FontAwesome>
+                                <TextBlock Text="  Sent Mail" ></TextBlock>
+                            </DockPanel>
                         </TreeViewItem>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>

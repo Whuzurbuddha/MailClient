@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using MailClient.Models;
 using MailClient.views;
 using Microsoft.VisualBasic.FileIO;
 

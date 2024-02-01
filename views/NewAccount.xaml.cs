@@ -19,7 +19,7 @@ namespace MailClient.views
             var saveAccountResult = await SaveAccountData.SaveMailAccount(AccountName, UserMail, Password, Smtp, Imap);
             if (!saveAccountResult) return;
             var userPage = new UserPage();
-            userPage.RefreshProviderOverview();
+            userPage.DownloadMails();
             Close();
         }
         public event PropertyChangedEventHandler? PropertyChanged;

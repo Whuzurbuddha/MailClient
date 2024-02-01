@@ -1,11 +1,13 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using MailClient.views;
 
 namespace MailClient.DataController;
 
 public static class MailCache
 {
+    private static UserPage? _userPage;
     private static System.IO.DirectoryInfo? CreateDirectory (string path)
     {
         Directory.CreateDirectory(path);
@@ -13,18 +15,19 @@ public static class MailCache
     }
     public static async void WriteMailCache(EmailController.MailItem? message, string? accountName)
     {
-        var messageId = message?.MessageId;
+        var messageId = message?.MessageId?.Replace('$', ' ').Replace(" ", "");
         var tempDirectory = $@"{ConstPaths.MailAccounts!}\{accountName}\Temp";
-        var newId = messageId?.Replace('$', ' ').Replace(" ", "");
         if (!Directory.Exists(tempDirectory)) CreateDirectory(tempDirectory);
         
-        var newMessagePath = $@"{tempDirectory}\{newId}";
-        if (!Directory.Exists(newMessagePath)) CreateDirectory(newMessagePath);
+        var newMessagePath = $@"{tempDirectory}\{messageId}";
+        if (Directory.Exists(newMessagePath)) return;
+        
+        CreateDirectory(newMessagePath);
         var newMessage = $@"{newMessagePath}\{message?.MessageSender}.json";
         try
         {
             var json = JsonSerializer.Serialize(message, new JsonSerializerOptions { WriteIndented = true });
-        
+            
             await using var writer = new StreamWriter(newMessage);
             await writer.WriteAsync(json);
             writer.Close();
@@ -34,5 +37,6 @@ public static class MailCache
             Console.WriteLine(e);
             throw;
         }
+        //_userPage?.LoadMailOverview();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿﻿using System.Collections.ObjectModel;
+ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.Models;
@@ -10,9 +11,9 @@ public partial class UserPage
 {
     public UserPage()
     {
-        DownloadMails();
         InitializeComponent();
         if (!CheckIfAccountExits()) return;
+        DownloadMails();
         LoadMailOverview();
     }
     
@@ -55,26 +56,27 @@ public partial class UserPage
 
     private void ChooseMailbox(object sender, RoutedEventArgs e)
     {
-        if (sender is not TreeViewItem treeViewItem) return;
-        if (treeViewItem.DataContext is UserContent userContent)
+        if (sender is not DockPanel inbox) return;
+        if (inbox.DataContext is UserContent userContent)
         {
             MailInbox.SetMailbox(userContent.Mailbox);
         }
     }
-    private void DownloadMails()
+
+    public void DownloadMails()
     {
         (DataContext as GetMailViewModel)?.GetMailsFromServer();
     }
 
-    private void LoadMailOverview()
+    public void LoadMailOverview()
     {
         (DataContext as GetMailViewModel)?.GetUserAccounts();
     }
 
     public void RefreshProviderOverview()
     {
-        ProviderOverview.Items.Remove((DataContext as GetMailViewModel)?.UserAccounts);
-        ProviderOverview.Items.Add((DataContext as GetMailViewModel)?.UserAccounts);
+        var currentContent = ProviderOverview.DataContext;
+        ProviderOverview.Items.Remove(currentContent);
         ProviderOverview.Items.Refresh();
     }
 
