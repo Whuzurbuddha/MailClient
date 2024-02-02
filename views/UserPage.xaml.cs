@@ -61,8 +61,7 @@ public partial class UserPage
         if (sender is not TreeViewItem {IsExpanded: true} provider) return;
         if (provider.DataContext is UserContent mailAccount)
         {
-            Console.WriteLine($"TREEVIEW: {mailAccount.MailAddress}");
-            (DataContext as MailContentViewModel)?.SetSelectedMailProvider(mailAccount.MailAddress);
+            (DataContext as MailContentViewModel)?.SetSelectedMailProvider(mailAccount.MailAddress, mailAccount.Smtp, mailAccount.EncryptedPwd);
         }
     }
     private void ChooseMailbox(object sender, RoutedEventArgs e)
@@ -79,7 +78,7 @@ public partial class UserPage
         (DataContext as GetMailViewModel)?.GetMailsFromServer();
     }
 
-    public void LoadMailOverview()
+    private void LoadMailOverview()
     {
         (DataContext as GetMailViewModel)?.GetUserAccounts();
     }

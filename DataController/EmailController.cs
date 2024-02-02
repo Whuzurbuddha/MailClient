@@ -59,7 +59,7 @@ namespace MailClient.DataController
                     var dateTime = messageBody.Date;
                     var date = dateTime.ToString().Split(" ")[0];
                     var convertedMail = messageBody.From.ToString();
-                    if (convertedMail.Contains("<"))
+                    if (convertedMail!.Contains('<'))
                     {
                         convertedMail = messageBody.From?.ToString()!.Split("<")[1].Split(">")[0];
                     }

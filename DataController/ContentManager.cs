@@ -18,7 +18,7 @@ namespace MailClient.DataController
             public string? Passwd { get; set; }
         }
 
-        private static System.IO.DirectoryInfo CreateDirectory(string path)
+        private static System.IO.DirectoryInfo? CreateDirectory(string path)
         {
             Directory.CreateDirectory(path);
             return null;

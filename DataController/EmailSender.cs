@@ -11,10 +11,9 @@ namespace MailClient.DataController;
 
 public static class EmailSender
 {
-    public static Task<bool> SendingMail(string?  mailSender, string? recipient, string? regarding, string? mailContent, string? filePath)
+    public static Task<bool> SendingMail(string?  mailSender, string? smtp, string? encryptedPwd, string? recipient, string? regarding, string? mailContent, string? filePath)
     {
-        MessageBox.Show(mailSender);
-        /*var fileType = new List<string>()
+        var fileType = new List<string>()
         {
             "pdf",
             "doc",
@@ -23,27 +22,22 @@ public static class EmailSender
         };
 
         if (fileType.Any(fileEnd => !string.IsNullOrEmpty(filePath) &&
-                                    !filePath.EndsWith($".{fileEnd}", StringComparison.OrdinalIgnoreCase)))
+                                    !filePath.EndsWith($".{fileEnd.ToLower()}", StringComparison.OrdinalIgnoreCase)))
         {
             MessageBox.Show("Ungültiges Dateiformat!\r\n Erlaubt sind PDF, DOC, PNG, JPEG");
             return Task.FromResult(false);
         }
+        var password = ContentManager.DecryptPasswd(encryptedPwd);
 
-        var userContent = ReadMailAccountJson.GetUserContent();
-        var userMail = MailContentViewModel;
-        var smtp = userContent?.;
-        var encryptedPasswd = userContent?.;
-        var password = ContentManager.DecryptedPasswd(encryptedPasswd);
-
-        if (userMail == null || recipient == null)
+        if (mailSender == null || recipient == null)
             return Task.FromResult(true);
 
-        var message = new MailMessage(userMail, recipient, regarding, mailContent);
+        var message = new MailMessage(mailSender, recipient, regarding, mailContent);
 
         var smtpClient = new SmtpClient(smtp)
         {
             Port = 587,
-            Credentials = new NetworkCredential(userMail, password),
+            Credentials = new NetworkCredential(mailSender, password),
             EnableSsl = true
         };
 
@@ -54,7 +48,7 @@ public static class EmailSender
         }
 
         smtpClient.Send(message);
-        message.Dispose();*/
+        message.Dispose();
         return Task.FromResult(true);
     }
 }

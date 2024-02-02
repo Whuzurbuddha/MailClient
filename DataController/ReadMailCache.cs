@@ -33,6 +33,9 @@ public abstract class ReadMailCache
             var addressContent = await addressReader.ReadToEndAsync();
             var readJson = JsonSerializer.Deserialize<ReadMailAccountJson>(addressContent);
             var mailAddress = readJson?.UserMail;
+            var smtp = readJson?.Smtp;
+            var imap = readJson?.Imap;
+            var encryptedPwd = readJson?.Passwd;
             
             var mailList = Directory.GetDirectories($@"{account}\Temp\");
             if(!mailList.Any()) continue;
@@ -68,6 +71,8 @@ public abstract class ReadMailCache
             {
                 AccountName = accountName,
                 MailAddress = mailAddress,
+                Smtp = smtp,
+                EncryptedPwd = encryptedPwd,
                 Mailbox = _mailBox
             };
             _userAccounts.Add(userContent);
@@ -77,7 +82,9 @@ public abstract class ReadMailCache
     public class UserContent
     {
         public string? AccountName { get; init; }
-        public string? MailAddress { get; set; }
+        public string? MailAddress { get; init; }
+        public string? Smtp { get; init;}
+        public string? EncryptedPwd{ get; init;}
         public ObservableCollection<MailItem>? Mailbox { get; init; }
     }
     public class MailItem

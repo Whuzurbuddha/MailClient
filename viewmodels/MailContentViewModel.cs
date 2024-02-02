@@ -10,6 +10,8 @@ public class MailContentViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private string? _mailSender;
+    private string? _smpt;
+    private string? _encryptedPwd;
     private string? _recipient;
     private string? _regarding;
     private string? _mailText;
@@ -24,6 +26,26 @@ public class MailContentViewModel : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailSender)));
         }
     }
+    public string? Smtp
+    {
+        get => _smpt;
+        set
+        {
+            _smpt = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Smtp)));
+        }
+    }
+    
+    public string? EncryptedPwd
+    {
+        get => _encryptedPwd;
+        set
+        {
+            _encryptedPwd = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EncryptedPwd)));
+        }
+    }
+    
     public string? Recipient
     {
         get => _recipient;
@@ -76,13 +98,14 @@ public class MailContentViewModel : INotifyPropertyChanged
     public async Task<string?> SendMail()
     {
         if (Recipient == string.Empty) return RecipientMissing;
-        _mailStatus = true;  await EmailSender.SendingMail(MailSender, Recipient, Regarding, MailText, FilePath);
+        _mailStatus = true;  await EmailSender.SendingMail(MailSender, Smtp, EncryptedPwd, Recipient, Regarding, MailText, FilePath);
         return _mailStatus ? SendingSuccess : SendingFailed;
     }
 
-    public void SetSelectedMailProvider(string? mailAddress)
+    public void SetSelectedMailProvider(string? mailAddress, string? smtp, string? encryptedPwd)
     {
         MailSender = mailAddress;
-        Console.WriteLine($"MODEL: {MailSender}");
+        Smtp = smtp;
+        EncryptedPwd = encryptedPwd;
     }
 }

@@ -47,7 +47,7 @@ public partial class SendMailView
         if (sender is not ComboBoxItem { IsSelected: true } boxItem) return;
         if (boxItem.DataContext is ReadMailCache.UserContent mailAddress)
         {
-            (DataContext as MailContentViewModel)?.SetSelectedMailProvider(mailAddress.MailAddress);
+            (DataContext as MailContentViewModel)?.SetSelectedMailProvider(mailAddress.MailAddress, mailAddress.Smtp,  mailAddress.EncryptedPwd);
         }
     }
 }
