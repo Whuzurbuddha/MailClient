@@ -1,42 +1,43 @@
-﻿<Window x:Class="MailClient.views.SendMailView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:data="clr-namespace:MailClient.viewmodels"
-             xmlns:mailcontent="clr-namespace:MailClient.models"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800"  
-             Background="#FF231829">
+﻿<Window
+    Background="#FF231829"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="MailClient.views.SendMailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:data="clr-namespace:MailClient.viewmodels"
+    xmlns:mailcontent="clr-namespace:MailClient.models"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:MailClient.Models"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Window.DataContext>
-        <data:MailContentViewModel/>
+        <data:MailContentViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <mailcontent:MailContentConverter x:Key="MailContent"></mailcontent:MailContentConverter>
+        <mailcontent:MailContentConverter x:Key="MailContent" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="130"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="180" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel 
-                    Grid.Row="0" 
-                    HorizontalAlignment="Left"
-                    >
-            <DockPanel 
-                Dock="Top" 
-                Margin="10, 0,0,0"
-                HorizontalAlignment="Left">
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left">
+            <DockPanel
+                Dock="Top"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,0">
                 <StackPanel>
-                    <Button Height="30"
-                            Width="30"
-                            Background="Wheat"
-                            Margin="0,15,0,0"
-                            Click="ShowFileLoader"
-                            ToolTip="Dateianhang">
-                        <Viewbox Width="20" Height="20" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-                            <Rectangle Width="20" Height="20">
+                    <Button
+                        Background="Wheat"
+                        Click="ShowFileLoader"
+                        Height="30"
+                        Margin="0,15,0,0"
+                        ToolTip="Dateianhang"
+                        Width="30">
+                        <Viewbox Height="20" Width="20">
+                            <Rectangle Height="20" Width="20">
                                 <Rectangle.Fill>
                                     <DrawingBrush>
                                         <DrawingBrush.Drawing>
@@ -54,14 +55,15 @@
                             </Rectangle>
                         </Viewbox>
                     </Button>
-                    <Button Height="30"
-                            Width="30"
-                            Background="Wheat"
-                            Margin="0,15,0,0"
-                            Click="SendMailToViewModel"
-                            ToolTip="Mail versenden">
-                        <Viewbox Width="20" Height="20" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-                            <Rectangle Width="20" Height="20">
+                    <Button
+                        Background="Wheat"
+                        Click="SendMailToViewModel"
+                        Height="30"
+                        Margin="0,15,0,0"
+                        ToolTip="Mail versenden"
+                        Width="30">
+                        <Viewbox Height="20" Width="20">
+                            <Rectangle Height="20" Width="20">
                                 <Rectangle.Fill>
                                     <DrawingBrush>
                                         <DrawingBrush.Drawing>
@@ -83,42 +85,58 @@
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="Label">
-                            <Setter Property="Foreground" Value="Silver"/>
-                            <Setter Property="Margin" Value="15,0,0,0"/>
+                            <Setter Property="Foreground" Value="Silver" />
+                            <Setter Property="Margin" Value="15,0,0,0" />
                         </Style>
                         <Style TargetType="TextBox">
-                            <Setter Property="Width" Value="500"/>
-                            <Setter Property="Margin" Value="20,0,0,0"/>
+                            <Setter Property="Width" Value="500" />
+                            <Setter Property="Margin" Value="20,0,0,0" />
+                        </Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Width" Value="500" />
+                            <Setter Property="Margin" Value="20,0,0,0" />
+                            <Setter Property="Height" Value="20" />
                         </Style>
                     </StackPanel.Resources>
 
-                    <Label Foreground="#FFDCAEAE">Empfänger</Label>
-                    <TextBox Text="{Binding Path=Recipient, 
-                    Mode=TwoWay, 
-                    UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <Label>Absender</Label>
+                    <ComboBox ItemsSource="{Binding UserAccounts}">
+                        <ComboBox.DataContext>
+                            <model:GetMailViewModel />
+                        </ComboBox.DataContext>
+                        <ComboBox.Resources>
+                            <Style TargetType="ComboBoxItem">
+                                <EventSetter Event="Selected" Handler="SetSelectedMail" />
+                            </Style>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MailAddress}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Label>Empfänger</Label>
+                    <TextBox Text="{Binding Recipient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Label>Betreff</Label>
-                    <TextBox Text="{Binding Regarding, 
-                    Mode=TwoWay, 
-                    UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Text="{Binding Regarding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </DockPanel>
         </StackPanel>
-        <TextBox Grid.Row="1"
-                    x:Name="MailBox"
-                     Foreground="White"
-                     Background="#FF231829"
-                     VerticalAlignment="Stretch" 
-                     VerticalContentAlignment="Stretch"
-                     VerticalScrollBarVisibility="Auto" 
-                     BorderBrush="#FF020202"
-                     BorderThickness="1"
-                     TextWrapping="Wrap"
-                     AcceptsReturn="True"
-                     AcceptsTab="True"
-                     Text="{Binding Path= MailText, 
-                     Mode=TwoWay, 
-                     UpdateSourceTrigger=PropertyChanged}">
-        </TextBox>
+        <TextBox
+            AcceptsReturn="True"
+            AcceptsTab="True"
+            Background="#FF231829"
+            BorderBrush="#FF020202"
+            BorderThickness="1"
+            Foreground="White"
+            Grid.Row="1"
+            Text="{Binding Path=MailText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            VerticalScrollBarVisibility="Auto"
+            x:Name="MailBox" />
     </Grid>
 </Window>

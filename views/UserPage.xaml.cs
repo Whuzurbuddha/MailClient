@@ -1,9 +1,11 @@
-﻿﻿using System.Collections.ObjectModel;
+﻿﻿using System;
+ using System.Collections.ObjectModel;
  using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using MailClient.Models;
-using static MailClient.DataController.ReadMailCache;
+ using MailClient.viewmodels;
+ using static MailClient.DataController.ReadMailCache;
 
 namespace MailClient.views;
 
@@ -54,6 +56,15 @@ public partial class UserPage
         _calendar.Show();
     }
 
+    private void SetMailSender(object sender, RoutedEventArgs e)
+    {
+        if (sender is not TreeViewItem {IsExpanded: true} provider) return;
+        if (provider.DataContext is UserContent mailAccount)
+        {
+            Console.WriteLine($"TREEVIEW: {mailAccount.MailAddress}");
+            (DataContext as MailContentViewModel)?.SetSelectedMailProvider(mailAccount.MailAddress);
+        }
+    }
     private void ChooseMailbox(object sender, RoutedEventArgs e)
     {
         if (sender is not DockPanel inbox) return;

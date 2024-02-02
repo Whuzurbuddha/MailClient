@@ -17,10 +17,10 @@ namespace MailClient.DataController
 
         public class UserContent
         {
-            public string? User { get; set; }
+            public string? User { get; init; }
             public string? Smtp { get; set; }
             public string? Imap { get; set; }
-            public string? EncryptedPasswd { get; set; }
+            public string? EncryptedPasswd { get; init; }
             public string? DecryptedPasswd { get; set; }
         }
         

@@ -29,6 +29,11 @@ public abstract class ReadMailCache
             var accountName = lastDot < 0 ? "" : account.Substring((lastDot+1)!).ToLower();
             _mailBox = new ObservableCollection<MailItem>(); 
             
+            using var addressReader = new StreamReader(@$"{ConstPaths.MailAccounts}\\{accountName}\\Account.json");
+            var addressContent = await addressReader.ReadToEndAsync();
+            var readJson = JsonSerializer.Deserialize<ReadMailAccountJson>(addressContent);
+            var mailAddress = readJson?.UserMail;
+            
             var mailList = Directory.GetDirectories($@"{account}\Temp\");
             if(!mailList.Any()) continue;
             foreach (var mail in mailList)
@@ -62,17 +67,18 @@ public abstract class ReadMailCache
             var userContent = new UserContent
             {
                 AccountName = accountName,
+                MailAddress = mailAddress,
                 Mailbox = _mailBox
             };
-            
             _userAccounts.Add(userContent);
         }
         return _userAccounts;
     }
     public class UserContent
     {
-        public string? AccountName { get; set; }
-        public ObservableCollection<MailItem>? Mailbox { get; set; }
+        public string? AccountName { get; init; }
+        public string? MailAddress { get; set; }
+        public ObservableCollection<MailItem>? Mailbox { get; init; }
     }
     public class MailItem
     {

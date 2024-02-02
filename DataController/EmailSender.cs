@@ -1,14 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Windows;
+using MailClient.viewmodels;
 
 namespace MailClient.DataController;
 
 public static class EmailSender
 {
-    public static Task<bool> SendingMail(string? recipient, string? regarding, string? mailContent, string? filePath)
+    public static Task<bool> SendingMail(string?  mailSender, string? recipient, string? regarding, string? mailContent, string? filePath)
     {
+        MessageBox.Show(mailSender);
         /*var fileType = new List<string>()
         {
             "pdf",
@@ -22,10 +27,10 @@ public static class EmailSender
         {
             MessageBox.Show("Ungültiges Dateiformat!\r\n Erlaubt sind PDF, DOC, PNG, JPEG");
             return Task.FromResult(false);
-        }*/
+        }
 
-        /*var userContent = ReadMailAccountJson.GetUserContent();
-        var userMail = userContent?.UserMail;
+        var userContent = ReadMailAccountJson.GetUserContent();
+        var userMail = MailContentViewModel;
         var smtp = userContent?.;
         var encryptedPasswd = userContent?.;
         var password = ContentManager.DecryptedPasswd(encryptedPasswd);
@@ -49,9 +54,7 @@ public static class EmailSender
         }
 
         smtpClient.Send(message);
-        message.Dispose();
-        return Task.FromResult(true);*/
-        return null;
+        message.Dispose();*/
+        return Task.FromResult(true);
     }
-
 }

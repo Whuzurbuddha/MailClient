@@ -50,13 +50,5 @@ public partial class MailInbox
     {
         (DataContext as GetMailViewModel)?.SetMailBoxSelection(mailBox);
         ReceivedMailOverview.Items.Refresh();
-        foreach (var mail in mailBox)
-        {
-            if (mail.AttachmentList == null) return;
-            foreach (var attachment in mail.AttachmentList)
-            {
-                Console.WriteLine($"DOWNLOADPFAD: {attachment.AtthachmentFilePath}");
-            }
-        }
     }
 }

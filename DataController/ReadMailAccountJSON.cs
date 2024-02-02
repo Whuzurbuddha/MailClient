@@ -29,14 +29,14 @@ public class ReadMailAccountJson
                     using var reader = new StreamReader($"{filePath}\\Account.json");
                     var jsonContent = await reader.ReadToEndAsync();
                     var readJson = JsonSerializer.Deserialize<ReadMailAccountJson>(jsonContent);
-                    var user = readJson?.UserMail;
+                    var userMail = readJson?.UserMail;
                     var smtp = readJson?.Smtp;
                     var imap = readJson?.Imap;
                     var encryptedPassword = readJson?.Passwd;
                     var passwd = ContentManager.DecryptPasswd(encryptedPassword);
                     var controller = new EmailController();
                     var accountName = filePath.Split($@"\")[7];
-                    await controller.ReceivingMailAsync(accountName,imap, user, passwd);
+                    await controller.ReceivingMailAsync(accountName,imap, userMail, passwd);
                 }
                 catch (Exception e)
                 {

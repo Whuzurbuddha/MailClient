@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using MailClient.DataController;
 
@@ -8,11 +9,21 @@ public class MailContentViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    private string? _mailSender;
     private string? _recipient;
     private string? _regarding;
     private string? _mailText;
     private static string? _filePath;
 
+    public string? MailSender
+    {
+        get => _mailSender;
+        set
+        {
+            _mailSender = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MailSender)));
+        }
+    }
     public string? Recipient
     {
         get => _recipient;
@@ -65,7 +76,13 @@ public class MailContentViewModel : INotifyPropertyChanged
     public async Task<string?> SendMail()
     {
         if (Recipient == string.Empty) return RecipientMissing;
-        _mailStatus = await EmailSender.SendingMail(Recipient, Regarding, MailText, FilePath);
+        _mailStatus = true;  await EmailSender.SendingMail(MailSender, Recipient, Regarding, MailText, FilePath);
         return _mailStatus ? SendingSuccess : SendingFailed;
+    }
+
+    public void SetSelectedMailProvider(string? mailAddress)
+    {
+        MailSender = mailAddress;
+        Console.WriteLine($"MODEL: {MailSender}");
     }
 }

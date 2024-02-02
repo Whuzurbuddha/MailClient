@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using MailClient.DataController;
 using MailClient.Models;
 using MailClient.viewmodels;
 
@@ -37,5 +40,14 @@ public partial class SendMailView
     {
         _getMailViewModel = new GetMailViewModel();
         if (_getMailViewModel.SelectedMailText != null) MailBox.Text += _getMailViewModel.SelectedMailText;
+    }
+
+    private void SetSelectedMail(object sender, RoutedEventArgs e)
+    {
+        if (sender is not ComboBoxItem { IsSelected: true } boxItem) return;
+        if (boxItem.DataContext is ReadMailCache.UserContent mailAddress)
+        {
+            (DataContext as MailContentViewModel)?.SetSelectedMailProvider(mailAddress.MailAddress);
+        }
     }
 }
