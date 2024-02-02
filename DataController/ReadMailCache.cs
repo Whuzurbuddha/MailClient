@@ -17,19 +17,17 @@ public abstract class ReadMailCache
     {
         _userAccounts = new ObservableCollection<UserContent>();
         var mainDirectory = ConstPaths.MainDirectory;
-        var mailAccounts = Directory.GetDirectories($@"{mainDirectory}\\mailaccounts");
+        var mailAccounts = Directory.GetDirectories($@"{mainDirectory}\mailaccounts");
 
         if (mailAccounts.Length == 0) return null;
 
-        for (var i = 0; i < mailAccounts.Length; i++)
+        foreach (var account in mailAccounts)
         {
-            var account = mailAccounts[i];
-            
-            var lastDot = account.LastIndexOf('\\');
+            var lastDot = account.LastIndexOf(@"\", StringComparison.Ordinal);
             var accountName = lastDot < 0 ? "" : account.Substring((lastDot+1)!).ToLower();
             _mailBox = new ObservableCollection<MailItem>(); 
             
-            using var addressReader = new StreamReader(@$"{ConstPaths.MailAccounts}\\{accountName}\\Account.json");
+            using var addressReader = new StreamReader(@$"{ConstPaths.MailAccounts}\{accountName}\Account.json");
             var addressContent = await addressReader.ReadToEndAsync();
             var readJson = JsonSerializer.Deserialize<ReadMailAccountJson>(addressContent);
             var mailAddress = readJson?.UserMail;
@@ -37,43 +35,53 @@ public abstract class ReadMailCache
             var imap = readJson?.Imap;
             var encryptedPwd = readJson?.Passwd;
             
-            var mailList = Directory.GetDirectories($@"{account}\Temp\");
-            if(!mailList.Any()) continue;
-            foreach (var mail in mailList)
-            {
-                try
-                {
-                    var mailFile = Directory.GetFiles(mail, "*.json");
-                    if (!mailFile.Any()) continue;
-                    using var reader = new StreamReader(mailFile[0]);
-                    var jsonContent = await reader.ReadToEndAsync();
-                    var result = JsonSerializer.Deserialize<MailItem>(jsonContent);
-                    var mailItem = new MailItem()
-                    {
-                        Date = result?.Date,
-                        MessageId = result?.MessageId,
-                        MessageSubject = result?.MessageSubject,
-                        MessageSender = result?.MessageSender,
-                        MessageText = result?.MessageText,
-                        AttachmentList = result?.AttachmentList,
-                        HasAttachment = result?.HasAttachment,
-                        AttachmentPath = result?.AttachmentPath
-                    };
-                    _mailBox.Add(mailItem);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-            }
             var userContent = new UserContent
             {
                 AccountName = accountName,
                 MailAddress = mailAddress,
                 Smtp = smtp,
-                EncryptedPwd = encryptedPwd,
-                Mailbox = _mailBox
+                EncryptedPwd = encryptedPwd
+            };
+            
+            Console.WriteLine($"ACCOUNT: {mailAddress}");
+            
+            var mailList = Directory.GetDirectories($@"{account}\Temp\");
+            if (mailList.Any())
+            {
+                foreach (var mail in mailList)
+                {
+                    Console.WriteLine($"\t - MAIL: {mail}");
+                    try
+                    {
+                        var mailFile = Directory.GetFiles(mail, "*.json");
+                        if (!mailFile.Any()) continue;
+                        using var reader = new StreamReader(mailFile[0]);
+                        var jsonContent = await reader.ReadToEndAsync();
+                        var result = JsonSerializer.Deserialize<MailItem>(jsonContent);
+                        var mailItem = new MailItem()
+                        {
+                            Date = result?.Date,
+                            MessageId = result?.MessageId,
+                            MessageSubject = result?.MessageSubject,
+                            MessageSender = result?.MessageSender,
+                            MessageText = result?.MessageText,
+                            AttachmentList = result?.AttachmentList,
+                            HasAttachment = result?.HasAttachment,
+                            AttachmentPath = result?.AttachmentPath
+                        };
+                        _mailBox.Add(mailItem);
+                        Console.WriteLine($"\t\t - Content: {mailItem.MessageSender}\r\n");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+                if (string.IsNullOrEmpty(_mailBox?.ToString()))
+                {
+                    userContent.Mailbox = _mailBox;
+                }
             };
             _userAccounts.Add(userContent);
         }
@@ -85,7 +93,7 @@ public abstract class ReadMailCache
         public string? MailAddress { get; init; }
         public string? Smtp { get; init;}
         public string? EncryptedPwd{ get; init;}
-        public ObservableCollection<MailItem>? Mailbox { get; init; }
+        public ObservableCollection<MailItem>? Mailbox { get; set; }
     }
     public class MailItem
     {
@@ -99,7 +107,7 @@ public abstract class ReadMailCache
         public string? AttachmentPath { get; set; }
     }
 
-    public class AttachmentListitem
+    public abstract class AttachmentListitem
     {
         public string? AttachmentFileName { get; set; }
         public string? AttachmentFileType { get; set; }

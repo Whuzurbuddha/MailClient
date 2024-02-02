@@ -13,16 +13,16 @@ public static class EmailSender
 {
     public static Task<bool> SendingMail(string?  mailSender, string? smtp, string? encryptedPwd, string? recipient, string? regarding, string? mailContent, string? filePath)
     {
-        var fileType = new List<string>()
+        var fileType = new List<string?>()
         {
             "pdf",
             "doc",
             "jpeg",
             "png"
         };
-
-        if (fileType.Any(fileEnd => !string.IsNullOrEmpty(filePath) &&
-                                    !filePath.EndsWith($".{fileEnd.ToLower()}", StringComparison.OrdinalIgnoreCase)))
+        var lastDot = filePath?.LastIndexOf('.');
+        var fileEnding = lastDot < 0 ? "" : filePath?.Substring((int)(lastDot+1)!).ToLower();
+        if (!fileType.Contains(fileEnding))
         {
             MessageBox.Show("Ungültiges Dateiformat!\r\n Erlaubt sind PDF, DOC, PNG, JPEG");
             return Task.FromResult(false);

@@ -5,14 +5,14 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace MailClient.DataController;
 
-public class LoginCache
+public static class LoginCache
 {
     private class CacheData
     {
         public string? Date { get; set; }
     }
     
-    public static async void WriteLoginCache(string? userName)
+    public static async void WriteLoginCache()
     {
         var userDir = ConstPaths.LoginChachePath;
 

@@ -1,13 +1,12 @@
 using System;
 using System.IO;
 using System.Text.Json;
-using MailClient.views;
+using System.Threading.Tasks;
 
 namespace MailClient.DataController;
 
 public static class MailCache
 {
-    private static UserPage? _userPage;
     private static System.IO.DirectoryInfo? CreateDirectory (string path)
     {
         Directory.CreateDirectory(path);
@@ -15,15 +14,16 @@ public static class MailCache
     }
     public static async void WriteMailCache(EmailController.MailItem? message, string? accountName)
     {
-        var messageId = message?.MessageId?.Replace('$', ' ').Replace(" ", "");
+        Console.WriteLine("START WRITING MAIL JSON");
+        var messageId = message?.MessageId;
         var tempDirectory = $@"{ConstPaths.MailAccounts!}\{accountName}\Temp";
         if (!Directory.Exists(tempDirectory)) CreateDirectory(tempDirectory);
         
         var newMessagePath = $@"{tempDirectory}\{messageId}";
-        if (Directory.Exists(newMessagePath)) return;
+        if (!Directory.Exists(newMessagePath)) CreateDirectory(newMessagePath);
         
-        CreateDirectory(newMessagePath);
         var newMessage = $@"{newMessagePath}\{message?.MessageSender}.json";
+        if (File.Exists(newMessage)) return;
         try
         {
             var json = JsonSerializer.Serialize(message, new JsonSerializerOptions { WriteIndented = true });
@@ -37,6 +37,5 @@ public static class MailCache
             Console.WriteLine(e);
             throw;
         }
-        //_userPage?.LoadMailOverview();
     }
 }

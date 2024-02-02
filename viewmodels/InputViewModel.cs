@@ -71,6 +71,5 @@ public class InputViewModel : INotifyPropertyChanged
     public void SendLoginData()
     {
         ContentManager.CheckLogin(UserMail, Password);
-        LoginCache.WriteLoginCache(UserMail);
     }
 }

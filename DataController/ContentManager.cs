@@ -6,11 +6,10 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using MailClient.views;
-using Microsoft.VisualBasic.FileIO;
 
 namespace MailClient.DataController
 {
-    public class ContentManager
+    public abstract class ContentManager
     {
         private class RegistrationData
         {
@@ -71,6 +70,7 @@ namespace MailClient.DataController
             var userWindow = new UserPage();
             if (password == decryptedPasswd)
             {
+                LoginCache.WriteLoginCache();
                 if (Application.Current.MainWindow != null) Application.Current.MainWindow.Close();  userWindow.Show();
             }
             else

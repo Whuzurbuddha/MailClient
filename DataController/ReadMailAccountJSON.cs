@@ -20,17 +20,14 @@ public class ReadMailAccountJson
 
             if (mailAccounts.Length == 0) return;
             
-            for (var i = 0; i < mailAccounts.Length; i++)
+            foreach (var filePath in mailAccounts)
             {
-                if (mailAccounts[i].Contains("Data")) continue;
-                var filePath = mailAccounts[i];
                 try
                 {
                     using var reader = new StreamReader($"{filePath}\\Account.json");
                     var jsonContent = await reader.ReadToEndAsync();
                     var readJson = JsonSerializer.Deserialize<ReadMailAccountJson>(jsonContent);
                     var userMail = readJson?.UserMail;
-                    var smtp = readJson?.Smtp;
                     var imap = readJson?.Imap;
                     var encryptedPassword = readJson?.Passwd;
                     var passwd = ContentManager.DecryptPasswd(encryptedPassword);

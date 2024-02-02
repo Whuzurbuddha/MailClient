@@ -17,14 +17,13 @@ public static class AttachmentCache
     public static async Task<string>? NewAttachmentCache(string? accountName, string? messageId, List<MimeEntity> attachments, IEnumerable<MimeEntity> bodyParts)
     {
         var tempDirectory = $@"{ConstPaths.MailAccounts!}\{accountName}\Temp\";
-        var newId = messageId?.Replace('$', ' ').Replace(" ", "");
         
         if (!Directory.Exists(tempDirectory)) CreateDirectory(tempDirectory);
         
-        var newSubdirectory = $@"{tempDirectory}{newId}";
+        var newSubdirectory = $@"{tempDirectory}{messageId}";
         if (!Directory.Exists(newSubdirectory)) CreateDirectory(newSubdirectory);
         
-        var attachmentDir = $@"{tempDirectory}{newId}\attachment\";
+        var attachmentDir = $@"{tempDirectory}{messageId}\attachment\";
         if (!Directory.Exists(attachmentDir)) CreateDirectory(attachmentDir);
         
         foreach (var  attachment  in attachments)
